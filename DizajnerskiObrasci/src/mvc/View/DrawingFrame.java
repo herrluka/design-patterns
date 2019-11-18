@@ -12,7 +12,7 @@ import java.awt.event.MouseEvent;
 public class DrawingFrame extends JFrame{
 	
 
-	private DrawingView view = new DrawingView();
+	private DrawingView view = new DrawingView(); //dodato new zbog window buildera
 	private DrawingController controler;
 	
 	public DrawingFrame() {

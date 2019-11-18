@@ -35,8 +35,21 @@ private Color bojaManjeIvice;
 	@Override
 	public void draw(Graphics g) {
 		
-		System.out.println("USaO");
-		  g.drawLine(55, 55, 55, 55);
+		Graphics2D g2d = (Graphics2D) g.create();
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+        Shape outer = new Ellipse2D.Double(getCenter().getX() - getRadius(), getCenter().getY() - getRadius(), 2*getRadius(),2*getRadius());
+        Shape inner = new Ellipse2D.Double(getCenter().getX() - innerRadius, getCenter().getY() - innerRadius, 2*getInnerRadius(),2*getInnerRadius());
+
+        Area donut = new Area( outer );
+        donut.subtract( new Area(inner) );
+
+        g2d.setColor(getInnerColor());
+        g2d.fill(donut);
+        g2d.setColor(getOutlineColor());
+        g2d.draw(donut);
+
+        g2d.dispose();
 	}
 	
 	public boolean contains(Point p) {
@@ -69,19 +82,4 @@ private Color bojaManjeIvice;
 		return super.toString() + ", inner radius=" + innerRadius ;
 	}
 	
-//	private static Shape createRing() {
-//		Ellipse2D outer = new Ellipse2D.Double(
-//	            this.getCenter().getX() - this.getRadius(), 
-//	            this.getCenter().getY() - this.getRadius(),
-//	            getRadius() + getRadius(), 
-//	            getRadius() + getRadius());
-//	        Ellipse2D inner = new Ellipse2D.Double(
-//	            this.getCenter().getX() - innerRadius, 
-//	            this.getCenter().getY() - innerRadius,
-//	            innerRadius + innerRadius, 
-//	            innerRadius + innerRadius);
-//	        Area area = new Area(outer);
-//	        area.subtract(new Area(inner));
-//	        
-//	}
 }
