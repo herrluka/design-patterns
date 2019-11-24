@@ -7,6 +7,7 @@ public class Point extends ArealShape {
 
 	private int x;
 	private int y;
+	private Color color;
 	
 	public Point() {
 		
@@ -21,6 +22,14 @@ public class Point extends ArealShape {
 		this(x, y);
 		setSelected(selected);
 	}
+	
+	
+
+	public Point(int x, int y, Color color) {
+		this.x = x;
+		this.y = y;
+		this.color = color;
+	}
 
 	@Override
 	public void draw(Graphics g) {
@@ -30,8 +39,8 @@ public class Point extends ArealShape {
 			g.setColor(col);
 		else
 			g.setColor(Color.BLACK);
-		g.drawLine(this.x-2, this.y, this.x+2, this.y);
-		g.drawLine(this.x, this.y-2, this.x, this.y+2);
+		g.drawLine(this.x-1, this.y - 1, this.x + 1, this.y + 1);
+		g.drawLine(this.x - 1, this.y + 1, this.x + 1, this.y - 1);
 		g.setColor(Color.BLACK);
 		
 		if (isSelected()) {
@@ -90,6 +99,14 @@ public class Point extends ArealShape {
 	@Override
 	public double area() {
 		return 0;
+	}
+
+	public void setColor(Color c) {
+		this.color = c;
+	}
+	
+	public Color getColor() {
+		return this.color;
 	}
 
 	

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 import mvc.Model.Shape;
 
-public class DrawingModel {
+public class Model {
 
 	private List<Shape> list = new ArrayList<Shape>();
 	

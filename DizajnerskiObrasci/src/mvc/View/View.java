@@ -3,20 +3,16 @@ package mvc.View;
 import java.awt.Graphics;
 
 import javax.swing.JPanel;
-import mvc.Model.DrawingModel;
+import mvc.Model.Model;
 import mvc.Model.Shape;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ListIterator;
 
-public class DrawingView extends JPanel {
+public class View extends JPanel {
 
-	private DrawingModel model = new DrawingModel();
-
-	public void setModel(DrawingModel model) {
-		this.model = model;
-	}
+	private Model model = new Model();
 	
 	public void paint(Graphics g) {
 		
@@ -26,8 +22,8 @@ public class DrawingView extends JPanel {
 			}
 	}
 
-	public void setDrawingModel(DrawingModel drawingModel) {
-		this.model = drawingModel;	
+	public void setModel(Model Model) {
+		this.model = Model;	
 	}
 	
 }

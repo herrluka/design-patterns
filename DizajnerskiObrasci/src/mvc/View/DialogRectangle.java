@@ -224,8 +224,12 @@ public class DialogRectangle extends JDialog {
 						try
 						{
 						Rectangle r=new Rectangle();
-						r.setHeight(Integer.parseInt(getTxtVisina()));
-						r.setWidth(Integer.parseInt(getTxtSirina()));
+						int height = Integer.parseInt(getTxtVisina()); 
+						int width = Integer.parseInt(getTxtSirina());
+						if(width < 1 || height < 1)
+							throw new Exception();
+						r.setHeight(height);
+						r.setWidth(width);
 						int i=Integer.parseInt(getTxtXKoordinata());
 						int j=Integer.parseInt(getTxtYKoordinata());
 						ok=true;

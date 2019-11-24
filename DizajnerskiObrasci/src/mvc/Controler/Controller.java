@@ -4,15 +4,15 @@ import java.awt.Color;
 import java.awt.event.MouseEvent;
 
 import mvc.Model.Point;
-import mvc.Model.DrawingModel;
-import mvc.View.DrawingFrame;
+import mvc.Model.Model;
+import mvc.View.Frame;
 
-public class DrawingController {
+public class Controller {
 
-	private DrawingFrame frame;
-	private DrawingModel model;
+	private Frame frame;
+	private Model model;
 	
-	public DrawingController(DrawingModel model, DrawingFrame frame) {
+	public Controller(Model model, Frame frame) {
 
 		this.frame = frame;
 		this.model = model;
@@ -22,7 +22,7 @@ public class DrawingController {
 		Point p = new Point(e.getX(),e.getY());
 		p.setOutlineColor(Color.RED);
 		model.add(p);
-		frame.getDrawingView().repaint();
+		frame.getView().repaint();
 	}
 	
 	
