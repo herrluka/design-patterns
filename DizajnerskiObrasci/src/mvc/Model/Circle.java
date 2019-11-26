@@ -33,6 +33,7 @@ public class Circle extends ArealShape {
 
 	@Override
 	public void draw(Graphics g) {
+		System.out.println(isSelected());
 		fill(g);
 		Color outlineColor = getOutlineColor();
 		System.out.println(outlineColor);

@@ -16,7 +16,7 @@ public class Application {
 		frame.getView().setModel(model);
 		Controller controler = new Controller(model,frame);
 		frame.setControler(controler);
-		frame.setSize(600,400);
+		frame.setSize(800,600);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
 	}

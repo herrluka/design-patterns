@@ -13,8 +13,6 @@ public class Rectangle extends ArealShape{
 	private int height;
 	
 	
-	
-
 	public Rectangle() {
 
 	}
@@ -35,8 +33,8 @@ public class Rectangle extends ArealShape{
 		fill(g);
 		Color outCol = getOutlineColor();
 		if(outCol!=null)
-		g.setColor(outCol);
-		g.drawRect(this.getUpperLeftPoint().getX(), this.getUpperLeftPoint().getY(), this.getWidth(), this.height);
+			g.setColor(outCol);
+		g.drawRect(this.getUpperLeftPoint().getX(), this.getUpperLeftPoint().getY(), this.getWidth(), this.getHeight());
 		g.setColor(Color.BLACK);
 		
 		if (isSelected()) {

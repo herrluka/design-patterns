@@ -1,17 +1,18 @@
 package commands;
 
 import mvc.Model.Circle;
+import mvc.Model.Point;
 
-public class CmdUpadeCircle implements Command{
+public class CmdUpdateCircle implements Command{
 
 	Circle oldCircle;
 	Circle newCircle;
 	Circle original = new Circle();
 	
-	public CmdUpadeCircle(Circle oldCircle, Circle newCircle, Circle original) {
+	public CmdUpdateCircle(Circle oldCircle, Circle newCircle) {
 		this.oldCircle = oldCircle;
 		this.newCircle = newCircle;
-		this.original = original;
+		this.original.setCenter(new Point());
 	}
 
 	@Override

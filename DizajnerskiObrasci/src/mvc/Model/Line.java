@@ -7,7 +7,6 @@ import java.awt.Graphics;
 public class Line extends ArealShape {
 	private Point startPoint;
 	private Point endPoint;
-	private Color col;
 	
 	public Line() {
 		
@@ -25,8 +24,8 @@ public class Line extends ArealShape {
 
 	@Override
 	public void draw(Graphics g) {
-		if(this.col!=null)
-			g.setColor(this.col);
+		if(getOutlineColor() != null)
+			g.setColor(getOutlineColor());
 		else
 			g.setColor(Color.BLACK);
 		g.drawLine(this.getStartPoint().getX(), getStartPoint().getY(), this.getEndPoint().getX(), this.getEndPoint().getY());
@@ -76,14 +75,6 @@ public class Line extends ArealShape {
 	}
 	public void setEndPoint(Point endPoint) {
 		this.endPoint = endPoint;
-	}
-
-	public Color getCol() {
-		return col;
-	}
-
-	public void setCol(Color col) {
-		this.col = col;
 	}
 
 	public String toString() {

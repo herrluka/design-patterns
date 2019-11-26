@@ -196,15 +196,16 @@ public class DialogLine extends JDialog {
 					public void actionPerformed(ActionEvent arg0) {
 						try
 						{
-						int i=Integer.parseInt(getTxtPocKoordX());
-						int j=Integer.parseInt(getTxtPocKoordY());
-						int k=Integer.parseInt(getTxtKrKoordX());
-						int l=Integer.parseInt(getTxtKrKoordY());
+						Integer.parseInt(getTxtPocKoordX());
+						Integer.parseInt(getTxtPocKoordY());
+						Integer.parseInt(getTxtKrKoordX());
+						Integer.parseInt(getTxtKrKoordY());
 						setOk(true);
 						dispose();
 						}
 						catch(NumberFormatException e)
 						{
+							System.out.println("OVDE");
 							JOptionPane.showMessageDialog(new JFrame(), "Neispravan unos podataka.Proverite da li su sva polja popunjena brojnim vrednostima!", "Greška", JOptionPane.WARNING_MESSAGE);
 						}
 					}

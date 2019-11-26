@@ -18,11 +18,11 @@ public class CmdUpdatePoint implements Command {
 	public void execute() {
 		original.setX(oldPoint.getX());
 		original.setY(oldPoint.getY());
-		original.setColor(oldPoint.getColor());
+		original.setOutlineColor(oldPoint.getOutlineColor());
 		
 		oldPoint.setX(newPoint.getX());
 		oldPoint.setY(newPoint.getY());
-		oldPoint.setColor(newPoint.getColor());
+		oldPoint.setOutlineColor(newPoint.getOutlineColor());
 		
 		
 	}
@@ -31,7 +31,7 @@ public class CmdUpdatePoint implements Command {
 	public void unexecute() {
 		oldPoint.setX(original.getX());
 		oldPoint.setY(original.getY());
-		oldPoint.setColor(original.getColor());
+		oldPoint.setOutlineColor(original.getOutlineColor());
 		
 	}
 

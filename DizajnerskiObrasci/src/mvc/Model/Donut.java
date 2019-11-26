@@ -15,7 +15,6 @@ import javax.swing.JOptionPane;
 
 public class Donut extends Circle {
 private int innerRadius;
-private Color bojaManjeIvice;
 
 
 	public Donut() {
@@ -50,32 +49,39 @@ private Color bojaManjeIvice;
         g2d.draw(donut);
 
         g2d.dispose();
+        
+        if(isSelected()) {
+        	drawSelectedSquare(g);
+        }
+	}
+	
+	@Override
+	public void drawSelectedSquare(Graphics g) {
+		super.drawSelectedSquare(g);
+		g.setColor(Color.BLUE);
+		g.drawRect(getCenter().getX() - 3, getCenter().getY() - 3, 6, 6);
+		g.drawRect(getCenter().getX() + getInnerRadius() - 3, getCenter().getY() - 3, 6, 6);
+		g.drawRect(getCenter().getX() - getInnerRadius() - 3, getCenter().getY() - 3, 6, 6);
+		g.drawRect(getCenter().getX() - 3, getCenter().getY() + getInnerRadius() - 3, 6, 6);
+		g.drawRect(getCenter().getX() - 3, getCenter().getY() - getInnerRadius() - 3, 6, 6);
+		g.setColor(Color.BLACK);
 	}
 	
 	public boolean contains(Point p) {
 		double dFromCenter = this.getCenter().distance(p.getX(), p.getY());
-		return dFromCenter > innerRadius &&
-				super.contains(p);
+		return dFromCenter > innerRadius && super.contains(p);
 	}
 	
 	public int getInnerRadius() {
 		return innerRadius;
 	}
 	public void setInnerRadius(int innerRadius) throws Exception {
-		if(innerRadius>=0 && innerRadius<this.getRadius())
+		if(innerRadius >= 0 && innerRadius < this.getRadius())
 		{
 		this.innerRadius = innerRadius;
 		}
 		else
-			throw new Exception();
-	}
-	
-	public Color getBojaManjeIvice() {
-		return bojaManjeIvice;
-	}
-
-	public void setBojaManjeIvice(Color bojaManjeIvice) {
-		this.bojaManjeIvice = bojaManjeIvice;
+			throw new Exception("There has to be set Radius to be able to compare with him in that if statement");
 	}
 	
 	public String toString() {

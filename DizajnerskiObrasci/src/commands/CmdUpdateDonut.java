@@ -1,6 +1,7 @@
 package commands;
 
 import mvc.Model.Donut;
+import mvc.Model.Point;
 
 public class CmdUpdateDonut implements Command{
 
@@ -12,11 +13,14 @@ public class CmdUpdateDonut implements Command{
 	public CmdUpdateDonut(Donut oldDonut, Donut newDonut) {
 		this.oldDonut = oldDonut;
 		this.newDonut = newDonut;
+		this.original.setCenter(new Point());;
 	}
 
 	@Override
 	public void execute() {
+		System.out.print(oldDonut.getCenter().getX());
 		original.getCenter().setX(oldDonut.getCenter().getX());
+		System.out.print("OVDE");
 		original.getCenter().setY(oldDonut.getCenter().getY());
 		try {
 			original.setRadius(oldDonut.getRadius());

@@ -7,7 +7,6 @@ public class Point extends ArealShape {
 
 	private int x;
 	private int y;
-	private Color color;
 	
 	public Point() {
 		
@@ -28,7 +27,7 @@ public class Point extends ArealShape {
 	public Point(int x, int y, Color color) {
 		this.x = x;
 		this.y = y;
-		this.color = color;
+		setOutlineColor(color);
 	}
 
 	@Override
@@ -95,18 +94,16 @@ public class Point extends ArealShape {
 	public String toString() {
 		return "(" + x + ", " + y + ")" ;
 	}
+	
+	
+	public boolean equals(Point p) {
+	
+		return this.getX() == p.getX() && this.getY() == p.getY();
+	}
 
 	@Override
 	public double area() {
 		return 0;
-	}
-
-	public void setColor(Color c) {
-		this.color = c;
-	}
-	
-	public Color getColor() {
-		return this.color;
 	}
 
 	

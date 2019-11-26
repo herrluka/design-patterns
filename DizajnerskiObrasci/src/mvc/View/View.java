@@ -15,7 +15,7 @@ public class View extends JPanel {
 	private Model model = new Model();
 	
 	public void paint(Graphics g) {
-		
+			super.paint(g);
 			ListIterator<Shape> it = model.getShapes().listIterator();
 			while (it.hasNext()) {
 				it.next().draw(g);

@@ -1,5 +1,8 @@
 package commands;
 
+
+
+import mvc.Model.Point;
 import mvc.Model.Rectangle;
 
 /**
@@ -20,6 +23,7 @@ public class CmdUpdateRectangle implements Command{
 	public CmdUpdateRectangle(Rectangle oldRectangle, Rectangle newRectangle) {
 		this.oldRectangle = oldRectangle;
 		this.newRectangle = newRectangle;
+		this.original.setUpperLeftPoint(new Point());
 	}
 
 	@Override

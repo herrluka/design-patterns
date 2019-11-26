@@ -1,6 +1,7 @@
 package commands;
 
 import mvc.Model.Line;
+import mvc.Model.Point;
 
 /**
  * It is a good practice to edit values of point's coordinates because some users
@@ -13,7 +14,7 @@ public class CmdUpdateLine implements Command {
 	
 	Line oldLine;
 	Line newLine;
-	Line original = new Line();
+	Line original = new Line(new Point(),new Point()); //point also have to be instantiated because program will fail
 	
 	
 
@@ -29,13 +30,13 @@ public class CmdUpdateLine implements Command {
 		original.getStartPoint().setY(oldLine.getStartPoint().getY());
 		original.getEndPoint().setX(oldLine.getEndPoint().getX());
 		original.getEndPoint().setY(oldLine.getEndPoint().getY());
-		original.setCol(oldLine.getCol());
+		original.setOutlineColor(oldLine.getOutlineColor());
 		
 		oldLine.getStartPoint().setX(newLine.getStartPoint().getX());
 		oldLine.getStartPoint().setY(newLine.getStartPoint().getY());
 		oldLine.getEndPoint().setX(newLine.getEndPoint().getX());
 		oldLine.getEndPoint().setY(newLine.getEndPoint().getY());
-		original.setCol(newLine.getCol());
+		oldLine.setOutlineColor(newLine.getOutlineColor());
 	}
 
 	@Override
@@ -45,7 +46,7 @@ public class CmdUpdateLine implements Command {
 		oldLine.getStartPoint().setY(original.getStartPoint().getY());
 		oldLine.getEndPoint().setX(original.getEndPoint().getX());
 		oldLine.getEndPoint().setY(original.getEndPoint().getY());
-		oldLine.setCol(original.getCol());
+		oldLine.setOutlineColor(original.getOutlineColor());
 	}
 
 }
