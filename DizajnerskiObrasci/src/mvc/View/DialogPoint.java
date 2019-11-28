@@ -22,6 +22,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class DialogPoint extends JDialog {
 
@@ -29,30 +31,11 @@ public class DialogPoint extends JDialog {
 	private JTextField tbX;
 	private JTextField txtY;
 	private boolean ok;
-	private Color boja;
-	
-	
-
+	private JPanel pnlColor;
 	
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			DialogPoint dialog = new DialogPoint();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
-	 * Create the dialog.
-	 */
 	public DialogPoint() {
-		setBounds(100, 100, 743, 531);
+		setBounds(100, 100, 686, 314);
 		getContentPane().setLayout(new BorderLayout());
 		setModal(true);
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -94,44 +77,48 @@ public class DialogPoint extends JDialog {
 			}
 		});
 		
-		JButton btnBoja = new JButton("Boja");
-		btnBoja.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				boja=JColorChooser.showDialog(null, "Izaberite boju tacke", null);
+		pnlColor = new JPanel();
+		pnlColor.setBackground(Color.BLACK);
+		
+		pnlColor.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				setPnlColor(JColorChooser.showDialog(null, "Izaberite boju tacke", null));
 			}
 		});
+		
+		
 		GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
 		gl_contentPanel.setHorizontalGroup(
-			gl_contentPanel.createParallelGroup(Alignment.LEADING)
+			gl_contentPanel.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_contentPanel.createSequentialGroup()
 					.addGap(55)
-					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblKoordinataX)
-						.addComponent(lblKoordinataY))
-					.addGap(52)
+					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING, false)
+						.addComponent(lblKoordinataY, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(lblKoordinataX, GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE))
+					.addGap(41)
 					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
 						.addComponent(txtY, GroupLayout.PREFERRED_SIZE, 176, GroupLayout.PREFERRED_SIZE)
 						.addComponent(tbX, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(313, Short.MAX_VALUE))
-				.addGroup(Alignment.TRAILING, gl_contentPanel.createSequentialGroup()
-					.addContainerGap(499, Short.MAX_VALUE)
-					.addComponent(btnBoja)
-					.addGap(97))
+					.addPreferredGap(ComponentPlacement.RELATED, 141, Short.MAX_VALUE)
+					.addComponent(pnlColor, GroupLayout.PREFERRED_SIZE, 68, GroupLayout.PREFERRED_SIZE)
+					.addGap(114))
 		);
 		gl_contentPanel.setVerticalGroup(
 			gl_contentPanel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPanel.createSequentialGroup()
 					.addGap(43)
-					.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblKoordinataX)
-						.addComponent(tbX, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
-						.addComponent(lblKoordinataY)
-						.addComponent(txtY, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE))
-					.addGap(33)
-					.addComponent(btnBoja)
-					.addContainerGap(243, Short.MAX_VALUE))
+						.addGroup(gl_contentPanel.createSequentialGroup()
+							.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lblKoordinataX)
+								.addComponent(tbX, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
+								.addComponent(txtY, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblKoordinataY)))
+						.addComponent(pnlColor, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap(335, Short.MAX_VALUE))
 		);
 		contentPanel.setLayout(gl_contentPanel);
 		{
@@ -194,14 +181,6 @@ public class DialogPoint extends JDialog {
 	public void setOk(boolean ok) {
 		this.ok = ok;
 	}
-
-	public Color getBoja() {
-		return boja;
-	}
-
-	public void setBoja(Color boja) {
-		this.boja = boja;
-	}
 	
 	public void setTbXEdt(boolean b)
 	{
@@ -212,4 +191,14 @@ public class DialogPoint extends JDialog {
 	{
 		this.txtY.setEditable(b);
 	}
+
+	public Color getPnlColor() {
+		return pnlColor.getBackground();
+	}
+
+	public void setPnlColor(Color pnlColor) {
+		this.pnlColor.setBackground(pnlColor);
+	}
+	
+	
 }

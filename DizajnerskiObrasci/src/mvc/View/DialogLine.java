@@ -22,6 +22,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class DialogLine extends JDialog {
 
@@ -30,27 +32,15 @@ public class DialogLine extends JDialog {
 	private JTextField txtPocKoordY;
 	private JTextField txtKrKoordX;
 	private JTextField txtKrKoordY;
+	private JPanel pnlLineColor;
 	private boolean ok;
-	private Color col;
 	
-	
-
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) {
-		try {
-			DialogLine dialog = new DialogLine();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		DialogLine dia = new DialogLine();
+		dia.setVisible(true);
 	}
-
-	/**
-	 * Create the dialog.
-	 */
+	
+	
 	public DialogLine() {
 		setBounds(100, 100, 638, 477);
 		getContentPane().setLayout(new BorderLayout());
@@ -126,12 +116,15 @@ public class DialogLine extends JDialog {
 			}
 		});
 		
-		JButton btnBoja = new JButton("Boja");
-		btnBoja.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				col=JColorChooser.showDialog(null, "Izaberite boju linije", null);
+		pnlLineColor = new JPanel();
+		pnlLineColor.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				setPnlLineColor(JColorChooser.showDialog(null, "Izaberite boju linije", null));
 			}
 		});
+		pnlLineColor.setBackground(Color.BLACK);
+		
 		GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
 		gl_contentPanel.setHorizontalGroup(
 			gl_contentPanel.createParallelGroup(Alignment.LEADING)
@@ -148,18 +141,19 @@ public class DialogLine extends JDialog {
 								.addComponent(lblKrKoordY, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 							.addGap(38)
 							.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-								.addComponent(txtKrKoordY, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(txtPocKoordY, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 								.addComponent(txtPocKoordX, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(txtKrKoordX, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-							.addGap(98)
-							.addComponent(btnBoja)))
-					.addGap(72))
+								.addComponent(txtKrKoordY, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addGroup(gl_contentPanel.createSequentialGroup()
+									.addComponent(txtPocKoordY, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+									.addGap(37)
+									.addComponent(pnlLineColor, GroupLayout.PREFERRED_SIZE, 88, GroupLayout.PREFERRED_SIZE))
+								.addComponent(txtKrKoordX, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
+					.addGap(116))
 		);
 		gl_contentPanel.setVerticalGroup(
 			gl_contentPanel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPanel.createSequentialGroup()
-					.addGap(29)
+					.addGap(35)
 					.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
 						.addGroup(gl_contentPanel.createSequentialGroup()
 							.addComponent(lblPocetnaTacka)
@@ -167,23 +161,24 @@ public class DialogLine extends JDialog {
 							.addComponent(lblPocKoordX))
 						.addComponent(txtPocKoordX, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addGap(18)
-					.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
-						.addComponent(lblPocKoordY)
-						.addComponent(txtPocKoordY, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addGap(31)
-					.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
-						.addComponent(txtKrKoordX, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+						.addComponent(pnlLineColor, GroupLayout.PREFERRED_SIZE, 86, GroupLayout.PREFERRED_SIZE)
 						.addGroup(gl_contentPanel.createSequentialGroup()
+							.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
+								.addComponent(lblPocKoordY)
+								.addComponent(txtPocKoordY, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addGap(31)
+							.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
+								.addComponent(txtKrKoordX, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addGroup(gl_contentPanel.createSequentialGroup()
+									.addComponent(lblKrajnjaTacka, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+									.addGap(18)
+									.addComponent(lblKrKoordX)))
+							.addPreferredGap(ComponentPlacement.UNRELATED)
 							.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
-								.addComponent(lblKrajnjaTacka, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
-								.addComponent(btnBoja))
-							.addGap(18)
-							.addComponent(lblKrKoordX)))
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblKrKoordY)
-						.addComponent(txtKrKoordY, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(68, Short.MAX_VALUE))
+								.addComponent(lblKrKoordY)
+								.addComponent(txtKrKoordY, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
+					.addContainerGap(92, Short.MAX_VALUE))
 		);
 		contentPanel.setLayout(gl_contentPanel);
 		{
@@ -205,7 +200,6 @@ public class DialogLine extends JDialog {
 						}
 						catch(NumberFormatException e)
 						{
-							System.out.println("OVDE");
 							JOptionPane.showMessageDialog(new JFrame(), "Neispravan unos podataka.Proverite da li su sva polja popunjena brojnim vrednostima!", "Greška", JOptionPane.WARNING_MESSAGE);
 						}
 					}
@@ -265,14 +259,6 @@ public class DialogLine extends JDialog {
 	public void setOk(boolean ok) {
 		this.ok = ok;
 	}
-
-	public Color getCol() {
-		return col;
-	}
-
-	public void setCol(Color col) {
-		this.col = col;
-	}
 	
 	public void setTxtPocKoordXEdt(boolean b)
 	{
@@ -293,6 +279,17 @@ public class DialogLine extends JDialog {
 	{
 		this.txtKrKoordY.setEditable(b);
 	}
+
+
+	public Color getPnlLineColor() {
+		return pnlLineColor.getBackground();
+	}
+
+
+	public void setPnlLineColor(Color pnlLineColor) {
+		this.pnlLineColor.setBackground(pnlLineColor);
+	}
+	
 	
 
 }

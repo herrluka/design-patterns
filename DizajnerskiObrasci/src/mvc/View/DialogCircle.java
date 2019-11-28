@@ -25,6 +25,8 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.ActionEvent;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class DialogCircle extends JDialog {
 
@@ -33,26 +35,9 @@ public class DialogCircle extends JDialog {
 	private boolean ok;
 	private JTextField txtKoordY;
 	private JTextField txtKoordX;
-	private Color bojaUnut;
-	private Color bojaIvice;
-	
+	private JPanel pnlCircleOutlineColor; 
+	private JPanel pnlCircleInnerColor;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			DialogCircle dialog = new DialogCircle();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
-	 * Create the dialog.
-	 */
 	public DialogCircle() {
 		setTitle("Circle");
 		setBounds(100, 100, 568, 391);
@@ -105,64 +90,66 @@ public class DialogCircle extends JDialog {
 			}
 		});
 		
-		JButton btnBojaUnutrasnjosti = new JButton("Boja unutrasnjosti");
-		btnBojaUnutrasnjosti.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				
-				 bojaUnut=JColorChooser.showDialog(null, "Izaberite boju", Color.WHITE);
-				 
+		pnlCircleOutlineColor = new JPanel();
+		pnlCircleOutlineColor.setBackground(Color.BLACK);
+		pnlCircleOutlineColor.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				setPnlCircleOutlineColor(JColorChooser.showDialog(null, "Izaberite boju", Color.BLACK));
 			}
 		});
 		
-		JButton btnBojaIvice = new JButton("Boja ivice");
-		btnBojaIvice.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				bojaIvice=JColorChooser.showDialog(null, "Izaberite boju", Color.BLACK);
+		pnlCircleInnerColor = new JPanel();
+		pnlCircleInnerColor.setBackground(Color.WHITE);
+		pnlCircleInnerColor.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				setPnlCircleInnerColor(JColorChooser.showDialog(null, "Izaberite boju", Color.WHITE));
 			}
 		});
+		
+		
 		GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
 		gl_contentPanel.setHorizontalGroup(
-			gl_contentPanel.createParallelGroup(Alignment.LEADING)
+			gl_contentPanel.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_contentPanel.createSequentialGroup()
 					.addGap(32)
-					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+					.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
 						.addGroup(gl_contentPanel.createSequentialGroup()
 							.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblKoordinataY, GroupLayout.PREFERRED_SIZE, 115, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblPoluprenik))
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-								.addComponent(txtPoluprecnik, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addGroup(Alignment.TRAILING, gl_contentPanel.createSequentialGroup()
-									.addComponent(txtKoordY, GroupLayout.PREFERRED_SIZE, 176, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
-									.addComponent(btnBojaUnutrasnjosti)))
-							.addContainerGap())
-						.addGroup(gl_contentPanel.createSequentialGroup()
-							.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblCentar, GroupLayout.PREFERRED_SIZE, 102, GroupLayout.PREFERRED_SIZE)
+								.addGroup(gl_contentPanel.createSequentialGroup()
+									.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+										.addComponent(lblKoordinataY, GroupLayout.PREFERRED_SIZE, 115, GroupLayout.PREFERRED_SIZE)
+										.addComponent(lblPoluprenik))
+									.addPreferredGap(ComponentPlacement.UNRELATED)
+									.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+										.addComponent(txtKoordY, GroupLayout.PREFERRED_SIZE, 176, GroupLayout.PREFERRED_SIZE)
+										.addGroup(gl_contentPanel.createSequentialGroup()
+											.addComponent(txtPoluprecnik, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+											.addGap(39)
+											.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+												.addComponent(pnlCircleOutlineColor, GroupLayout.PREFERRED_SIZE, 65, GroupLayout.PREFERRED_SIZE)
+												.addComponent(pnlCircleInnerColor, GroupLayout.PREFERRED_SIZE, 78, GroupLayout.PREFERRED_SIZE)))))
 								.addGroup(gl_contentPanel.createSequentialGroup()
 									.addComponent(lblKoordinataX)
 									.addPreferredGap(ComponentPlacement.UNRELATED)
 									.addComponent(txtKoordX, GroupLayout.PREFERRED_SIZE, 176, GroupLayout.PREFERRED_SIZE)))
-							.addContainerGap(198, Short.MAX_VALUE))))
-				.addGroup(Alignment.TRAILING, gl_contentPanel.createSequentialGroup()
-					.addContainerGap(389, Short.MAX_VALUE)
-					.addComponent(btnBojaIvice)
-					.addGap(48))
+							.addContainerGap(94, Short.MAX_VALUE))
+						.addComponent(lblCentar, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 102, GroupLayout.PREFERRED_SIZE)))
 		);
 		gl_contentPanel.setVerticalGroup(
 			gl_contentPanel.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_contentPanel.createSequentialGroup()
+					.addGap(43)
+					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+						.addGroup(Alignment.TRAILING, gl_contentPanel.createSequentialGroup()
+							.addComponent(lblCentar, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+							.addGap(27)
+							.addComponent(lblKoordinataX, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
+						.addComponent(txtKoordX, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
+						.addComponent(pnlCircleOutlineColor, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 58, GroupLayout.PREFERRED_SIZE))
 					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_contentPanel.createSequentialGroup()
-							.addGap(43)
-							.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
-								.addGroup(gl_contentPanel.createSequentialGroup()
-									.addComponent(lblCentar, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
-									.addGap(27)
-									.addComponent(lblKoordinataX, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
-								.addComponent(txtKoordX, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE))
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
 								.addComponent(lblKoordinataY, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
@@ -171,12 +158,10 @@ public class DialogCircle extends JDialog {
 							.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
 								.addComponent(lblPoluprenik)
 								.addComponent(txtPoluprecnik, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-						.addGroup(gl_contentPanel.createSequentialGroup()
-							.addGap(106)
-							.addComponent(btnBojaUnutrasnjosti)
-							.addGap(34)
-							.addComponent(btnBojaIvice)))
-					.addContainerGap(52, Short.MAX_VALUE))
+						.addGroup(Alignment.TRAILING, gl_contentPanel.createSequentialGroup()
+							.addGap(48)
+							.addComponent(pnlCircleInnerColor, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE)))
+					.addContainerGap(80, Short.MAX_VALUE))
 		);
 		contentPanel.setLayout(gl_contentPanel);
 		{
@@ -224,21 +209,6 @@ public class DialogCircle extends JDialog {
 			}
 		}
 	}
-	public Color getBojaIvice() {
-		return bojaIvice;
-	}
-
-	public void setBojaIvice(Color bojaIvice) {
-		this.bojaIvice = bojaIvice;
-	}
-
-	public Color getBojaUnut() {
-		return bojaUnut;
-	}
-
-	public void setBojaUnut(Color bojaUnut) {
-		this.bojaUnut = bojaUnut;
-	}
 
 	public String getTxtKoordY() {
 		return txtKoordY.getText();
@@ -281,4 +251,24 @@ public class DialogCircle extends JDialog {
 	public void setPoluprecnik(String textField) {
 		this.txtPoluprecnik.setText(textField);
 		}
+
+	public Color getPnlCircleOutlineColor() {
+		return pnlCircleOutlineColor.getBackground();
+	}
+
+	public void setPnlCircleOutlineColor(Color pnlCircleOutlineColor) {
+		this.pnlCircleOutlineColor.setBackground(pnlCircleOutlineColor);
+	}
+
+	public Color getPnlCircleInnerColor() {
+		return pnlCircleInnerColor.getBackground();
+	}
+
+	public void setPnlCircleInnerColor(Color pnlCircleInnerColor) {
+		this.pnlCircleInnerColor.setBackground(pnlCircleInnerColor);
+	}
+	
+	
+	
+	
 }

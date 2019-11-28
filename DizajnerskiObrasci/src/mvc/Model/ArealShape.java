@@ -9,7 +9,6 @@ public abstract class ArealShape extends Shape {
 	
 	public abstract void fill(Graphics g);
 	public abstract double area();
-	public abstract void drawSelectedSquare(Graphics g);
 	
 	public ArealShape() {
 		

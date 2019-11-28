@@ -29,6 +29,8 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import java.awt.Font;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class DialogRectangle extends JDialog {
 
@@ -38,57 +40,31 @@ public class DialogRectangle extends JDialog {
 	private JTextField txtVisina;
 	private JTextField txtSirina;
 	private boolean ok;
-	private JLabel lblXKoordinata;
-	private JLabel lblYKoordinata;
-	private JLabel lblVisina;
-	private JLabel lblSirina;
 	private JButton okButton;
 	private JButton cancelButton;
 	private JLabel lblOpciono;
-	private JButton btnBojaUnutrasnjosti;
-	private JButton btnBojaIvice;
-	private Color bojaUnut;
-	private Color bojaIvice;
+	private JPanel pnlRectangleInnerColor;
+	private JPanel pnlRectangleOutlineColor;
 	
 
 
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			DialogRectangle dialog = new DialogRectangle();
-			dialog.setTitle("Pravougaonik");
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
-
-	/**
-	 * Create the dialog.
-	 */
 	public DialogRectangle() {
 		setTitle("Rectangle");
 		setBounds(100, 100, 802, 508);
 		getContentPane().setLayout(new BorderLayout());
 		this.setModal(true);
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+		
+		JLabel lblXKoordinata = new JLabel("X koordinata");
+		lblXKoordinata.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblXKoordinata.setHorizontalTextPosition(SwingConstants.LEFT);
+		lblXKoordinata.setHorizontalAlignment(SwingConstants.LEFT);
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
-		{
-			lblXKoordinata = new JLabel("X koordinata");
-			lblXKoordinata.setFont(new Font("Tahoma", Font.PLAIN, 20));
-			lblXKoordinata.setHorizontalTextPosition(SwingConstants.LEFT);
-			lblXKoordinata.setHorizontalAlignment(SwingConstants.LEFT);
-		}
-		{
-			txtXKoordinata = new JTextField();
-			txtXKoordinata.setFont(new Font("Tahoma", Font.PLAIN, 20));
-			txtXKoordinata.setColumns(10);
-		}
+		
+		txtXKoordinata = new JTextField();
+		txtXKoordinata.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		txtXKoordinata.setColumns(10);
+		
 		
 		txtXKoordinata.addKeyListener(new KeyAdapter() {
 			@Override
@@ -101,15 +77,15 @@ public class DialogRectangle extends JDialog {
 			}
 		});
 		
-		{
-			lblYKoordinata = new JLabel("Y koordinata");
-			lblYKoordinata.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		}
-		{
-			txtYKoordinata = new JTextField();
-			txtYKoordinata.setFont(new Font("Tahoma", Font.PLAIN, 20));
-			txtYKoordinata.setColumns(10);
-		}
+		
+		JLabel lblYKoordinata = new JLabel("Y koordinata");
+		lblYKoordinata.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		
+		
+		txtYKoordinata = new JTextField();
+		txtYKoordinata.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		txtYKoordinata.setColumns(10);
+		
 		
 		txtYKoordinata.addKeyListener(new KeyAdapter() {
 			@Override
@@ -121,41 +97,50 @@ public class DialogRectangle extends JDialog {
 					}
 			}
 		});
-		{
-			lblVisina = new JLabel("Visina");
-			lblVisina.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		}
-		{
-			txtVisina = new JTextField();
-			txtVisina.setFont(new Font("Tahoma", Font.PLAIN, 20));
-			txtVisina.setColumns(10);
-		}
-		{
-			lblSirina = new JLabel("Sirina");
-			lblSirina.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		
+		JLabel lblVisina = new JLabel("Visina");
+		lblVisina.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		
+		
+		txtVisina = new JTextField();
+		txtVisina.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		txtVisina.setColumns(10);
+		
+		
+		JLabel lblSirina = new JLabel("Sirina");
+		lblSirina.setFont(new Font("Tahoma", Font.PLAIN, 20));
 			
-		}
-		{
-			txtSirina = new JTextField();
-			txtSirina.setFont(new Font("Tahoma", Font.PLAIN, 20));
-			txtSirina.setText("");
-			txtSirina.setColumns(10);
-		}
+		
+		
+		txtSirina = new JTextField();
+		txtSirina.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		txtSirina.setText("");
+		txtSirina.setColumns(10);
+		
 		
 		lblOpciono = new JLabel("");
 		lblOpciono.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		btnBojaUnutrasnjosti = new JButton("Boja unutrasnjosti");
-		btnBojaUnutrasnjosti.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				bojaUnut=JColorChooser.showDialog(null, "Izaberite boju", Color.WHITE);
+		pnlRectangleInnerColor = new JPanel();
+		pnlRectangleInnerColor.setBackground(Color.WHITE);
+		pnlRectangleInnerColor.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				setPnlRectangleInnerColor(JColorChooser.showDialog(null, "Izaberite boju", Color.WHITE));
 			}
 		});
-		btnBojaIvice = new JButton("Boja ivice");
-		btnBojaIvice.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				bojaIvice=JColorChooser.showDialog(null, "Izaberite boju", Color.BLACK);
+		
+		pnlRectangleOutlineColor = new JPanel();
+		pnlRectangleOutlineColor.setBackground(Color.BLACK);
+		pnlRectangleOutlineColor.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				setPnlRectangleOutlineColor(JColorChooser.showDialog(null, "Izaberite boju", Color.BLACK));
 			}
 		});
+		
+		
+		
+		
 		GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
 		gl_contentPanel.setHorizontalGroup(
 			gl_contentPanel.createParallelGroup(Alignment.LEADING)
@@ -174,23 +159,23 @@ public class DialogRectangle extends JDialog {
 								.addComponent(txtYKoordinata, GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)
 								.addComponent(txtXKoordinata, GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)
 								.addComponent(txtVisina, GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE))
-							.addPreferredGap(ComponentPlacement.RELATED, 129, Short.MAX_VALUE)
-							.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-								.addComponent(btnBojaUnutrasnjosti)
-								.addComponent(btnBojaIvice))
+							.addPreferredGap(ComponentPlacement.RELATED, 162, Short.MAX_VALUE)
+							.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
+								.addComponent(pnlRectangleInnerColor, GroupLayout.PREFERRED_SIZE, 81, GroupLayout.PREFERRED_SIZE)
+								.addComponent(pnlRectangleOutlineColor, GroupLayout.PREFERRED_SIZE, 92, GroupLayout.PREFERRED_SIZE))
 							.addGap(119))
 						.addGroup(gl_contentPanel.createSequentialGroup()
 							.addComponent(lblOpciono)
-							.addContainerGap(738, Short.MAX_VALUE))))
+							.addContainerGap(746, Short.MAX_VALUE))))
 		);
 		gl_contentPanel.setVerticalGroup(
 			gl_contentPanel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPanel.createSequentialGroup()
-					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+					.addContainerGap()
+					.addComponent(lblOpciono)
+					.addGap(27)
+					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING, false)
 						.addGroup(gl_contentPanel.createSequentialGroup()
-							.addContainerGap()
-							.addComponent(lblOpciono)
-							.addGap(27)
 							.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
 								.addComponent(lblXKoordinata)
 								.addComponent(txtXKoordinata, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE))
@@ -207,11 +192,10 @@ public class DialogRectangle extends JDialog {
 								.addComponent(txtSirina, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE)
 								.addComponent(lblSirina, GroupLayout.PREFERRED_SIZE, 47, GroupLayout.PREFERRED_SIZE)))
 						.addGroup(gl_contentPanel.createSequentialGroup()
-							.addGap(95)
-							.addComponent(btnBojaUnutrasnjosti)
-							.addGap(62)
-							.addComponent(btnBojaIvice)))
-					.addContainerGap(125, Short.MAX_VALUE))
+							.addComponent(pnlRectangleInnerColor, GroupLayout.PREFERRED_SIZE, 70, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+							.addComponent(pnlRectangleOutlineColor, GroupLayout.PREFERRED_SIZE, 82, GroupLayout.PREFERRED_SIZE)))
+					.addContainerGap(165, Short.MAX_VALUE))
 		);
 		contentPanel.setLayout(gl_contentPanel);
 		{
@@ -284,21 +268,6 @@ public class DialogRectangle extends JDialog {
 			
 		}
 	}
-	public Color getBojaUnut() {
-		return bojaUnut;
-	}
-
-	public void setBojaUnut(Color bojaUnut) {
-		this.bojaUnut = bojaUnut;
-	}
-
-	public Color getBojaIvice() {
-		return bojaIvice;
-	}
-
-	public void setBojaIvice(Color bojaIvice) {
-		this.bojaIvice = bojaIvice;
-	}
 
 	public void setTxtXKoordinataEnabled(boolean b)
 	{
@@ -319,9 +288,9 @@ public class DialogRectangle extends JDialog {
 	{
 		this.txtSirina.setEnabled(b);
 	}
-	public void setLblOpcionoTxt(String text) {
-		lblOpciono.setText(text);
-	}
+//	public void setLblOpcionoTxt(String text) {
+//		lblOpciono.setText(text);
+//	}
 
 	public String getTxtXKoordinata() {
 		return txtXKoordinata.getText();
@@ -362,4 +331,24 @@ public class DialogRectangle extends JDialog {
 	public void setTxtSirina(String broj) {
 		this.txtSirina.setText(broj);;
 	}
+
+	public Color getPnlRectangleInnerColor() {
+		return pnlRectangleInnerColor.getBackground();
+	}
+
+	public void setPnlRectangleInnerColor(Color pnlRectangleInnerColor) {
+		this.pnlRectangleInnerColor.setBackground(pnlRectangleInnerColor);
+	}
+
+	public Color getPnlRectangleOutlineColor() {
+		return pnlRectangleOutlineColor.getBackground();
+	}
+
+	public void setPnlRectangleOutlineColor(Color pnlRectangleOutlineColor) {
+		this.pnlRectangleOutlineColor.setBackground(pnlRectangleOutlineColor);
+	}
+	
+	
+	
+	
 }

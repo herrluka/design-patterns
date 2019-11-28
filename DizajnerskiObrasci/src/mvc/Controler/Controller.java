@@ -15,6 +15,7 @@ import commands.CmdAddShape;
 import commands.CmdRemoveShape;
 import commands.CmdUpdateCircle;
 import commands.CmdUpdateDonut;
+import commands.CmdUpdateHexagon;
 import commands.CmdUpdateLine;
 import commands.CmdUpdatePoint;
 import commands.CmdUpdateRectangle;
@@ -25,10 +26,12 @@ import mvc.Model.Rectangle;
 import mvc.Model.Shape;
 import mvc.Model.Circle;
 import mvc.Model.Donut;
+import mvc.Model.HexagonAdapter;
 import mvc.Model.Line;
 import mvc.Model.Model;
 import mvc.View.DialogCircle;
 import mvc.View.DialogDonut;
+import mvc.View.DialogHexagon;
 import mvc.View.DialogLine;
 import mvc.View.DialogPoint;
 import mvc.View.DialogRectangle;
@@ -63,12 +66,16 @@ public class Controller {
 			dialogPoint.setTxtYEdt(false);
 			dialogPoint.setTbX(Integer.toString(newPoint.getX()));
 			dialogPoint.setTxtY(Integer.toString(newPoint.getY()));
+			dialogPoint.setPnlColor(getOutlineColor());
 			dialogPoint.setVisible(true);
-			newPoint.setOutlineColor(dialogPoint.getBoja());
-			CmdAddShape cmd = new CmdAddShape(newPoint, model);
-			commandExecuteHelper(cmd);
-			cleanCommandList();
-			deselectAll();
+			if(dialogPoint.isOk()) {
+				newPoint.setOutlineColor(dialogPoint.getPnlColor());
+				setOutlineColor(dialogPoint.getPnlColor());
+				CmdAddShape cmd = new CmdAddShape(newPoint, model);
+				commandExecuteHelper(cmd);
+				cleanCommandList();
+				deselectAll();
+			}
 		}
 		else if(mode == Constants.LINE)
 		{
@@ -79,23 +86,27 @@ public class Controller {
 				JOptionPane.showMessageDialog(new JFrame(), "Nije moguæe nacrtati liniju koja sadrži dve iste taèke. Izaberite drugu taèku.", "Greška", JOptionPane.WARNING_MESSAGE);
 			}
 			else {
-			Line newLine = new Line(startPoint,new Point(e.getX(),e.getY()));
-			DialogLine dialogLine = new DialogLine();
-			dialogLine.setTxtKrKoordXEdt(false);
-			dialogLine.setTxtKrKoordYEdt(false);
-			dialogLine.setTxtPocKoordXEdt(false);
-			dialogLine.setTxtPocKoordYEdt(false);
-			dialogLine.setTxtPocKoordX(Integer.toString(newLine.getStartPoint().getX()));
-			dialogLine.setTxtPocKoordY(Integer.toString(newLine.getStartPoint().getY()));
-			dialogLine.setTxtKrKoordX(Integer.toString(newLine.getEndPoint().getX()));
-			dialogLine.setTxtKrKoordY(Integer.toString(newLine.getEndPoint().getY()));
-			dialogLine.setVisible(true);
-			newLine.setOutlineColor(dialogLine.getCol());
-			CmdAddShape cmd = new CmdAddShape(newLine, model);
-			commandExecuteHelper(cmd);
-			cleanCommandList();
-			startPoint=null;
-			deselectAll();
+				Line newLine = new Line(startPoint,new Point(e.getX(),e.getY()));
+				DialogLine dialogLine = new DialogLine();
+				dialogLine.setTxtKrKoordXEdt(false);
+				dialogLine.setTxtKrKoordYEdt(false);
+				dialogLine.setTxtPocKoordXEdt(false);
+				dialogLine.setTxtPocKoordYEdt(false);
+				dialogLine.setTxtPocKoordX(Integer.toString(newLine.getStartPoint().getX()));
+				dialogLine.setTxtPocKoordY(Integer.toString(newLine.getStartPoint().getY()));
+				dialogLine.setTxtKrKoordX(Integer.toString(newLine.getEndPoint().getX()));
+				dialogLine.setTxtKrKoordY(Integer.toString(newLine.getEndPoint().getY()));
+				dialogLine.setPnlLineColor(getOutlineColor());
+				dialogLine.setVisible(true);
+				if(dialogLine.isOk()) {
+					newLine.setOutlineColor(dialogLine.getPnlLineColor());
+					setOutlineColor(dialogLine.getPnlLineColor());
+					CmdAddShape cmd = new CmdAddShape(newLine, model);
+					commandExecuteHelper(cmd);
+					cleanCommandList();
+					startPoint=null;
+					deselectAll();
+				}
 			}
 		}
 		else if(mode == Constants.RECTANGLE) {
@@ -105,18 +116,24 @@ public class Controller {
 			dialogRectangle.setTxtYKoordinata(Integer.toString(p.getY()));
 			dialogRectangle.setTxtXKoordinataEnabled(false);
 			dialogRectangle.setTxtYKoordinataEnabled(false);
+			dialogRectangle.setPnlRectangleInnerColor(getInnerColor());
+			dialogRectangle.setPnlRectangleOutlineColor(getOutlineColor());
 			dialogRectangle.setVisible(true);
 			if(dialogRectangle.isOk()) {
 			try {
-			int width = Integer.parseInt(dialogRectangle.getTxtSirina());
-			int height = Integer.parseInt(dialogRectangle.getTxtVisina());
-			Rectangle rct = new Rectangle(p,width,height);
-			rct.setOutlineColor(dialogRectangle.getBojaIvice());
-			rct.setInnerColor(dialogRectangle.getBojaUnut());
-			CmdAddShape cmd = new CmdAddShape(rct, model);
-			commandExecuteHelper(cmd);
-			cleanCommandList();
-			deselectAll();
+				if(dialogRectangle.isOk()) {
+					int width = Integer.parseInt(dialogRectangle.getTxtSirina());
+					int height = Integer.parseInt(dialogRectangle.getTxtVisina());
+					Rectangle rct = new Rectangle(p,width,height);
+					rct.setOutlineColor(dialogRectangle.getPnlRectangleOutlineColor());
+					rct.setInnerColor(dialogRectangle.getPnlRectangleInnerColor());
+					setInnerColor(dialogRectangle.getPnlRectangleInnerColor());
+					setOutlineColor(dialogRectangle.getPnlRectangleOutlineColor());
+					CmdAddShape cmd = new CmdAddShape(rct, model);
+					commandExecuteHelper(cmd);
+					cleanCommandList();
+					deselectAll();
+				}
 			}
 			catch(NumberFormatException ex)
 			{
@@ -136,6 +153,8 @@ public class Controller {
 			dialogCircle.setTxtKoordYEdt(false);
 			dialogCircle.setTxtKoordX(Integer.toString(center.getX()));
 			dialogCircle.setTxtKoordY(Integer.toString(center.getY()));
+			dialogCircle.setPnlCircleInnerColor(getInnerColor());
+			dialogCircle.setPnlCircleOutlineColor(getOutlineColor());
 			dialogCircle.setVisible(true);
 			try
 			{
@@ -143,8 +162,10 @@ public class Controller {
 			{
 				int radius=Integer.parseInt(dialogCircle.getTextPoluprecnik());
 				Circle circle = new Circle(center,radius);
-				circle.setOutlineColor(dialogCircle.getBojaIvice());
-				circle.setInnerColor(dialogCircle.getBojaUnut());
+				circle.setOutlineColor(dialogCircle.getPnlCircleOutlineColor());
+				circle.setInnerColor(dialogCircle.getPnlCircleInnerColor());
+				setInnerColor(dialogCircle.getPnlCircleInnerColor());
+				setOutlineColor(dialogCircle.getPnlCircleOutlineColor());
 				CmdAddShape cmd = new CmdAddShape(circle, model);
 				commandExecuteHelper(cmd);
 				cleanCommandList();
@@ -169,6 +190,8 @@ public class Controller {
 			dialogDonut.setTxtKoordY(Integer.toString(center.getY()));
 			dialogDonut.setTxtKoordXEditable(false);
 			dialogDonut.setTxtKoordYEditable(false);
+			dialogDonut.setPnlDonutInnerColor(getInnerColor());
+			dialogDonut.setPnlDonutOutlineColor(getOutlineColor());
 			dialogDonut.setVisible(true);
 			try
 			{
@@ -177,8 +200,10 @@ public class Controller {
 				int innerRadius=Integer.parseInt(dialogDonut.getTxtUnut());
 				int outerRadius=Integer.parseInt(dialogDonut.getTxtSpolj());
 				Donut donut = new Donut(center,outerRadius,innerRadius);
-				donut.setOutlineColor(dialogDonut.getBojaIvice());
-				donut.setInnerColor(dialogDonut.getBojaUnut());
+				donut.setOutlineColor(dialogDonut.getPnlDonutOutlineColor());
+				donut.setInnerColor(dialogDonut.getPnlDonutInnerColor());
+				setInnerColor(dialogDonut.getPnlDonutInnerColor());
+				setOutlineColor(dialogDonut.getPnlDonutOutlineColor());
 				CmdAddShape cmd = new CmdAddShape(donut, model);
 				commandExecuteHelper(cmd);
 				cleanCommandList();
@@ -195,19 +220,47 @@ public class Controller {
 			}
 			
 		}
+		else if(mode == Constants.HEXAGON) {
+			Point center = new Point(e.getX(),e.getY());
+			DialogHexagon dialogHexagon = new DialogHexagon();
+			dialogHexagon.setTxtCoordX(Integer.toString(center.getX()));
+			dialogHexagon.setTxtCoordY(Integer.toString(center.getY()));
+			dialogHexagon.setTxtCoordXEditable(false);
+			dialogHexagon.setTxtCoordYEditable(false);
+			dialogHexagon.setPnlInnerColor(getInnerColor());
+			dialogHexagon.setPnlOutlineColor(getOutlineColor());
+			dialogHexagon.setVisible(true);
+			if(dialogHexagon.isOk()) {
+				HexagonAdapter hexagon = new HexagonAdapter(center, Integer.parseInt(dialogHexagon.getTxtRadius()));
+				hexagon.setInnerColor(dialogHexagon.getPnlInnerColor());
+				hexagon.setOutlineColor(dialogHexagon.getPnlOutlineColor());
+				setOutlineColor(dialogHexagon.getPnlOutlineColor());
+				setInnerColor(dialogHexagon.getPnlInnerColor());
+				CmdAddShape cmd = new CmdAddShape(hexagon, model);
+				commandExecuteHelper(cmd);
+				cleanCommandList();
+				deselectAll();
+				
+			}
+		}
 		frame.getView().repaint();
 	}
 
 	private void handleSelectMode(MouseEvent e) {
 		boolean flag = false;
-		ListIterator<Shape> iterator = model.getShapes().listIterator();
-		while(iterator.hasNext()) {
-			Shape shape = iterator.next();
+		List<Shape> list = model.getShapes();
+		for(int i= list.size() - 1; i >= 0; i--) {
+			Shape shape = list.get(i);
 			if(shape.contains(new Point(e.getX(),e.getY()))) {
+				flag = true;
 				if(shape.isSelected() == false) {
 					shape.setSelected(true);
+					break;
 				}
-				flag = true;
+				else {
+					shape.setSelected(false);
+					break;
+				}
 			}
 		}
 		if(flag == false) {
@@ -226,7 +279,7 @@ public class Controller {
 			DialogPoint dialogPoint = new DialogPoint();
 			dialogPoint.setTbX(Integer.toString(((Point) selectedShape).getX()));
 			dialogPoint.setTxtY(Integer.toString(((Point) selectedShape).getY()));
-			dialogPoint.setBoja(((Point)selectedShape).getOutlineColor());
+			dialogPoint.setPnlColor(((Point)selectedShape).getOutlineColor());
 			dialogPoint.setVisible(true);
 			try {
 			if(dialogPoint.isOk())
@@ -234,7 +287,8 @@ public class Controller {
 				newPoint = new Point();
 				newPoint.setX(Integer.parseInt(dialogPoint.getTbX()));
 				newPoint.setY(Integer.parseInt(dialogPoint.getTxtY()));
-				newPoint.setOutlineColor(dialogPoint.getBoja());
+				newPoint.setOutlineColor(dialogPoint.getPnlColor());
+				setOutlineColor(dialogPoint.getPnlColor());
 				
 			CmdUpdatePoint cmd = new CmdUpdatePoint((Point)selectedShape, newPoint);
 			commandExecuteHelper(cmd);
@@ -253,7 +307,7 @@ public class Controller {
 			dialogLine.setTxtPocKoordY(Integer.toString(((Line) selectedShape).getStartPoint().getY()));
 			dialogLine.setTxtKrKoordX(Integer.toString(((Line) selectedShape).getEndPoint().getX()));
 			dialogLine.setTxtKrKoordY(Integer.toString(((Line) selectedShape).getEndPoint().getY()));
-			dialogLine.setCol(((Line) selectedShape).getOutlineColor());
+			dialogLine.setPnlLineColor(((Line) selectedShape).getOutlineColor());
 			dialogLine.setVisible(true);
 			try
 			{
@@ -262,7 +316,7 @@ public class Controller {
 				newLine = new Line();
 				newLine.setStartPoint(new Point((Integer.parseInt(dialogLine.getTxtPocKoordX())),(Integer.parseInt(dialogLine.getTxtPocKoordY()))));
 				newLine.setEndPoint(new Point((Integer.parseInt(dialogLine.getTxtKrKoordX())),(Integer.parseInt(dialogLine.getTxtKrKoordY()))));
-				newLine.setOutlineColor(dialogLine.getCol());
+				newLine.setOutlineColor(dialogLine.getPnlLineColor());
 				CmdUpdateLine cmd = new CmdUpdateLine((Line)selectedShape, newLine);
 				commandExecuteHelper(cmd);
 			}
@@ -280,8 +334,8 @@ public class Controller {
 			dialogRectangle.setTxtYKoordinata(Integer.toString(((Rectangle)selectedShape).getUpperLeftPoint().getY()));
 			dialogRectangle.setTxtSirina(Integer.toString(((Rectangle)selectedShape).getWidth()));
 			dialogRectangle.setTxtVisina(Integer.toString(((Rectangle)selectedShape).getHeight()));
-			dialogRectangle.setBojaUnut(((Rectangle)selectedShape).getInnerColor());
-			dialogRectangle.setBojaIvice(((Rectangle)selectedShape).getOutlineColor());
+			dialogRectangle.setPnlRectangleInnerColor(((Rectangle)selectedShape).getInnerColor());
+			dialogRectangle.setPnlRectangleOutlineColor(((Rectangle)selectedShape).getOutlineColor());
 			dialogRectangle.setVisible(true);
 			try
 			{
@@ -291,8 +345,10 @@ public class Controller {
 				newRectangle.setUpperLeftPoint(new Point(Integer.parseInt(dialogRectangle.getTxtXKoordinata()),Integer.parseInt(dialogRectangle.getTxtYKoordinata())));
 				newRectangle.setHeight(Integer.parseInt(dialogRectangle.getTxtVisina()));
 				newRectangle.setWidth(Integer.parseInt(dialogRectangle.getTxtSirina()));
-				newRectangle.setOutlineColor(dialogRectangle.getBojaIvice());
-				newRectangle.setInnerColor(dialogRectangle.getBojaUnut());
+				newRectangle.setOutlineColor(dialogRectangle.getPnlRectangleOutlineColor());
+				newRectangle.setInnerColor(dialogRectangle.getPnlRectangleInnerColor());
+				setInnerColor(dialogRectangle.getPnlRectangleInnerColor());
+				setOutlineColor(dialogRectangle.getPnlRectangleOutlineColor());
 				
 				CmdUpdateRectangle cmd = new CmdUpdateRectangle((Rectangle)selectedShape, newRectangle);
 				commandExecuteHelper(cmd);
@@ -316,8 +372,8 @@ public class Controller {
 			dialogDonut.setTxtKoordY(Integer.toString(((Donut)selectedShape).getCenter().getY()));
 			dialogDonut.setTxtUnut(Integer.toString(((Donut)selectedShape).getInnerRadius()));
 			dialogDonut.setTxtSpolj(Integer.toString(((Donut)selectedShape).getRadius()));
-			dialogDonut.setBojaIvice((((Donut)selectedShape).getOutlineColor()));
-			dialogDonut.setBojaUnut((((Donut)selectedShape).getInnerColor()));
+			dialogDonut.setPnlDonutOutlineColor((((Donut)selectedShape).getOutlineColor()));
+			dialogDonut.setPnlDonutOutlineColor((((Donut)selectedShape).getInnerColor()));
 			dialogDonut.setVisible(true);
 			try {
 			if(dialogDonut.isOk())
@@ -326,9 +382,10 @@ public class Controller {
 				newDonut.setCenter(new Point(Integer.parseInt(dialogDonut.getTxtKoordX()),Integer.parseInt(dialogDonut.getTxtKoordY())));
 				newDonut.setRadius(Integer.parseInt(dialogDonut.getTxtSpolj()));
 				newDonut.setInnerRadius(Integer.parseInt(dialogDonut.getTxtUnut()));
-				newDonut.setOutlineColor(dialogDonut.getBojaIvice());
-				newDonut.setInnerColor(dialogDonut.getBojaUnut());
-				
+				newDonut.setOutlineColor(dialogDonut.getPnlDonutOutlineColor());
+				newDonut.setInnerColor(dialogDonut.getPnlDonutInnerColor());
+				setInnerColor(dialogDonut.getPnlDonutInnerColor());
+				setOutlineColor(dialogDonut.getPnlDonutOutlineColor());
 				CmdUpdateDonut cmd = new CmdUpdateDonut((Donut)selectedShape, newDonut);
 				commandExecuteHelper(cmd);
 			}
@@ -349,8 +406,8 @@ public class Controller {
 			dialogCircle.setTxtKoordX(Integer.toString(((Circle)selectedShape).getCenter().getX()));
 			dialogCircle.setTxtKoordY(Integer.toString(((Circle)selectedShape).getCenter().getY()));
 			dialogCircle.setPoluprecnik(Integer.toString(((Circle)selectedShape).getRadius()));
-			dialogCircle.setBojaUnut(((Circle)selectedShape).getInnerColor());
-			dialogCircle.setBojaIvice(((Circle)selectedShape).getOutlineColor());
+			dialogCircle.setPnlCircleInnerColor(((Circle)selectedShape).getInnerColor());
+			dialogCircle.setPnlCircleOutlineColor(((Circle)selectedShape).getOutlineColor());
 			dialogCircle.setVisible(true);
 			try
 			{
@@ -359,8 +416,10 @@ public class Controller {
 				newCircle = new Circle();
 				newCircle.setCenter(new Point(Integer.parseInt(dialogCircle.getTxtKoordX()),Integer.parseInt(dialogCircle.getTxtKoordY())));
 				newCircle.setRadius(Integer.parseInt(dialogCircle.getTextPoluprecnik()));
-				newCircle.setOutlineColor(dialogCircle.getBojaIvice());
-				newCircle.setInnerColor(dialogCircle.getBojaUnut());
+				newCircle.setOutlineColor(dialogCircle.getPnlCircleOutlineColor());
+				newCircle.setInnerColor(dialogCircle.getPnlCircleInnerColor());
+				setInnerColor(dialogCircle.getPnlCircleInnerColor());
+				setOutlineColor(dialogCircle.getPnlCircleOutlineColor());
 				
 				CmdUpdateCircle cmd = new CmdUpdateCircle((Circle)selectedShape, newCircle);
 				commandExecuteHelper(cmd);
@@ -373,6 +432,28 @@ public class Controller {
 			catch(Exception e)
 			{
 				JOptionPane.showMessageDialog(new JFrame(), "Vrednost poluprecnika mora da bude pozitivna!", "Greška", JOptionPane.WARNING_MESSAGE);
+			}
+		}
+		else if(selectedShape instanceof HexagonAdapter) {
+			HexagonAdapter newHexagon;
+			DialogHexagon dialogHexagon = new DialogHexagon();
+			dialogHexagon.setTxtCoordX(Integer.toString(((HexagonAdapter)selectedShape).getX()));
+			dialogHexagon.setTxtCoordY(Integer.toString(((HexagonAdapter)selectedShape).getY()));
+			dialogHexagon.setTxtRadius(Integer.toString(((HexagonAdapter)selectedShape).getRadius()));
+			dialogHexagon.setPnlInnerColor(((HexagonAdapter)selectedShape).getInnerColor());
+			dialogHexagon.setPnlOutlineColor(((HexagonAdapter)selectedShape).getOutlineColor());
+			dialogHexagon.setVisible(true);
+			if(dialogHexagon.isOk()) {
+				int coordX = Integer.parseInt(dialogHexagon.getTxtCoordX());
+				int coordY = Integer.parseInt(dialogHexagon.getTxtCoordY());
+				int radius = Integer.parseInt(dialogHexagon.getTxtRadius());
+				newHexagon = new HexagonAdapter(new Point(coordX,coordY), radius);
+				newHexagon.setInnerColor(dialogHexagon.getPnlInnerColor());
+				newHexagon.setOutlineColor(dialogHexagon.getPnlOutlineColor());
+				setInnerColor(dialogHexagon.getPnlOutlineColor());
+				setOutlineColor(dialogHexagon.getPnlInnerColor());
+				CmdUpdateHexagon cmd = new CmdUpdateHexagon((HexagonAdapter)selectedShape, newHexagon);
+				commandExecuteHelper(cmd);
 			}
 		}
 		
@@ -450,6 +531,22 @@ public class Controller {
 				helperList.add(s);
 		}
 		return helperList;
+	}
+	
+	private void setOutlineColor(Color color) {
+		frame.setOutlineColor(color);
+	}
+	
+	private Color getOutlineColor() {
+		return frame.getPnlOutlineColor();
+	}
+	
+	private void setInnerColor(Color color) {
+		frame.setInnerColor(color);
+	}
+	
+	private Color getInnerColor() {
+		return frame.getPnlInnerColor();
 	}
 
 	

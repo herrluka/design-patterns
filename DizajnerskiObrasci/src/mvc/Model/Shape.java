@@ -15,6 +15,7 @@ public abstract class Shape {
 	
 	public abstract boolean contains(Point p);
 	public abstract void draw(Graphics g);
+	public abstract void drawSelectedSquare(Graphics g);
 	
 	public Shape(boolean selected) {
 		this.selected = selected;

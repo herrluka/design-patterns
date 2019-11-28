@@ -3,7 +3,7 @@ package mvc.Model;
 import java.awt.Color;
 import java.awt.Graphics;
 
-public class Point extends ArealShape {
+public class Point extends Shape {
 
 	private int x;
 	private int y;
@@ -53,10 +53,6 @@ public class Point extends ArealShape {
 		g.drawRect(this.x-3, this.y-3, 6, 6);
 		g.setColor(Color.BLACK);
 	}
-	
-	@Override
-	public void fill(Graphics g) {
-	}
 
 	
 	public void moveBy(int byX, int byY) {
@@ -101,10 +97,6 @@ public class Point extends ArealShape {
 		return this.getX() == p.getX() && this.getY() == p.getY();
 	}
 
-	@Override
-	public double area() {
-		return 0;
-	}
 
 	
 }

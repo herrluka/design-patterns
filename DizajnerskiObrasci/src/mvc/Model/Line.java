@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.Frame;
 import java.awt.Graphics;
 
-public class Line extends ArealShape {
+public class Line extends Shape {
 	private Point startPoint;
 	private Point endPoint;
 	
@@ -81,13 +81,4 @@ public class Line extends ArealShape {
 		return startPoint + "-->" + endPoint;
 	}
 
-	@Override
-	public void fill(Graphics g) {
-		
-	}
-
-	@Override
-	public double area() {
-		return 0;
-	}
 }
