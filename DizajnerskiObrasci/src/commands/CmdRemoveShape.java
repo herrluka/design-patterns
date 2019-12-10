@@ -1,27 +1,32 @@
 package commands;
 
+import java.util.List;
+
 import mvc.Model.Model;
 import mvc.Model.Shape;
 
 public class CmdRemoveShape implements Command {
 
-	Shape shape;
+	List<Shape> shapes;
 	Model model;
 	
-	public CmdRemoveShape(Shape s, Model model) {
-		this.shape = s;
+	public CmdRemoveShape(List<Shape> s, Model model) {
+		this.shapes = s;
 		this.model = model;
 	}
 	
 	@Override
 	public void execute() {
-		
-		model.remove(shape);
+		for(Shape shape : shapes) {
+			model.remove(shape);
+		}
 	}
 
 	@Override
 	public void unexecute() {
-		model.add(shape);
+		for(Shape shape : shapes) {
+			model.add(shape);
+		}
 		
 	}
 

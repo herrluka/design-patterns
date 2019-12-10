@@ -2,6 +2,8 @@ package app;
 
 
 
+import java.awt.Dimension;
+
 import javax.swing.JFrame;
 
 import mvc.Controler.Controller;
@@ -17,7 +19,6 @@ public class Application {
 		frame.getView().setModel(model);
 		Controller controler = new Controller(model,frame);
 		frame.setControler(controler);
-		frame.setSize(800,600);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
 	}

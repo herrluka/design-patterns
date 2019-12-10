@@ -24,4 +24,13 @@ public class Model {
 	public Shape get(int index) {
 		return list.get(index);
 	}
+	
+	public void swap(int index1, int index2) {
+		Shape helper = list.get(index1);
+		list.set(index1,list.get(index2));
+		list.set(index2,helper);
+		for(Shape s : list) {
+			System.out.println(s.toString());
+		}
+	}
 }

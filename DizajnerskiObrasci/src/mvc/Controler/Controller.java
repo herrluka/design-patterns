@@ -12,7 +12,11 @@ import javax.swing.JOptionPane;
 
 
 import commands.CmdAddShape;
+import commands.CmdBringToEnd;
+import commands.CmdBringToFront;
 import commands.CmdRemoveShape;
+import commands.CmdToBack;
+import commands.CmdToFront;
 import commands.CmdUpdateCircle;
 import commands.CmdUpdateDonut;
 import commands.CmdUpdateHexagon;
@@ -317,6 +321,7 @@ public class Controller {
 				newLine.setStartPoint(new Point((Integer.parseInt(dialogLine.getTxtPocKoordX())),(Integer.parseInt(dialogLine.getTxtPocKoordY()))));
 				newLine.setEndPoint(new Point((Integer.parseInt(dialogLine.getTxtKrKoordX())),(Integer.parseInt(dialogLine.getTxtKrKoordY()))));
 				newLine.setOutlineColor(dialogLine.getPnlLineColor());
+				setOutlineColor(dialogLine.getPnlLineColor());
 				CmdUpdateLine cmd = new CmdUpdateLine((Line)selectedShape, newLine);
 				commandExecuteHelper(cmd);
 			}
@@ -373,7 +378,7 @@ public class Controller {
 			dialogDonut.setTxtUnut(Integer.toString(((Donut)selectedShape).getInnerRadius()));
 			dialogDonut.setTxtSpolj(Integer.toString(((Donut)selectedShape).getRadius()));
 			dialogDonut.setPnlDonutOutlineColor((((Donut)selectedShape).getOutlineColor()));
-			dialogDonut.setPnlDonutOutlineColor((((Donut)selectedShape).getInnerColor()));
+			dialogDonut.setPnlDonutInnerColor((((Donut)selectedShape).getInnerColor()));
 			dialogDonut.setVisible(true);
 			try {
 			if(dialogDonut.isOk())
@@ -513,10 +518,8 @@ public class Controller {
 		ArrayList<Shape> list = getSelectedShapes();
 		if(list.size() != 0) {
 			if(JOptionPane.showConfirmDialog(new JFrame(), "Da li ste sigurni da želite da obrišete selektovane oblike?","Potvrda",JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION) {
-				for(int i = 0; i < list.size(); i++) {
-					CmdRemoveShape cmd = new CmdRemoveShape(list.get(i), model);
-					commandExecuteHelper(cmd);
-				}
+				CmdRemoveShape cmd = new CmdRemoveShape(list, model);
+				commandExecuteHelper(cmd);
 				frame.getView().repaint();
 			}
 		}
@@ -531,6 +534,46 @@ public class Controller {
 				helperList.add(s);
 		}
 		return helperList;
+	}
+	
+	public void bringToFront() {
+		ArrayList<Shape> shapes = getSelectedShapes();
+		Shape selectedShape = shapes.get(0);
+		int currentIndex = model.getShapes().indexOf(selectedShape);
+		CmdBringToFront cmd = new CmdBringToFront(model, currentIndex);
+		commandExecuteHelper(cmd);
+		frame.getView().repaint();
+	}
+	
+	public void bringToEnd() {
+		ArrayList<Shape> shapes = getSelectedShapes();
+		Shape selectedShape = shapes.get(0);
+		int currentIndex = model.getShapes().indexOf(selectedShape);
+		CmdBringToEnd cmd = new CmdBringToEnd(model, currentIndex);
+		commandExecuteHelper(cmd);
+		frame.getView().repaint();
+	}
+	
+	public void toFront() {
+		ArrayList<Shape> shapes = getSelectedShapes();
+		Shape selectedShape = shapes.get(0);
+		int currentIndex = model.getShapes().indexOf(selectedShape);
+		CmdToFront cmd = new CmdToFront(model, currentIndex);
+		commandExecuteHelper(cmd);
+		frame.getView().repaint();
+		
+		//TODO Obezbediti da se ne poziva kad je na vrhu
+	}
+	
+	public void toBack() {
+		ArrayList<Shape> shapes = getSelectedShapes();
+		Shape selectedShape = shapes.get(0);
+		int currentIndex = model.getShapes().indexOf(selectedShape);
+		CmdToBack cmd = new CmdToBack(model, currentIndex);
+		commandExecuteHelper(cmd);
+		frame.getView().repaint();
+		
+		//TODO Obezbediti da se ne poziva kad je na dnu
 	}
 	
 	private void setOutlineColor(Color color) {

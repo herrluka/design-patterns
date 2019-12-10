@@ -1,13 +1,19 @@
 package mvc.View;
 
 import javax.swing.JFrame;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 
 import mvc.Controler.Controller;
 import mvc.Model.Model;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.MenuItem;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JToggleButton;
@@ -17,10 +23,12 @@ import javax.swing.border.EmptyBorder;
 import constants.Constants;
 
 import javax.swing.ImageIcon;
+import javax.swing.JColorChooser;
 import javax.swing.ButtonGroup;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.JButton;
 
 public class Frame extends JFrame{
 	
@@ -41,6 +49,7 @@ public class Frame extends JFrame{
 	private JToggleButton tglBtnRedo;
 	private JPanel innerColorPanel;
 	private JPanel outlineColorPanel;
+	private JButton btnBringTo;
 	
 	
 	public Frame() {
@@ -50,47 +59,75 @@ public class Frame extends JFrame{
 				controler.mouseClicked(e);
 			}
 		});
-		
+		setExtendedState(MAXIMIZED_BOTH);
+		setMinimumSize(new Dimension(900,950));
 		getContentPane().add(view, BorderLayout.CENTER);
-		
 		JToolBar toolBar = new JToolBar(null, JToolBar.VERTICAL);
 		toolBar.setEnabled(false);
 		getContentPane().add(toolBar, BorderLayout.WEST);
 		
 		JPanel colorsParentPanel = new JPanel();
+		colorsParentPanel.setBackground(Color.GRAY);
 		getContentPane().add(colorsParentPanel,BorderLayout.SOUTH);
 		
 		innerColorPanel = new JPanel();
 		innerColorPanel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				
+				setInnerColor(JColorChooser.showDialog(null, "Izaberite boju unutrašnjosti", getPnlInnerColor()));
 			}
 		});
 		innerColorPanel.setBackground(Color.WHITE);
 		
 		outlineColorPanel = new JPanel();
+		outlineColorPanel.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				setOutlineColor(JColorChooser.showDialog(null, "Izaberite boju ivice", getPnlOutlineColor()));
+			}
+		});
 		outlineColorPanel.setBackground(Color.BLACK);
-		GroupLayout gl_colorsPanel = new GroupLayout(colorsParentPanel);
-		gl_colorsPanel.setHorizontalGroup(
-			gl_colorsPanel.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, gl_colorsPanel.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_colorsPanel.createParallelGroup(Alignment.TRAILING)
-						.addComponent(outlineColorPanel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(innerColorPanel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 55, Short.MAX_VALUE))
-					.addGap(623))
+		GroupLayout gl_innerColorPanel = new GroupLayout(innerColorPanel);
+		gl_innerColorPanel.setHorizontalGroup(
+			gl_innerColorPanel.createParallelGroup(Alignment.LEADING)
+				.addGap(0, 36, Short.MAX_VALUE)
 		);
-		gl_colorsPanel.setVerticalGroup(
-			gl_colorsPanel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_colorsPanel.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(innerColorPanel, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-					.addComponent(outlineColorPanel, GroupLayout.PREFERRED_SIZE, 58, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap())
+		gl_innerColorPanel.setVerticalGroup(
+			gl_innerColorPanel.createParallelGroup(Alignment.LEADING)
+				.addGap(0, 36, Short.MAX_VALUE)
 		);
-		colorsParentPanel.setLayout(gl_colorsPanel);
+		innerColorPanel.setLayout(gl_innerColorPanel);
+		GroupLayout gl_colorsParentPanel = new GroupLayout(colorsParentPanel);
+		gl_colorsParentPanel.setHorizontalGroup(
+			gl_colorsParentPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_colorsParentPanel.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_colorsParentPanel.createParallelGroup(Alignment.LEADING)
+						.addComponent(innerColorPanel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(outlineColorPanel, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap(642, Short.MAX_VALUE))
+		);
+		gl_colorsParentPanel.setVerticalGroup(
+			gl_colorsParentPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_colorsParentPanel.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(innerColorPanel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(outlineColorPanel, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)
+					.addGap(8))
+		);
+		colorsParentPanel.setLayout(gl_colorsParentPanel);
+		
+		JPopupMenu menu = new JPopupMenu("menu");
+		JMenuItem bringToFront = new JMenuItem("Bring to Front");
+		JMenuItem bringToEnd = new JMenuItem("Bring to end");
+		JMenuItem toBack= new JMenuItem("Move to back");
+		JMenuItem toFront= new JMenuItem("Move to front");
+		menu.add(bringToFront);
+		menu.add(bringToEnd);
+		menu.add(toBack);
+		menu.add(toFront);
+		
 		
 		tglBtnPoint = new JToggleButton("");
 		buttonGroup.add(tglBtnPoint);
@@ -137,6 +174,10 @@ public class Frame extends JFrame{
 		buttonGroup.add(tglBtnDelete);
 		tglBtnDelete.setIcon(new ImageIcon(getClass().getResource("/delete.png")));
 		toolBar.add(tglBtnDelete);
+		
+		btnBringTo = new JButton("");
+		btnBringTo.setIcon(new ImageIcon(getClass().getResource("/bringToFront.png")));
+		toolBar.add(btnBringTo);
 		
 		tglBtnUndo = new JToggleButton("");
 		buttonGroup.add(tglBtnUndo);
@@ -230,7 +271,45 @@ public class Frame extends JFrame{
 			}
 		});
 		
-
+		btnBringTo.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				menu.show(btnBringTo, e.getX(), e.getY());
+			}
+		});
+		
+		bringToFront.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				controler.bringToFront();
+			}
+		});
+		
+		bringToEnd.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				controler.bringToEnd();
+			}
+		});
+		
+		toFront.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				controler.toFront();
+				
+			}
+		});
+		
+		toBack.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				controler.toBack();
+			}
+		});
 	}
 	
 	public void setUndoButtonEnabled(boolean bool) {
