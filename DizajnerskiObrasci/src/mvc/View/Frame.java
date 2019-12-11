@@ -7,6 +7,7 @@ import javax.swing.JPopupMenu;
 
 import mvc.Controler.Controller;
 import mvc.Model.Model;
+import mvc.Model.Shape;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -16,6 +17,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
+
 import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
 import javax.swing.border.EmptyBorder;
@@ -24,13 +29,14 @@ import constants.Constants;
 
 import javax.swing.ImageIcon;
 import javax.swing.JColorChooser;
+import javax.print.attribute.standard.NumberOfDocuments;
 import javax.swing.ButtonGroup;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JButton;
 
-public class Frame extends JFrame{
+public class Frame extends JFrame implements Observer{
 	
 	
 	private View view = new View(); //dodato new zbog window buildera
@@ -49,7 +55,7 @@ public class Frame extends JFrame{
 	private JToggleButton tglBtnRedo;
 	private JPanel innerColorPanel;
 	private JPanel outlineColorPanel;
-	private JButton btnBringTo;
+	private JButton tglBtnBringTo;
 	
 	
 	public Frame() {
@@ -163,21 +169,25 @@ public class Frame extends JFrame{
 		tglBtnSelect = new JToggleButton("");
 		buttonGroup.add(tglBtnSelect);
 		tglBtnSelect.setIcon(new ImageIcon(getClass().getResource("/select.png")));
+		tglBtnSelect.setEnabled(false);
 		toolBar.add(tglBtnSelect);
 		
 		tglBtnEdit = new JToggleButton("");
 		buttonGroup.add(tglBtnEdit);
 		tglBtnEdit.setIcon(new ImageIcon(getClass().getResource("/edit.png")));
+		tglBtnEdit.setEnabled(false);
 		toolBar.add(tglBtnEdit);
 		
 		tglBtnDelete = new JToggleButton("");
 		buttonGroup.add(tglBtnDelete);
 		tglBtnDelete.setIcon(new ImageIcon(getClass().getResource("/delete.png")));
+		tglBtnDelete.setEnabled(false);
 		toolBar.add(tglBtnDelete);
 		
-		btnBringTo = new JButton("");
-		btnBringTo.setIcon(new ImageIcon(getClass().getResource("/bringToFront.png")));
-		toolBar.add(btnBringTo);
+		tglBtnBringTo = new JButton("");
+		tglBtnBringTo.setIcon(new ImageIcon(getClass().getResource("/bringToFront.png")));
+		tglBtnBringTo.setEnabled(false);
+		toolBar.add(tglBtnBringTo);
 		
 		tglBtnUndo = new JToggleButton("");
 		buttonGroup.add(tglBtnUndo);
@@ -271,10 +281,11 @@ public class Frame extends JFrame{
 			}
 		});
 		
-		btnBringTo.addMouseListener(new MouseAdapter() {
+		tglBtnBringTo.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				menu.show(btnBringTo, e.getX(), e.getY());
+				if(tglBtnBringTo.isEnabled() == true)
+					menu.show(tglBtnBringTo, e.getX(), e.getY());
 			}
 		});
 		
@@ -312,6 +323,18 @@ public class Frame extends JFrame{
 		});
 	}
 	
+	@Override
+	public void update(Observable o, Object arg) {
+		ArrayList<Shape> list = (ArrayList<Shape>)arg;
+		int numberOfShapes = list.size();
+		int selectedShapes = controler.getSelectedShapes().size();
+		tglBtnSelect.setEnabled(numberOfShapes> 0);
+		tglBtnEdit.setEnabled(selectedShapes == 1);
+		tglBtnDelete.setEnabled(selectedShapes > 0);
+		tglBtnBringTo.setEnabled(numberOfShapes > 1 && selectedShapes == 1);
+		
+	}
+	
 	public void setUndoButtonEnabled(boolean bool) {
 		this.tglBtnUndo.setEnabled(bool);
 	}
@@ -343,5 +366,7 @@ public class Frame extends JFrame{
 	public Color getPnlInnerColor() {
 		return innerColorPanel.getBackground();
 	}
+
+	
 	
 }

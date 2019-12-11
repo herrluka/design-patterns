@@ -18,6 +18,7 @@ public class Application {
 		Frame frame = new Frame();
 		frame.getView().setModel(model);
 		Controller controler = new Controller(model,frame);
+		controler.addObserver(frame);
 		frame.setControler(controler);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);

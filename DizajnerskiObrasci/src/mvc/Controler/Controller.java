@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Observable;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -44,7 +45,7 @@ import mvc.View.Frame;
 
 
 
-public class Controller {
+public class Controller extends Observable {
 
 	private Frame frame;
 	private Model model;
@@ -248,6 +249,7 @@ public class Controller {
 			}
 		}
 		frame.getView().repaint();
+		sendChanges();
 	}
 
 	private void handleSelectMode(MouseEvent e) {
@@ -461,7 +463,6 @@ public class Controller {
 				commandExecuteHelper(cmd);
 			}
 		}
-		
 		frame.getView().repaint();
 		
 	}
@@ -489,6 +490,7 @@ public class Controller {
 		actualCommand--;
 		enableButtons();
 		frame.getView().repaint();
+		sendChanges();
 	}
 	
 	public void redo() {
@@ -496,6 +498,7 @@ public class Controller {
 		commandList.get(actualCommand).execute();
 		enableButtons();
 		frame.getView().repaint();
+		sendChanges();
 	}
 	
 	private void enableButtons() {
@@ -521,11 +524,12 @@ public class Controller {
 				CmdRemoveShape cmd = new CmdRemoveShape(list, model);
 				commandExecuteHelper(cmd);
 				frame.getView().repaint();
+				sendChanges();
 			}
 		}
 	}
 	
-	private ArrayList<Shape> getSelectedShapes() {
+	public ArrayList<Shape> getSelectedShapes() {
 		Iterator<Shape> iterator = model.getShapes().listIterator();
 		ArrayList<Shape> helperList = new ArrayList<Shape>();
 		while(iterator.hasNext()) {
@@ -574,6 +578,11 @@ public class Controller {
 		frame.getView().repaint();
 		
 		//TODO Obezbediti da se ne poziva kad je na dnu
+	}
+	
+	public void sendChanges() {
+		this.setChanged();
+		this.notifyObservers(model.getShapes());
 	}
 	
 	private void setOutlineColor(Color color) {
