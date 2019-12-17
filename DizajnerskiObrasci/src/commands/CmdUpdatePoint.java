@@ -5,7 +5,7 @@ import mvc.Model.Point;
 public class CmdUpdatePoint implements Command {
 
 	Point oldPoint;
-	Point original = new Point();
+	Point original;
 	Point newPoint;
 	
 	
@@ -16,12 +16,8 @@ public class CmdUpdatePoint implements Command {
 
 	@Override
 	public void execute() {
-		original.setX(oldPoint.getX());
-		original.setY(oldPoint.getY());
-		original.setOutlineColor(oldPoint.getOutlineColor());
-		
-		oldPoint.setX(newPoint.getX());
-		oldPoint.setY(newPoint.getY());
+		original = oldPoint.clone();
+		oldPoint.moveTo(newPoint.getX(), newPoint.getY());
 		oldPoint.setOutlineColor(newPoint.getOutlineColor());
 		
 		
@@ -29,8 +25,7 @@ public class CmdUpdatePoint implements Command {
 
 	@Override
 	public void unexecute() {
-		oldPoint.setX(original.getX());
-		oldPoint.setY(original.getY());
+		oldPoint.moveTo(original.getX(), original.getY());
 		oldPoint.setOutlineColor(original.getOutlineColor());
 		
 	}

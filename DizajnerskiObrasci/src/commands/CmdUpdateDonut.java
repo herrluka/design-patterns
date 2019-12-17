@@ -7,33 +7,17 @@ public class CmdUpdateDonut implements Command{
 
 	Donut oldDonut;
 	Donut newDonut;
-	Donut original = new Donut();
+	Donut original;
 	
 	
 	public CmdUpdateDonut(Donut oldDonut, Donut newDonut) {
 		this.oldDonut = oldDonut;
 		this.newDonut = newDonut;
-		this.original.setCenter(new Point());;
 	}
 
 	@Override
 	public void execute() {
-		System.out.print(oldDonut.getCenter().getX());
-		original.getCenter().setX(oldDonut.getCenter().getX());
-		System.out.print("OVDE");
-		original.getCenter().setY(oldDonut.getCenter().getY());
-		try {
-			original.setRadius(oldDonut.getRadius());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		try {
-			original.setInnerRadius(oldDonut.getInnerRadius());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		original.setInnerColor(oldDonut.getInnerColor());
-		original.setOutlineColor(oldDonut.getOutlineColor());
+		original = oldDonut.clone();
 		
 		oldDonut.getCenter().setX(newDonut.getCenter().getX());
 		oldDonut.getCenter().setY(newDonut.getCenter().getY());

@@ -61,6 +61,7 @@ public class Controller extends Observable {
 	}
 
 	public void mouseClicked(MouseEvent e) {
+		boolean flag = false;
 		if(mode == Constants.SELECT) {
 			this.handleSelectMode(e);
 		}
@@ -78,7 +79,7 @@ public class Controller extends Observable {
 				setOutlineColor(dialogPoint.getPnlColor());
 				CmdAddShape cmd = new CmdAddShape(newPoint, model);
 				commandExecuteHelper(cmd);
-				cleanCommandList();
+//				cleanCommandList();
 				deselectAll();
 			}
 		}
@@ -86,6 +87,7 @@ public class Controller extends Observable {
 		{
 			if(startPoint==null) {
 				startPoint = new Point(e.getX(),e.getY());
+				flag = true;
 			}
 			else if(startPoint.equals(new Point(e.getX(),e.getY()))) {
 				JOptionPane.showMessageDialog(new JFrame(), "Nije moguæe nacrtati liniju koja sadrži dve iste taèke. Izaberite drugu taèku.", "Greška", JOptionPane.WARNING_MESSAGE);
@@ -108,7 +110,7 @@ public class Controller extends Observable {
 					setOutlineColor(dialogLine.getPnlLineColor());
 					CmdAddShape cmd = new CmdAddShape(newLine, model);
 					commandExecuteHelper(cmd);
-					cleanCommandList();
+//					cleanCommandList();
 					startPoint=null;
 					deselectAll();
 				}
@@ -136,7 +138,7 @@ public class Controller extends Observable {
 					setOutlineColor(dialogRectangle.getPnlRectangleOutlineColor());
 					CmdAddShape cmd = new CmdAddShape(rct, model);
 					commandExecuteHelper(cmd);
-					cleanCommandList();
+//					cleanCommandList();
 					deselectAll();
 				}
 			}
@@ -173,7 +175,7 @@ public class Controller extends Observable {
 				setOutlineColor(dialogCircle.getPnlCircleOutlineColor());
 				CmdAddShape cmd = new CmdAddShape(circle, model);
 				commandExecuteHelper(cmd);
-				cleanCommandList();
+//				cleanCommandList();
 				deselectAll();
 			
 			}
@@ -211,7 +213,7 @@ public class Controller extends Observable {
 				setOutlineColor(dialogDonut.getPnlDonutOutlineColor());
 				CmdAddShape cmd = new CmdAddShape(donut, model);
 				commandExecuteHelper(cmd);
-				cleanCommandList();
+//				cleanCommandList();
 				deselectAll();
 			}
 			}
@@ -243,10 +245,13 @@ public class Controller extends Observable {
 				setInnerColor(dialogHexagon.getPnlInnerColor());
 				CmdAddShape cmd = new CmdAddShape(hexagon, model);
 				commandExecuteHelper(cmd);
-				cleanCommandList();
+//				cleanCommandList();
 				deselectAll();
 				
 			}
+		}
+		if(flag == false) {
+			startPoint = null;
 		}
 		frame.getView().repaint();
 		sendChanges();
@@ -471,10 +476,12 @@ public class Controller extends Observable {
 		command.execute();
 		if(actualCommand == commandList.size() - 1) {
 			commandList.add(command);
+			actualCommand++;
 		} else {
 			commandList.add(actualCommand + 1, command);
+			actualCommand++;
+			cleanCommandList();
 		}
-		actualCommand++;
 		enableButtons();
 	}
 	

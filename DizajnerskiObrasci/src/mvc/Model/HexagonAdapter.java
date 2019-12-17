@@ -86,4 +86,19 @@ public class HexagonAdapter extends ArealShape {
 		return hexagon.isSelected();
 	}
 
+
+	@Override
+	public void moveTo(int x, int y) {
+		hexagon.setX(x);
+		hexagon.setY(y);
+	}
+	
+	@Override
+	public HexagonAdapter clone() {
+		HexagonAdapter hexagonAdapter = new HexagonAdapter(new Point(hexagon.getX(),hexagon.getY()), hexagon.getR());
+		hexagonAdapter.setOutlineColor(getOutlineColor());
+		hexagonAdapter.setInnerColor(getInnerColor());
+		return hexagonAdapter;
+	}
+
 }

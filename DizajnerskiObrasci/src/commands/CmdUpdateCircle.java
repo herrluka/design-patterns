@@ -7,25 +7,16 @@ public class CmdUpdateCircle implements Command{
 
 	Circle oldCircle;
 	Circle newCircle;
-	Circle original = new Circle();
+	Circle original;
 	
 	public CmdUpdateCircle(Circle oldCircle, Circle newCircle) {
 		this.oldCircle = oldCircle;
 		this.newCircle = newCircle;
-		this.original.setCenter(new Point());
 	}
 
 	@Override
 	public void execute() {
-		original.getCenter().setX(oldCircle.getCenter().getX());
-		original.getCenter().setY(oldCircle.getCenter().getY());
-		try {
-			original.setRadius(oldCircle.getRadius());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		original.setInnerColor(oldCircle.getInnerColor());
-		original.setOutlineColor(oldCircle.getOutlineColor());
+		original = oldCircle.clone();
 		
 		oldCircle.getCenter().setX(newCircle.getCenter().getX());
 		oldCircle.getCenter().setY(newCircle.getCenter().getY());

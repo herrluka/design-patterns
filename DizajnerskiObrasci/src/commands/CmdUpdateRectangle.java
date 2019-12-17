@@ -17,32 +17,18 @@ public class CmdUpdateRectangle implements Command{
 	
 	private Rectangle oldRectangle;
 	private Rectangle newRectangle;
-	private Rectangle original = new Rectangle();
+	private Rectangle original;
 	
 	
 	public CmdUpdateRectangle(Rectangle oldRectangle, Rectangle newRectangle) {
 		this.oldRectangle = oldRectangle;
 		this.newRectangle = newRectangle;
-		this.original.setUpperLeftPoint(new Point());
 	}
 
 	@Override
 	public void execute() {
 		
-		original.getUpperLeftPoint().setX(oldRectangle.getUpperLeftPoint().getX());
-		original.getUpperLeftPoint().setY(oldRectangle.getUpperLeftPoint().getY());
-		try {
-			original.setHeight(oldRectangle.getHeight());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		try {
-			original.setWidth(oldRectangle.getWidth());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		original.setOutlineColor(oldRectangle.getOutlineColor());
-		original.setInnerColor(oldRectangle.getInnerColor());
+		original = oldRectangle.clone();
 		
 		
 		oldRectangle.getUpperLeftPoint().setX(newRectangle.getUpperLeftPoint().getX());

@@ -21,6 +21,11 @@ public class Line extends Shape {
 		this(startPoint, endPoint);
 		setSelected(selected);
 	}
+	
+	public Line(Point startPoint, Point endPoint, Color color) {
+		this(startPoint, endPoint);
+		setOutlineColor(color);
+	}
 
 	@Override
 	public void draw(Graphics g) {
@@ -79,6 +84,20 @@ public class Line extends Shape {
 
 	public String toString() {
 		return startPoint + "-->" + endPoint;
+	}
+
+	@Override
+	public void moveTo(int x, int y) {
+		startPoint.moveTo(x, y);
+		endPoint.moveTo(x - endPoint.getX(), y - endPoint.getY());
+		
+	}
+	
+	@Override
+	public Line clone() {
+		return new Line(new Point(startPoint.clone().getX(),startPoint.getY())
+				,new Point(endPoint.getX(),endPoint.getY())
+				,getOutlineColor());
 	}
 
 }

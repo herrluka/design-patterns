@@ -97,6 +97,17 @@ public class Point extends Shape {
 		return this.getX() == p.getX() && this.getY() == p.getY();
 	}
 
+	@Override
+	public void moveTo(int x, int y) {
+		setX(x);
+		setY(y);
+	}
+	
+	@Override
+	public Point clone() {
+		return new Point(this.x,this.y,this.getOutlineColor());
+	}
+
 
 	
 }

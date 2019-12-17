@@ -88,4 +88,19 @@ private int innerRadius;
 		return super.toString() + ", inner radius=" + innerRadius ;
 	}
 	
+	@Override 
+	public Donut clone() {
+		Donut donut = new Donut();
+		donut.setCenter(new Point(getCenter().getX(),getCenter().getY()));
+		try {
+			donut.setRadius(getRadius());
+			donut.setInnerRadius(getInnerRadius());
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		donut.setOutlineColor(getOutlineColor());
+		donut.setInnerColor(getInnerColor());
+		return donut;
+	}
+	
 }

@@ -14,7 +14,7 @@ public class CmdUpdateLine implements Command {
 	
 	Line oldLine;
 	Line newLine;
-	Line original = new Line(new Point(),new Point()); //point also have to be instantiated because program will fail
+	Line original;
 	
 	
 
@@ -26,11 +26,7 @@ public class CmdUpdateLine implements Command {
 	@Override
 	public void execute() {
 		
-		original.getStartPoint().setX(oldLine.getStartPoint().getX());
-		original.getStartPoint().setY(oldLine.getStartPoint().getY());
-		original.getEndPoint().setX(oldLine.getEndPoint().getX());
-		original.getEndPoint().setY(oldLine.getEndPoint().getY());
-		original.setOutlineColor(oldLine.getOutlineColor());
+		original = oldLine.clone();
 		
 		oldLine.getStartPoint().setX(newLine.getStartPoint().getX());
 		oldLine.getStartPoint().setY(newLine.getStartPoint().getY());

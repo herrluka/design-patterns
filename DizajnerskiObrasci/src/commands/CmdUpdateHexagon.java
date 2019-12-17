@@ -8,7 +8,7 @@ public class CmdUpdateHexagon implements Command{
 
 	private HexagonAdapter oldHexagon;
 	private HexagonAdapter newHexagon;
-	private HexagonAdapter original = new HexagonAdapter(new Point(0,0),0);
+	private HexagonAdapter original;
 	
 	
 	public CmdUpdateHexagon(HexagonAdapter oldHexagon, HexagonAdapter newHexagon) {
@@ -18,11 +18,7 @@ public class CmdUpdateHexagon implements Command{
 
 	@Override
 	public void execute() {
-		original.setX(oldHexagon.getX());
-		original.setY(oldHexagon.getY());
-		original.setRadius(oldHexagon.getRadius());
-		original.setInnerColor(oldHexagon.getInnerColor());
-		original.setOutlineColor(oldHexagon.getOutlineColor());
+		original = oldHexagon.clone();
 		
 		oldHexagon.setX(newHexagon.getX());
 		oldHexagon.setY(newHexagon.getY());

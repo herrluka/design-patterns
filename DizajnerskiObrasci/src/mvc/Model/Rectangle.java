@@ -27,6 +27,11 @@ public class Rectangle extends ArealShape{
 		this(upperLeftPoint, height, width);
 		setSelected(selected);
 	}
+	
+	public Rectangle(Point upperLeftPoint, int height, int width, Color color) throws Exception {
+		this(upperLeftPoint, height, width);
+		setOutlineColor(color);
+	}
 
 	@Override
 	public void draw(Graphics g) {
@@ -107,5 +112,27 @@ public class Rectangle extends ArealShape{
 		}
 		g.setColor(Color.BLACK);
 		
+	}
+
+	@Override
+	public void moveTo(int x, int y) {
+		upperLeftPoint.setX(x);
+		upperLeftPoint.setY(y);
+		
+	}
+	
+	@Override
+	public Rectangle clone() {
+		Rectangle rectangle = new Rectangle();
+		rectangle.setUpperLeftPoint(new Point(upperLeftPoint.getX(),upperLeftPoint.getY()));
+		try {
+			rectangle.setHeight(height);
+			rectangle.setWidth(width);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		rectangle.setOutlineColor(getOutlineColor());
+		rectangle.setInnerColor(getInnerColor());
+		return rectangle;
 	}
 }

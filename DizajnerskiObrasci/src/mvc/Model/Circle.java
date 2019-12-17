@@ -87,7 +87,6 @@ public class Circle extends ArealShape {
 	@Override
 	public void fill(Graphics g) {
 		Color innerCol = getInnerColor();
-		System.out.println(innerCol);
 		if(innerCol!=null)
 		{
 			g.setColor(innerCol);
@@ -101,6 +100,26 @@ public class Circle extends ArealShape {
 	public double area() {
 		
 		return radius*radius * Math.PI;
+	}
+
+	@Override
+	public void moveTo(int x, int y) {
+		center.setX(x);
+		center.setY(y);
+	}
+	
+	@Override
+	public Circle clone() {
+		Circle circle = new Circle();
+		circle.setCenter(new Point(getCenter().getX(),getCenter().getY()));
+		try {
+			circle.setRadius(radius);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		circle.setOutlineColor(getOutlineColor());
+		circle.setInnerColor(getInnerColor());
+		return circle;
 	}
 
 
