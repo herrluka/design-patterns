@@ -2,8 +2,9 @@ package mvc.Model;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.io.Serializable;
 
-public abstract class Shape implements Moveable, Cloneable {
+public abstract class Shape implements Moveable, Cloneable, Serializable {
 
 	private boolean selected;
 	private Color outlineColor;

@@ -2,10 +2,11 @@ package mvc.Model;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.io.Serializable;
 
 import hexagon.Hexagon;
 
-public class HexagonAdapter extends ArealShape {
+public class HexagonAdapter extends ArealShape implements Serializable{
 	
 	private Hexagon hexagon;
 

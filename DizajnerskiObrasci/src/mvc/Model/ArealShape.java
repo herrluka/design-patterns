@@ -2,8 +2,9 @@ package mvc.Model;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.io.Serializable;
 
-public abstract class ArealShape extends Shape {
+public abstract class ArealShape extends Shape implements Serializable{
 
 	private Color innerColor;
 	

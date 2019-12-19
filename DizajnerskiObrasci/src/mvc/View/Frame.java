@@ -4,6 +4,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
+import javax.swing.JScrollPane;
 
 import mvc.Controler.Controller;
 import mvc.Model.Model;
@@ -13,11 +14,13 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.MenuItem;
+import java.awt.ScrollPane;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -25,16 +28,25 @@ import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
 import javax.swing.border.EmptyBorder;
 
+import commands.Command;
 import constants.Constants;
 
 import javax.swing.ImageIcon;
 import javax.swing.JColorChooser;
 import javax.print.attribute.standard.NumberOfDocuments;
 import javax.swing.ButtonGroup;
+import javax.swing.DefaultListModel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JButton;
+import javax.swing.JList;
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+import java.awt.Font;
+import javax.swing.SwingConstants;
+import java.awt.Insets;
+import javax.swing.JSeparator;
 
 public class Frame extends JFrame implements Observer{
 	
@@ -56,6 +68,17 @@ public class Frame extends JFrame implements Observer{
 	private JPanel innerColorPanel;
 	private JPanel outlineColorPanel;
 	private JButton tglBtnBringTo;
+	private JList list;
+	private JMenuBar menuBar;
+	private JMenu mnFile;
+	private JMenuItem mntmOpen;
+	private JMenuItem mntmSave;
+	private JMenuItem mntmSaveAs;
+	private JMenuItem bringToFront; 
+	private JMenuItem bringToEnd; 
+	private JMenuItem toBack;
+	private JMenuItem toFront;
+	private JSeparator separator;
 	
 	
 	public Frame() {
@@ -103,36 +126,49 @@ public class Frame extends JFrame implements Observer{
 				.addGap(0, 36, Short.MAX_VALUE)
 		);
 		innerColorPanel.setLayout(gl_innerColorPanel);
+		
+		list = new JList();
+		JScrollPane scrollPane = new JScrollPane();
 		GroupLayout gl_colorsParentPanel = new GroupLayout(colorsParentPanel);
 		gl_colorsParentPanel.setHorizontalGroup(
 			gl_colorsParentPanel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_colorsParentPanel.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(gl_colorsParentPanel.createParallelGroup(Alignment.LEADING)
-						.addComponent(innerColorPanel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(outlineColorPanel, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(642, Short.MAX_VALUE))
+						.addComponent(outlineColorPanel, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE)
+						.addComponent(innerColorPanel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(18)
+					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 812, Short.MAX_VALUE)
+					.addContainerGap())
 		);
 		gl_colorsParentPanel.setVerticalGroup(
 			gl_colorsParentPanel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_colorsParentPanel.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(innerColorPanel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(outlineColorPanel, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)
-					.addGap(8))
+					.addGroup(gl_colorsParentPanel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_colorsParentPanel.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 98, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_colorsParentPanel.createSequentialGroup()
+							.addGap(18)
+							.addComponent(innerColorPanel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(outlineColorPanel, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)))
+					.addGap(13))
 		);
 		colorsParentPanel.setLayout(gl_colorsParentPanel);
 		
+		scrollPane.setViewportView(list);
+		
 		JPopupMenu menu = new JPopupMenu("menu");
-		JMenuItem bringToFront = new JMenuItem("Bring to Front");
-		JMenuItem bringToEnd = new JMenuItem("Bring to end");
-		JMenuItem toBack= new JMenuItem("Move to back");
-		JMenuItem toFront= new JMenuItem("Move to front");
+		bringToFront = new JMenuItem("Bring to Front");
+		bringToEnd = new JMenuItem("Bring to end");
+		toBack= new JMenuItem("Move to back");
+		toFront= new JMenuItem("Move to front");
 		menu.add(bringToFront);
 		menu.add(bringToEnd);
 		menu.add(toBack);
 		menu.add(toFront);
+		
 		
 		
 		tglBtnPoint = new JToggleButton("");
@@ -196,10 +232,34 @@ public class Frame extends JFrame implements Observer{
 		toolBar.add(tglBtnUndo);
 		
 		tglBtnRedo = new JToggleButton("");
+		tglBtnRedo.setFont(new Font("Tahoma", Font.PLAIN, 7));
 		buttonGroup.add(tglBtnRedo);
 		tglBtnRedo.setIcon(new ImageIcon(getClass().getResource("/redo.png")));
 		tglBtnRedo.setEnabled(false);
 		toolBar.add(tglBtnRedo);
+		
+		menuBar = new JMenuBar();
+		menuBar.setMargin(new Insets(0, 0, 70, 0));
+		setJMenuBar(menuBar);
+		
+		mnFile = new JMenu("File");
+		menuBar.add(mnFile);
+		
+		mntmOpen = new JMenuItem("Open");
+		mntmOpen.setHorizontalAlignment(SwingConstants.LEFT);
+		mntmOpen.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+		mnFile.add(mntmOpen);
+		
+		separator = new JSeparator();
+		mnFile.add(separator);
+		
+		mntmSave = new JMenuItem("Save");
+		mntmSave.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+		mnFile.add(mntmSave);
+		
+		mntmSaveAs = new JMenuItem("Save as...");
+		mntmSaveAs.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+		mnFile.add(mntmSaveAs);
 		
 		tglBtnPoint.addMouseListener(new MouseAdapter() {
 			@Override
@@ -321,6 +381,32 @@ public class Frame extends JFrame implements Observer{
 				controler.toBack();
 			}
 		});
+		
+		mntmSaveAs.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				controler.saveFileAs();
+				
+			}
+		});
+		
+		mntmOpen.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				controler.openFile();
+			}
+		});
+		
+		mntmSave.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				controler.saveFile();
+				
+			}
+		});
 	}
 	
 	@Override
@@ -332,6 +418,20 @@ public class Frame extends JFrame implements Observer{
 		tglBtnEdit.setEnabled(selectedShapes == 1);
 		tglBtnDelete.setEnabled(selectedShapes > 0);
 		tglBtnBringTo.setEnabled(numberOfShapes > 1 && selectedShapes == 1);
+		if(selectedShapes == 1 && list.get(0).isSelected()) {
+			toBack.setEnabled(false);
+			bringToEnd.setEnabled(false);
+		} else {
+			toBack.setEnabled(true);
+			bringToEnd.setEnabled(true);
+		}
+		if(selectedShapes == 1 && list.get(numberOfShapes - 1).isSelected()) {
+			toFront.setEnabled(false);
+			bringToFront.setEnabled(false);
+		} else {
+			toFront.setEnabled(true);
+			bringToFront.setEnabled(true);
+		}
 		
 	}
 	
@@ -366,7 +466,13 @@ public class Frame extends JFrame implements Observer{
 	public Color getPnlInnerColor() {
 		return innerColorPanel.getBackground();
 	}
+	
+	public void setList(DefaultListModel<Command> listOfShapes) {
+		list.setModel(listOfShapes);
+	}
 
+	
+	
 	
 	
 }

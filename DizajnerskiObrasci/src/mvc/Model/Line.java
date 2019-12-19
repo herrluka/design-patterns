@@ -3,8 +3,9 @@ package mvc.Model;
 import java.awt.Color;
 import java.awt.Frame;
 import java.awt.Graphics;
+import java.io.Serializable;
 
-public class Line extends Shape {
+public class Line extends Shape implements Serializable{
 	private Point startPoint;
 	private Point endPoint;
 	

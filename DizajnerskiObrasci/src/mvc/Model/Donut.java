@@ -9,11 +9,12 @@ import java.awt.RenderingHints;
 import java.awt.Shape;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
+import java.io.Serializable;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-public class Donut extends Circle {
+public class Donut extends Circle implements Serializable{
 private int innerRadius;
 
 

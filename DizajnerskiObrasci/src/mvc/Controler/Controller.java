@@ -2,12 +2,22 @@ package mvc.Controler;
 
 import java.awt.Color;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Observable;
 
+import javax.swing.DefaultListModel;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -51,8 +61,9 @@ public class Controller extends Observable {
 	private Model model;
 	private String mode = Constants.NORMAL; //mode where nothing happens
 	private Point startPoint = null; //for line to save startPoint
-	private List<Command> commandList = new ArrayList<Command>(); 
+	private DefaultListModel<Command> commandList = new DefaultListModel<Command>(); 
 	private int actualCommand = -1;
+	private String filePath;
 	
 	public Controller(Model model, Frame frame) {
 
@@ -475,7 +486,7 @@ public class Controller extends Observable {
 	private void commandExecuteHelper(Command command) {
 		command.execute();
 		if(actualCommand == commandList.size() - 1) {
-			commandList.add(command);
+			commandList.addElement(command);
 			actualCommand++;
 		} else {
 			commandList.add(actualCommand + 1, command);
@@ -483,6 +494,7 @@ public class Controller extends Observable {
 			cleanCommandList();
 		}
 		enableButtons();
+		this.frame.setList(commandList);
 	}
 	
 	private void cleanCommandList() {
@@ -498,6 +510,7 @@ public class Controller extends Observable {
 		enableButtons();
 		frame.getView().repaint();
 		sendChanges();
+		this.frame.setList(commandList);
 	}
 	
 	public void redo() {
@@ -506,6 +519,7 @@ public class Controller extends Observable {
 		enableButtons();
 		frame.getView().repaint();
 		sendChanges();
+		this.frame.setList(commandList);
 	}
 	
 	private void enableButtons() {
@@ -553,6 +567,7 @@ public class Controller extends Observable {
 		int currentIndex = model.getShapes().indexOf(selectedShape);
 		CmdBringToFront cmd = new CmdBringToFront(model, currentIndex);
 		commandExecuteHelper(cmd);
+		sendChanges();
 		frame.getView().repaint();
 	}
 	
@@ -562,6 +577,7 @@ public class Controller extends Observable {
 		int currentIndex = model.getShapes().indexOf(selectedShape);
 		CmdBringToEnd cmd = new CmdBringToEnd(model, currentIndex);
 		commandExecuteHelper(cmd);
+		sendChanges();
 		frame.getView().repaint();
 	}
 	
@@ -571,9 +587,9 @@ public class Controller extends Observable {
 		int currentIndex = model.getShapes().indexOf(selectedShape);
 		CmdToFront cmd = new CmdToFront(model, currentIndex);
 		commandExecuteHelper(cmd);
+		sendChanges();
 		frame.getView().repaint();
 		
-		//TODO Obezbediti da se ne poziva kad je na vrhu
 	}
 	
 	public void toBack() {
@@ -582,9 +598,74 @@ public class Controller extends Observable {
 		int currentIndex = model.getShapes().indexOf(selectedShape);
 		CmdToBack cmd = new CmdToBack(model, currentIndex);
 		commandExecuteHelper(cmd);
+		sendChanges();
 		frame.getView().repaint();
 		
-		//TODO Obezbediti da se ne poziva kad je na dnu
+	}
+	
+	public void saveFileAs() {
+		JFileChooser jFileChooser = new JFileChooser(new File("c:\\"));
+		jFileChooser.setDialogTitle("Saèuvajte datoteku");
+		int result = jFileChooser.showSaveDialog(null);
+		if(result == JFileChooser.APPROVE_OPTION) {
+			String path = jFileChooser.getSelectedFile().getAbsolutePath();
+			try {
+				ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(path));
+				os.writeObject(model.getShapes());
+				filePath = path;
+				os.close();
+			} catch (FileNotFoundException e) {
+				JOptionPane.showMessageDialog(null,"Datoteka nije pronaðena","GREŠKA!",JOptionPane.WARNING_MESSAGE);
+				filePath = null;
+			} catch (IOException e) {
+				JOptionPane.showMessageDialog(null,"Datoteka nije pronaðena","GREŠKA!",JOptionPane.WARNING_MESSAGE);
+				filePath = null;
+			}
+		}
+	}
+	
+	public void openFile() {
+		JFileChooser jFileChooser = new JFileChooser(new File("C:\\"));
+		jFileChooser.setDialogTitle("Otvorite datoteku");
+		int result = jFileChooser.showOpenDialog(null);
+		if(result == JFileChooser.APPROVE_OPTION) {
+			String path = jFileChooser.getSelectedFile().getAbsolutePath();
+			try {
+				ObjectInputStream is = new ObjectInputStream(new FileInputStream(path));
+				ArrayList<Shape> list = (ArrayList<Shape>)is.readObject();
+				model.set(list);
+				frame.getView().repaint();
+				filePath = path;
+				is.close();
+			} catch (FileNotFoundException e) {
+				JOptionPane.showMessageDialog(null,"Datoteka nije pronaðena","GREŠKA!",JOptionPane.WARNING_MESSAGE);
+				filePath = null;
+			} catch (IOException e) {
+				JOptionPane.showMessageDialog(null,"GREŠKA!","GREŠKA!",JOptionPane.WARNING_MESSAGE);
+				filePath = null;
+			} catch (ClassNotFoundException e) {
+				JOptionPane.showMessageDialog(null,"GREŠKA!","GREŠKA!",JOptionPane.WARNING_MESSAGE);
+				filePath = null;
+			}
+		}
+	}
+	
+	public void saveFile() {
+		if(filePath == null) {
+			saveFileAs();
+		} else {
+			try {
+				ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(filePath));
+				os.writeObject(model.getShapes());
+				os.close();
+			} catch (FileNotFoundException e) {
+				JOptionPane.showMessageDialog(null,"GREŠKA!","GREŠKA!",JOptionPane.WARNING_MESSAGE);
+				filePath = null;
+			} catch (IOException e) {
+				JOptionPane.showMessageDialog(null,"GREŠKA!","GREŠKA!",JOptionPane.WARNING_MESSAGE);
+				filePath = null;
+			}
+		}
 	}
 	
 	public void sendChanges() {
@@ -608,7 +689,6 @@ public class Controller extends Observable {
 		return frame.getPnlInnerColor();
 	}
 
-	
-	
+
 	
 }

@@ -2,12 +2,13 @@ package mvc.Model;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.io.Serializable;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.text.StyledEditorKit.BoldAction;
 
-public class Circle extends ArealShape {
+public class Circle extends ArealShape implements Serializable{
 	private Point center;
 	private int radius;
 	

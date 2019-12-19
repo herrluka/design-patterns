@@ -2,11 +2,12 @@ package mvc.Model;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.io.Serializable;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-public class Rectangle extends ArealShape{
+public class Rectangle extends ArealShape implements Serializable{
 
 	private Point upperLeftPoint;
 	private int width;

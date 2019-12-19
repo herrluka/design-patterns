@@ -25,6 +25,10 @@ public class Model {
 		return list.get(index);
 	}
 	
+	public void set(ArrayList<Shape> list) {
+		this.list = list;
+	}
+	
 	public void swap(int index1, int index2) {
 		Shape helper = list.get(index1);
 		list.set(index1,list.get(index2));
