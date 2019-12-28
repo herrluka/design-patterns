@@ -29,5 +29,10 @@ public class CmdBringToFront implements Command{
 		model.getShapes().add(currentIndex,shape);
 		
 	}
+	
+	@Override
+	public String toString() {
+		return "Bring to front:" + currentIndex;
+	}
 
 }

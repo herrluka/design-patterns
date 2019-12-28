@@ -32,10 +32,10 @@ import java.awt.event.MouseEvent;
 public class DialogDonut extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
-	private JTextField txtKoordX;
-	private JTextField txtKoordY;
-	private JTextField txtUnut;
-	private JTextField txtSpolj;
+	private JTextField txtCoordX;
+	private JTextField txtCoordY;
+	private JTextField txtInner;
+	private JTextField txtOutter;
 	private JPanel pnlDonutInnerColor;
 	private JPanel pnlDonutOutlineColor;
 	private boolean ok;
@@ -55,11 +55,11 @@ public class DialogDonut extends JDialog {
 		lblKoordinataX.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		JLabel lblKoordinataY = new JLabel("Koordinata Y");
 		lblKoordinataY.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		txtKoordX = new JTextField();
-		txtKoordX.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		txtKoordX.setColumns(10);
+		txtCoordX = new JTextField();
+		txtCoordX.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		txtCoordX.setColumns(10);
 		
-		txtKoordX.addKeyListener(new KeyAdapter() {
+		txtCoordX.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyTyped(KeyEvent e) {
 				char c = e.getKeyChar();
@@ -70,11 +70,11 @@ public class DialogDonut extends JDialog {
 			}
 		});
 		
-		txtKoordY = new JTextField();
-		txtKoordY.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		txtKoordY.setColumns(10);
+		txtCoordY = new JTextField();
+		txtCoordY.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		txtCoordY.setColumns(10);
 		
-		txtKoordY.addKeyListener(new KeyAdapter() {
+		txtCoordY.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyTyped(KeyEvent e) {
 				char c = e.getKeyChar();
@@ -91,12 +91,12 @@ public class DialogDonut extends JDialog {
 		lblUnutranji.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		JLabel lblSpoljni = new JLabel("Spoljni");
 		lblSpoljni.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		txtUnut = new JTextField();
-		txtUnut.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		txtUnut.setColumns(10);
-		txtSpolj = new JTextField();
-		txtSpolj.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		txtSpolj.setColumns(10);
+		txtInner = new JTextField();
+		txtInner.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		txtInner.setColumns(10);
+		txtOutter = new JTextField();
+		txtOutter.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		txtOutter.setColumns(10);
 		
 		pnlDonutInnerColor = new JPanel();
 		pnlDonutInnerColor.setBackground(Color.WHITE);
@@ -133,12 +133,12 @@ public class DialogDonut extends JDialog {
 								.addComponent(lblUnutranji, GroupLayout.PREFERRED_SIZE, 115, GroupLayout.PREFERRED_SIZE))
 							.addGap(40)
 							.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-								.addComponent(txtSpolj, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(txtOutter, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 								.addGroup(gl_contentPanel.createSequentialGroup()
 									.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-										.addComponent(txtKoordY, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-										.addComponent(txtUnut, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-										.addComponent(txtKoordX, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+										.addComponent(txtCoordY, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+										.addComponent(txtInner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+										.addComponent(txtCoordX, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 									.addGap(91)
 									.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
 										.addComponent(pnlDonutInnerColor, GroupLayout.PREFERRED_SIZE, 77, GroupLayout.PREFERRED_SIZE)
@@ -158,17 +158,17 @@ public class DialogDonut extends JDialog {
 							.addGap(18)
 							.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
 								.addComponent(lblKoordinataX)
-								.addComponent(txtKoordX, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+								.addComponent(txtCoordX, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 							.addPreferredGap(ComponentPlacement.UNRELATED)
 							.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
 								.addComponent(lblKoordinataY)
-								.addComponent(txtKoordY, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+								.addComponent(txtCoordY, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 							.addGap(43)
 							.addComponent(lblRadius, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE)
 							.addGap(18)
 							.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
 								.addComponent(lblUnutranji, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
-								.addComponent(txtUnut, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+								.addComponent(txtInner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
 						.addGroup(gl_contentPanel.createSequentialGroup()
 							.addGap(47)
 							.addComponent(pnlDonutInnerColor, GroupLayout.PREFERRED_SIZE, 79, GroupLayout.PREFERRED_SIZE)
@@ -177,7 +177,7 @@ public class DialogDonut extends JDialog {
 					.addGap(18)
 					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
 						.addComponent(lblSpoljni, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
-						.addComponent(txtSpolj, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(txtOutter, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addContainerGap(97, Short.MAX_VALUE))
 		);
 		contentPanel.setLayout(gl_contentPanel);
@@ -191,10 +191,10 @@ public class DialogDonut extends JDialog {
 					public void actionPerformed(ActionEvent e) {
 						try
 						{
-							int i=Integer.parseInt(getTxtKoordX());
-							int j=Integer.parseInt(getTxtKoordY());
+							int i=Integer.parseInt(getTxtCoordX());
+							int j=Integer.parseInt(getTxtCoordY());
 							Point p=new Point(i,j);
-							Donut d=new Donut(p,Integer.parseInt(getTxtSpolj()),Integer.parseInt(getTxtUnut()));
+							Donut d=new Donut(p,Integer.parseInt(getTxtOutter()),Integer.parseInt(getTxtInner()));
 							setOk(true);
 							dispose();
 						}
@@ -225,57 +225,57 @@ public class DialogDonut extends JDialog {
 		}
 	}
 	
-	public void setTxtKoordXEditable(boolean b)
+	public void setTxtCoordXEditable(boolean b)
 	{
-		this.txtKoordX.setEditable(b);
+		this.txtCoordX.setEditable(b);
 	}
 	
-	public void setTxtKoordYEditable(boolean b)
+	public void setTxtCoordYEditable(boolean b)
 	{
-		this.txtKoordY.setEditable(b);
+		this.txtCoordY.setEditable(b);
 	}
 	
-	public void setTxtUnutEditable(boolean b)
+	public void setTxtInnerEditable(boolean b)
 	{
-		this.txtUnut.setEditable(b);
+		this.txtInner.setEditable(b);
 	}
 	
-	public void setTxtSpoljEditable(boolean b)
+	public void setTxtOutterEditable(boolean b)
 	{
-		this.txtSpolj.setEditable(b);
+		this.txtOutter.setEditable(b);
 	}
 	
 
-	public String getTxtUnut() {
-		return txtUnut.getText();
+	public String getTxtInner() {
+		return txtInner.getText();
 	}
 
-	public void setTxtUnut(String txtUnut) {
-		this.txtUnut.setText(txtUnut);
+	public void setTxtInner(String txtInner) {
+		this.txtInner.setText(txtInner);
 	}
 
-	public String getTxtSpolj() {
-		return txtSpolj.getText();
+	public String getTxtOutter() {
+		return txtOutter.getText();
 	}
 
-	public void setTxtSpolj(String txtSpolj) {
-		this.txtSpolj.setText(txtSpolj);
+	public void setTxtOutter(String txtOutter) {
+		this.txtOutter.setText(txtOutter);
 	}
 
-	public String getTxtKoordX() {
-		return txtKoordX.getText();
+	public String getTxtCoordX() {
+		return txtCoordX.getText();
 	}
 
-	public void setTxtKoordX(String txtKoordX) {
-		this.txtKoordX.setText(txtKoordX);
+	public void setTxtCoordX(String txtKoordX) {
+		this.txtCoordX.setText(txtKoordX);
 	}
 
-	public String getTxtKoordY() {
-		return txtKoordY.getText();
+	public String getTxtCoordY() {
+		return txtCoordY.getText();
 	}
 
-	public void setTxtKoordY(String txtKoordY) {
-		this.txtKoordY.setText(txtKoordY);
+	public void setTxtCoordY(String txtCoordY) {
+		this.txtCoordY.setText(txtCoordY);
 	}
 	
 	public boolean isOk() {

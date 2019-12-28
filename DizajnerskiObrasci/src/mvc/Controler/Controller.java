@@ -61,7 +61,7 @@ public class Controller extends Observable {
 	private Model model;
 	private String mode = Constants.NORMAL; //mode where nothing happens
 	private Point startPoint = null; //for line to save startPoint
-	private DefaultListModel<Command> commandList = new DefaultListModel<Command>(); 
+	private List<Command> commandList = new ArrayList<Command>(); 
 	private int actualCommand = -1;
 	private String filePath;
 	
@@ -106,14 +106,14 @@ public class Controller extends Observable {
 			else {
 				Line newLine = new Line(startPoint,new Point(e.getX(),e.getY()));
 				DialogLine dialogLine = new DialogLine();
-				dialogLine.setTxtKrKoordXEdt(false);
-				dialogLine.setTxtKrKoordYEdt(false);
-				dialogLine.setTxtPocKoordXEdt(false);
-				dialogLine.setTxtPocKoordYEdt(false);
-				dialogLine.setTxtPocKoordX(Integer.toString(newLine.getStartPoint().getX()));
-				dialogLine.setTxtPocKoordY(Integer.toString(newLine.getStartPoint().getY()));
-				dialogLine.setTxtKrKoordX(Integer.toString(newLine.getEndPoint().getX()));
-				dialogLine.setTxtKrKoordY(Integer.toString(newLine.getEndPoint().getY()));
+				dialogLine.setTxtEndCoordXEdt(false);
+				dialogLine.setTxtEndCoordYEdt(false);
+				dialogLine.setTxtStartCoordXEdt(false);
+				dialogLine.setTxtStartCoordYEdt(false);
+				dialogLine.setTxtStartCoordX(Integer.toString(newLine.getStartPoint().getX()));
+				dialogLine.setTxtStartCoordY(Integer.toString(newLine.getStartPoint().getY()));
+				dialogLine.setTxtEndCoordX(Integer.toString(newLine.getEndPoint().getX()));
+				dialogLine.setTxtEndCoordY(Integer.toString(newLine.getEndPoint().getY()));
 				dialogLine.setPnlLineColor(getOutlineColor());
 				dialogLine.setVisible(true);
 				if(dialogLine.isOk()) {
@@ -130,18 +130,18 @@ public class Controller extends Observable {
 		else if(mode == Constants.RECTANGLE) {
 			Point p = new Point(e.getX(),e.getY());
 			DialogRectangle dialogRectangle = new DialogRectangle();
-			dialogRectangle.setTxtXKoordinata(Integer.toString(p.getX()));
-			dialogRectangle.setTxtYKoordinata(Integer.toString(p.getY()));
-			dialogRectangle.setTxtXKoordinataEnabled(false);
-			dialogRectangle.setTxtYKoordinataEnabled(false);
+			dialogRectangle.setTxtXCoord(Integer.toString(p.getX()));
+			dialogRectangle.setTxtYCoord(Integer.toString(p.getY()));
+			dialogRectangle.setTxtXCoordEnabled(false);
+			dialogRectangle.setTxtYCoordEnabled(false);
 			dialogRectangle.setPnlRectangleInnerColor(getInnerColor());
 			dialogRectangle.setPnlRectangleOutlineColor(getOutlineColor());
 			dialogRectangle.setVisible(true);
 			if(dialogRectangle.isOk()) {
 			try {
 				if(dialogRectangle.isOk()) {
-					int width = Integer.parseInt(dialogRectangle.getTxtSirina());
-					int height = Integer.parseInt(dialogRectangle.getTxtVisina());
+					int width = Integer.parseInt(dialogRectangle.getTxtWidth());
+					int height = Integer.parseInt(dialogRectangle.getTxtHeight());
 					Rectangle rct = new Rectangle(p,width,height);
 					rct.setOutlineColor(dialogRectangle.getPnlRectangleOutlineColor());
 					rct.setInnerColor(dialogRectangle.getPnlRectangleInnerColor());
@@ -167,10 +167,10 @@ public class Controller extends Observable {
 		{
 			Point center = new Point(e.getX(),e.getY());
 			DialogCircle dialogCircle = new DialogCircle();
-			dialogCircle.setTxtKoordXEdt(false);
-			dialogCircle.setTxtKoordYEdt(false);
-			dialogCircle.setTxtKoordX(Integer.toString(center.getX()));
-			dialogCircle.setTxtKoordY(Integer.toString(center.getY()));
+			dialogCircle.setTxtCoordXEdt(false);
+			dialogCircle.setTxtCoordYEdt(false);
+			dialogCircle.setTxtCoordX(Integer.toString(center.getX()));
+			dialogCircle.setTxtCoordY(Integer.toString(center.getY()));
 			dialogCircle.setPnlCircleInnerColor(getInnerColor());
 			dialogCircle.setPnlCircleOutlineColor(getOutlineColor());
 			dialogCircle.setVisible(true);
@@ -178,7 +178,7 @@ public class Controller extends Observable {
 			{
 			if(dialogCircle.isOk())
 			{
-				int radius=Integer.parseInt(dialogCircle.getTextPoluprecnik());
+				int radius=Integer.parseInt(dialogCircle.getTextRadius());
 				Circle circle = new Circle(center,radius);
 				circle.setOutlineColor(dialogCircle.getPnlCircleOutlineColor());
 				circle.setInnerColor(dialogCircle.getPnlCircleInnerColor());
@@ -204,10 +204,10 @@ public class Controller extends Observable {
 		{
 			Point center = new Point(e.getX(),e.getY());
 			DialogDonut dialogDonut = new DialogDonut();
-			dialogDonut.setTxtKoordX(Integer.toString(center.getX()));
-			dialogDonut.setTxtKoordY(Integer.toString(center.getY()));
-			dialogDonut.setTxtKoordXEditable(false);
-			dialogDonut.setTxtKoordYEditable(false);
+			dialogDonut.setTxtCoordX(Integer.toString(center.getX()));
+			dialogDonut.setTxtCoordY(Integer.toString(center.getY()));
+			dialogDonut.setTxtCoordXEditable(false);
+			dialogDonut.setTxtCoordYEditable(false);
 			dialogDonut.setPnlDonutInnerColor(getInnerColor());
 			dialogDonut.setPnlDonutOutlineColor(getOutlineColor());
 			dialogDonut.setVisible(true);
@@ -215,8 +215,8 @@ public class Controller extends Observable {
 			{
 			if(dialogDonut.isOk())
 			{
-				int innerRadius=Integer.parseInt(dialogDonut.getTxtUnut());
-				int outerRadius=Integer.parseInt(dialogDonut.getTxtSpolj());
+				int innerRadius=Integer.parseInt(dialogDonut.getTxtInner());
+				int outerRadius=Integer.parseInt(dialogDonut.getTxtOutter());
 				Donut donut = new Donut(center,outerRadius,innerRadius);
 				donut.setOutlineColor(dialogDonut.getPnlDonutOutlineColor());
 				donut.setInnerColor(dialogDonut.getPnlDonutInnerColor());
@@ -325,10 +325,10 @@ public class Controller extends Observable {
 		{
 			Line newLine;
 			DialogLine dialogLine=new DialogLine();
-			dialogLine.setTxtPocKoordX(Integer.toString(((Line) selectedShape).getStartPoint().getX()));
-			dialogLine.setTxtPocKoordY(Integer.toString(((Line) selectedShape).getStartPoint().getY()));
-			dialogLine.setTxtKrKoordX(Integer.toString(((Line) selectedShape).getEndPoint().getX()));
-			dialogLine.setTxtKrKoordY(Integer.toString(((Line) selectedShape).getEndPoint().getY()));
+			dialogLine.setTxtStartCoordX(Integer.toString(((Line) selectedShape).getStartPoint().getX()));
+			dialogLine.setTxtStartCoordY(Integer.toString(((Line) selectedShape).getStartPoint().getY()));
+			dialogLine.setTxtEndCoordX(Integer.toString(((Line) selectedShape).getEndPoint().getX()));
+			dialogLine.setTxtEndCoordY(Integer.toString(((Line) selectedShape).getEndPoint().getY()));
 			dialogLine.setPnlLineColor(((Line) selectedShape).getOutlineColor());
 			dialogLine.setVisible(true);
 			try
@@ -336,8 +336,8 @@ public class Controller extends Observable {
 			if(dialogLine.isOk())
 			{
 				newLine = new Line();
-				newLine.setStartPoint(new Point((Integer.parseInt(dialogLine.getTxtPocKoordX())),(Integer.parseInt(dialogLine.getTxtPocKoordY()))));
-				newLine.setEndPoint(new Point((Integer.parseInt(dialogLine.getTxtKrKoordX())),(Integer.parseInt(dialogLine.getTxtKrKoordY()))));
+				newLine.setStartPoint(new Point((Integer.parseInt(dialogLine.getTxtStartCoordX())),(Integer.parseInt(dialogLine.getTxtStartCoordY()))));
+				newLine.setEndPoint(new Point((Integer.parseInt(dialogLine.getTxtEndCoordX())),(Integer.parseInt(dialogLine.getTxtEndCoordY()))));
 				newLine.setOutlineColor(dialogLine.getPnlLineColor());
 				setOutlineColor(dialogLine.getPnlLineColor());
 				CmdUpdateLine cmd = new CmdUpdateLine((Line)selectedShape, newLine);
@@ -353,10 +353,10 @@ public class Controller extends Observable {
 		{
 			Rectangle newRectangle;
 			DialogRectangle dialogRectangle=new DialogRectangle();
-			dialogRectangle.setTxtXKoordinata(Integer.toString(((Rectangle)selectedShape).getUpperLeftPoint().getX()));
-			dialogRectangle.setTxtYKoordinata(Integer.toString(((Rectangle)selectedShape).getUpperLeftPoint().getY()));
-			dialogRectangle.setTxtSirina(Integer.toString(((Rectangle)selectedShape).getWidth()));
-			dialogRectangle.setTxtVisina(Integer.toString(((Rectangle)selectedShape).getHeight()));
+			dialogRectangle.setTxtXCoord(Integer.toString(((Rectangle)selectedShape).getUpperLeftPoint().getX()));
+			dialogRectangle.setTxtYCoord(Integer.toString(((Rectangle)selectedShape).getUpperLeftPoint().getY()));
+			dialogRectangle.setTxtWidth(Integer.toString(((Rectangle)selectedShape).getWidth()));
+			dialogRectangle.setTxtHeight(Integer.toString(((Rectangle)selectedShape).getHeight()));
 			dialogRectangle.setPnlRectangleInnerColor(((Rectangle)selectedShape).getInnerColor());
 			dialogRectangle.setPnlRectangleOutlineColor(((Rectangle)selectedShape).getOutlineColor());
 			dialogRectangle.setVisible(true);
@@ -365,9 +365,9 @@ public class Controller extends Observable {
 			if(dialogRectangle.isOk())
 			{
 				newRectangle = new Rectangle();
-				newRectangle.setUpperLeftPoint(new Point(Integer.parseInt(dialogRectangle.getTxtXKoordinata()),Integer.parseInt(dialogRectangle.getTxtYKoordinata())));
-				newRectangle.setHeight(Integer.parseInt(dialogRectangle.getTxtVisina()));
-				newRectangle.setWidth(Integer.parseInt(dialogRectangle.getTxtSirina()));
+				newRectangle.setUpperLeftPoint(new Point(Integer.parseInt(dialogRectangle.getTxtXCoord()),Integer.parseInt(dialogRectangle.getTxtYCoord())));
+				newRectangle.setHeight(Integer.parseInt(dialogRectangle.getTxtHeight()));
+				newRectangle.setWidth(Integer.parseInt(dialogRectangle.getTxtWidth()));
 				newRectangle.setOutlineColor(dialogRectangle.getPnlRectangleOutlineColor());
 				newRectangle.setInnerColor(dialogRectangle.getPnlRectangleInnerColor());
 				setInnerColor(dialogRectangle.getPnlRectangleInnerColor());
@@ -391,10 +391,10 @@ public class Controller extends Observable {
 		{
 			Donut newDonut;
 			DialogDonut dialogDonut = new DialogDonut();
-			dialogDonut.setTxtKoordX(Integer.toString(((Donut)selectedShape).getCenter().getX()));
-			dialogDonut.setTxtKoordY(Integer.toString(((Donut)selectedShape).getCenter().getY()));
-			dialogDonut.setTxtUnut(Integer.toString(((Donut)selectedShape).getInnerRadius()));
-			dialogDonut.setTxtSpolj(Integer.toString(((Donut)selectedShape).getRadius()));
+			dialogDonut.setTxtCoordX(Integer.toString(((Donut)selectedShape).getCenter().getX()));
+			dialogDonut.setTxtCoordY(Integer.toString(((Donut)selectedShape).getCenter().getY()));
+			dialogDonut.setTxtInner(Integer.toString(((Donut)selectedShape).getInnerRadius()));
+			dialogDonut.setTxtOutter(Integer.toString(((Donut)selectedShape).getRadius()));
 			dialogDonut.setPnlDonutOutlineColor((((Donut)selectedShape).getOutlineColor()));
 			dialogDonut.setPnlDonutInnerColor((((Donut)selectedShape).getInnerColor()));
 			dialogDonut.setVisible(true);
@@ -402,9 +402,9 @@ public class Controller extends Observable {
 			if(dialogDonut.isOk())
 			{
 				newDonut = new Donut();
-				newDonut.setCenter(new Point(Integer.parseInt(dialogDonut.getTxtKoordX()),Integer.parseInt(dialogDonut.getTxtKoordY())));
-				newDonut.setRadius(Integer.parseInt(dialogDonut.getTxtSpolj()));
-				newDonut.setInnerRadius(Integer.parseInt(dialogDonut.getTxtUnut()));
+				newDonut.setCenter(new Point(Integer.parseInt(dialogDonut.getTxtCoordX()),Integer.parseInt(dialogDonut.getTxtCoordY())));
+				newDonut.setRadius(Integer.parseInt(dialogDonut.getTxtOutter()));
+				newDonut.setInnerRadius(Integer.parseInt(dialogDonut.getTxtInner()));
 				newDonut.setOutlineColor(dialogDonut.getPnlDonutOutlineColor());
 				newDonut.setInnerColor(dialogDonut.getPnlDonutInnerColor());
 				setInnerColor(dialogDonut.getPnlDonutInnerColor());
@@ -426,9 +426,9 @@ public class Controller extends Observable {
 		{
 			Circle newCircle;
 			DialogCircle dialogCircle=new DialogCircle();
-			dialogCircle.setTxtKoordX(Integer.toString(((Circle)selectedShape).getCenter().getX()));
-			dialogCircle.setTxtKoordY(Integer.toString(((Circle)selectedShape).getCenter().getY()));
-			dialogCircle.setPoluprecnik(Integer.toString(((Circle)selectedShape).getRadius()));
+			dialogCircle.setTxtCoordX(Integer.toString(((Circle)selectedShape).getCenter().getX()));
+			dialogCircle.setTxtCoordY(Integer.toString(((Circle)selectedShape).getCenter().getY()));
+			dialogCircle.setRadius(Integer.toString(((Circle)selectedShape).getRadius()));
 			dialogCircle.setPnlCircleInnerColor(((Circle)selectedShape).getInnerColor());
 			dialogCircle.setPnlCircleOutlineColor(((Circle)selectedShape).getOutlineColor());
 			dialogCircle.setVisible(true);
@@ -437,8 +437,8 @@ public class Controller extends Observable {
 			if(dialogCircle.isOk())
 			{
 				newCircle = new Circle();
-				newCircle.setCenter(new Point(Integer.parseInt(dialogCircle.getTxtKoordX()),Integer.parseInt(dialogCircle.getTxtKoordY())));
-				newCircle.setRadius(Integer.parseInt(dialogCircle.getTextPoluprecnik()));
+				newCircle.setCenter(new Point(Integer.parseInt(dialogCircle.getTxtCoordX()),Integer.parseInt(dialogCircle.getTxtCoordY())));
+				newCircle.setRadius(Integer.parseInt(dialogCircle.getTextRadius()));
 				newCircle.setOutlineColor(dialogCircle.getPnlCircleOutlineColor());
 				newCircle.setInnerColor(dialogCircle.getPnlCircleInnerColor());
 				setInnerColor(dialogCircle.getPnlCircleInnerColor());
@@ -486,7 +486,7 @@ public class Controller extends Observable {
 	private void commandExecuteHelper(Command command) {
 		command.execute();
 		if(actualCommand == commandList.size() - 1) {
-			commandList.addElement(command);
+			commandList.add(command);
 			actualCommand++;
 		} else {
 			commandList.add(actualCommand + 1, command);
@@ -494,7 +494,7 @@ public class Controller extends Observable {
 			cleanCommandList();
 		}
 		enableButtons();
-		this.frame.setList(commandList);
+		this.frame.addToLoggList(command.toString());
 	}
 	
 	private void cleanCommandList() {
@@ -510,7 +510,7 @@ public class Controller extends Observable {
 		enableButtons();
 		frame.getView().repaint();
 		sendChanges();
-		this.frame.setList(commandList);
+		this.frame.addToLoggList("Undo");
 	}
 	
 	public void redo() {
@@ -519,7 +519,7 @@ public class Controller extends Observable {
 		enableButtons();
 		frame.getView().repaint();
 		sendChanges();
-		this.frame.setList(commandList);
+		this.frame.addToLoggList("Redo");
 	}
 	
 	private void enableButtons() {
@@ -635,7 +635,11 @@ public class Controller extends Observable {
 				ArrayList<Shape> list = (ArrayList<Shape>)is.readObject();
 				model.set(list);
 				frame.getView().repaint();
+				actualCommand = -1;
+				commandList = new ArrayList<Command>();
 				filePath = path;
+				sendChanges();
+				enableButtons();
 				is.close();
 			} catch (FileNotFoundException e) {
 				JOptionPane.showMessageDialog(null,"Datoteka nije pronaðena","GREŠKA!",JOptionPane.WARNING_MESSAGE);

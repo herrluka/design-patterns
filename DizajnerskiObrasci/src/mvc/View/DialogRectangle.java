@@ -35,14 +35,13 @@ import java.awt.event.MouseEvent;
 public class DialogRectangle extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
-	private JTextField txtXKoordinata;
-	private JTextField txtYKoordinata;
-	private JTextField txtVisina;
-	private JTextField txtSirina;
+	private JTextField txtXCoord;
+	private JTextField txtYCoord;
+	private JTextField txtHeight;
+	private JTextField txtWidth;
 	private boolean ok;
 	private JButton okButton;
 	private JButton cancelButton;
-	private JLabel lblOpciono;
 	private JPanel pnlRectangleInnerColor;
 	private JPanel pnlRectangleOutlineColor;
 	
@@ -61,12 +60,12 @@ public class DialogRectangle extends JDialog {
 		lblXKoordinata.setHorizontalAlignment(SwingConstants.LEFT);
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		
-		txtXKoordinata = new JTextField();
-		txtXKoordinata.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		txtXKoordinata.setColumns(10);
+		txtXCoord = new JTextField();
+		txtXCoord.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		txtXCoord.setColumns(10);
 		
 		
-		txtXKoordinata.addKeyListener(new KeyAdapter() {
+		txtXCoord.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyTyped(KeyEvent e) {
 				char c = e.getKeyChar();
@@ -82,12 +81,12 @@ public class DialogRectangle extends JDialog {
 		lblYKoordinata.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		
 		
-		txtYKoordinata = new JTextField();
-		txtYKoordinata.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		txtYKoordinata.setColumns(10);
+		txtYCoord = new JTextField();
+		txtYCoord.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		txtYCoord.setColumns(10);
 		
 		
-		txtYKoordinata.addKeyListener(new KeyAdapter() {
+		txtYCoord.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyTyped(KeyEvent e) {
 				char c = e.getKeyChar();
@@ -102,9 +101,9 @@ public class DialogRectangle extends JDialog {
 		lblVisina.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		
 		
-		txtVisina = new JTextField();
-		txtVisina.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		txtVisina.setColumns(10);
+		txtHeight = new JTextField();
+		txtHeight.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		txtHeight.setColumns(10);
 		
 		
 		JLabel lblSirina = new JLabel("Sirina");
@@ -112,14 +111,10 @@ public class DialogRectangle extends JDialog {
 			
 		
 		
-		txtSirina = new JTextField();
-		txtSirina.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		txtSirina.setText("");
-		txtSirina.setColumns(10);
-		
-		
-		lblOpciono = new JLabel("");
-		lblOpciono.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		txtWidth = new JTextField();
+		txtWidth.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		txtWidth.setText("");
+		txtWidth.setColumns(10);
 		pnlRectangleInnerColor = new JPanel();
 		pnlRectangleInnerColor.setBackground(Color.WHITE);
 		pnlRectangleInnerColor.addMouseListener(new MouseAdapter() {
@@ -147,49 +142,42 @@ public class DialogRectangle extends JDialog {
 				.addGroup(gl_contentPanel.createSequentialGroup()
 					.addGap(32)
 					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_contentPanel.createSequentialGroup()
-							.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblXKoordinata)
-								.addComponent(lblYKoordinata)
-								.addComponent(lblVisina)
-								.addComponent(lblSirina, GroupLayout.PREFERRED_SIZE, 81, GroupLayout.PREFERRED_SIZE))
-							.addGap(37)
-							.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING, false)
-								.addComponent(txtSirina)
-								.addComponent(txtYKoordinata, GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)
-								.addComponent(txtXKoordinata, GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)
-								.addComponent(txtVisina, GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE))
-							.addPreferredGap(ComponentPlacement.RELATED, 162, Short.MAX_VALUE)
-							.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
-								.addComponent(pnlRectangleInnerColor, GroupLayout.PREFERRED_SIZE, 81, GroupLayout.PREFERRED_SIZE)
-								.addComponent(pnlRectangleOutlineColor, GroupLayout.PREFERRED_SIZE, 92, GroupLayout.PREFERRED_SIZE))
-							.addGap(119))
-						.addGroup(gl_contentPanel.createSequentialGroup()
-							.addComponent(lblOpciono)
-							.addContainerGap(746, Short.MAX_VALUE))))
+						.addComponent(lblXKoordinata)
+						.addComponent(lblYKoordinata)
+						.addComponent(lblVisina)
+						.addComponent(lblSirina, GroupLayout.PREFERRED_SIZE, 81, GroupLayout.PREFERRED_SIZE))
+					.addGap(37)
+					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING, false)
+						.addComponent(txtWidth)
+						.addComponent(txtYCoord, GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)
+						.addComponent(txtXCoord, GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)
+						.addComponent(txtHeight, GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE))
+					.addPreferredGap(ComponentPlacement.RELATED, 162, Short.MAX_VALUE)
+					.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
+						.addComponent(pnlRectangleInnerColor, GroupLayout.PREFERRED_SIZE, 81, GroupLayout.PREFERRED_SIZE)
+						.addComponent(pnlRectangleOutlineColor, GroupLayout.PREFERRED_SIZE, 92, GroupLayout.PREFERRED_SIZE))
+					.addGap(119))
 		);
 		gl_contentPanel.setVerticalGroup(
 			gl_contentPanel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPanel.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(lblOpciono)
-					.addGap(27)
+					.addGap(38)
 					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING, false)
 						.addGroup(gl_contentPanel.createSequentialGroup()
 							.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
 								.addComponent(lblXKoordinata)
-								.addComponent(txtXKoordinata, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE))
+								.addComponent(txtXCoord, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE))
 							.addGap(18)
 							.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
-								.addComponent(txtYKoordinata, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
+								.addComponent(txtYCoord, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
 								.addComponent(lblYKoordinata))
 							.addGap(18)
 							.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
-								.addComponent(txtVisina, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)
+								.addComponent(txtHeight, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)
 								.addComponent(lblVisina))
 							.addGap(18)
 							.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
-								.addComponent(txtSirina, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE)
+								.addComponent(txtWidth, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE)
 								.addComponent(lblSirina, GroupLayout.PREFERRED_SIZE, 47, GroupLayout.PREFERRED_SIZE)))
 						.addGroup(gl_contentPanel.createSequentialGroup()
 							.addComponent(pnlRectangleInnerColor, GroupLayout.PREFERRED_SIZE, 70, GroupLayout.PREFERRED_SIZE)
@@ -207,17 +195,13 @@ public class DialogRectangle extends JDialog {
 					public void actionPerformed(ActionEvent arg0) {
 						try
 						{
-						Rectangle r=new Rectangle();
-						int height = Integer.parseInt(getTxtVisina()); 
-						int width = Integer.parseInt(getTxtSirina());
-						if(width < 1 || height < 1)
-							throw new Exception();
-						r.setHeight(height);
-						r.setWidth(width);
-						int i=Integer.parseInt(getTxtXKoordinata());
-						int j=Integer.parseInt(getTxtYKoordinata());
-						ok=true;
-						dispose();
+							Rectangle r=new Rectangle();
+							r.setHeight(Integer.parseInt(getTxtHeight()));
+							r.setWidth(Integer.parseInt(getTxtWidth()));
+							Integer.parseInt(getTxtXCoord());
+							Integer.parseInt(getTxtYCoord());
+							ok=true;
+							dispose();
 						}
 						catch(NumberFormatException ex)
 						{
@@ -269,35 +253,32 @@ public class DialogRectangle extends JDialog {
 		}
 	}
 
-	public void setTxtXKoordinataEnabled(boolean b)
+	public void setTxtXCoordEnabled(boolean b)
 	{
-		this.txtXKoordinata.setEnabled(b);
+		this.txtXCoord.setEnabled(b);
 	}
 	
-	public void setTxtYKoordinataEnabled(boolean b)
+	public void setTxtYCoordEnabled(boolean b)
 	{
-		this.txtYKoordinata.setEnabled(b);
+		this.txtYCoord.setEnabled(b);
 	}
 	
-	public void setTxtVisinaEnabled(boolean b)
+	public void setTxtHeightEnabled(boolean b)
 	{
-		this.txtVisina.setEnabled(b);
+		this.txtHeight.setEnabled(b);
 	}
 	
-	public void setTxtSirinaEnabled(boolean b)
+	public void setTxtWidthEnabled(boolean b)
 	{
-		this.txtSirina.setEnabled(b);
-	}
-//	public void setLblOpcionoTxt(String text) {
-//		lblOpciono.setText(text);
-//	}
-
-	public String getTxtXKoordinata() {
-		return txtXKoordinata.getText();
+		this.txtWidth.setEnabled(b);
 	}
 
-	public void setTxtXKoordinata(String s) {
-		this.txtXKoordinata.setText(s);
+	public String getTxtXCoord() {
+		return txtXCoord.getText();
+	}
+
+	public void setTxtXCoord(String s) {
+		this.txtXCoord.setText(s);
 	}
 
 	public boolean isOk() {
@@ -308,28 +289,28 @@ public class DialogRectangle extends JDialog {
 		this.ok = ok;
 	}
 
-	public String getTxtYKoordinata() {
-		return txtYKoordinata.getText();
+	public String getTxtYCoord() {
+		return txtYCoord.getText();
 	}
 
-	public void setTxtYKoordinata(String s) {
-		this.txtYKoordinata.setText(s);;
+	public void setTxtYCoord(String s) {
+		this.txtYCoord.setText(s);;
 	}
 
-	public String getTxtVisina() {
-		return txtVisina.getText();
+	public String getTxtHeight() {
+		return txtHeight.getText();
 	}
 
-	public void setTxtVisina(String broj) {
-		this.txtVisina.setText(broj);
+	public void setTxtHeight(String height) {
+		this.txtHeight.setText(height);
 	}
 
-	public String getTxtSirina() {
-		return txtSirina.getText();
+	public String getTxtWidth() {
+		return txtWidth.getText();
 	}
 
-	public void setTxtSirina(String broj) {
-		this.txtSirina.setText(broj);;
+	public void setTxtWidth(String width) {
+		this.txtWidth.setText(width);
 	}
 
 	public Color getPnlRectangleInnerColor() {
@@ -347,8 +328,5 @@ public class DialogRectangle extends JDialog {
 	public void setPnlRectangleOutlineColor(Color pnlRectangleOutlineColor) {
 		this.pnlRectangleOutlineColor.setBackground(pnlRectangleOutlineColor);
 	}
-	
-	
-	
 	
 }

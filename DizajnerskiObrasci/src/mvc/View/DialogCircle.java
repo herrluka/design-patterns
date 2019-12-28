@@ -31,10 +31,10 @@ import java.awt.event.MouseEvent;
 public class DialogCircle extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
-	private JTextField txtPoluprecnik;
+	private JTextField txtRadius;
 	private boolean ok;
-	private JTextField txtKoordY;
-	private JTextField txtKoordX;
+	private JTextField txtCoordY;
+	private JTextField txtCoordX;
 	private JPanel pnlCircleOutlineColor; 
 	private JPanel pnlCircleInnerColor;
 
@@ -47,9 +47,9 @@ public class DialogCircle extends JDialog {
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		JLabel lblPoluprenik = new JLabel("Polupre\u010Dnik");
 		lblPoluprenik.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		txtPoluprecnik = new JTextField();
-		txtPoluprecnik.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		txtPoluprecnik.setColumns(10);
+		txtRadius = new JTextField();
+		txtRadius.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		txtRadius.setColumns(10);
 		
 		JLabel lblKoordinataX = new JLabel("Koordinata X");
 		lblKoordinataX.setFont(new Font("Tahoma", Font.PLAIN, 20));
@@ -60,11 +60,11 @@ public class DialogCircle extends JDialog {
 		JLabel lblKoordinataY = new JLabel("Koordinata Y");
 		lblKoordinataY.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		
-		txtKoordY = new JTextField();
-		txtKoordY.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		txtKoordY.setColumns(10);
+		txtCoordY = new JTextField();
+		txtCoordY.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		txtCoordY.setColumns(10);
 		
-		txtKoordY.addKeyListener(new KeyAdapter() {
+		txtCoordY.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyTyped(KeyEvent e) {
 				char c = e.getKeyChar();
@@ -75,11 +75,11 @@ public class DialogCircle extends JDialog {
 			}
 		});
 		
-		txtKoordX = new JTextField();
-		txtKoordX.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		txtKoordX.setColumns(10);
+		txtCoordX = new JTextField();
+		txtCoordX.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		txtCoordX.setColumns(10);
 		
-		txtKoordX.addKeyListener(new KeyAdapter() {
+		txtCoordX.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyTyped(KeyEvent e) {
 				char c = e.getKeyChar();
@@ -123,9 +123,9 @@ public class DialogCircle extends JDialog {
 										.addComponent(lblPoluprenik))
 									.addPreferredGap(ComponentPlacement.UNRELATED)
 									.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-										.addComponent(txtKoordY, GroupLayout.PREFERRED_SIZE, 176, GroupLayout.PREFERRED_SIZE)
+										.addComponent(txtCoordY, GroupLayout.PREFERRED_SIZE, 176, GroupLayout.PREFERRED_SIZE)
 										.addGroup(gl_contentPanel.createSequentialGroup()
-											.addComponent(txtPoluprecnik, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+											.addComponent(txtRadius, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 											.addGap(39)
 											.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
 												.addComponent(pnlCircleOutlineColor, GroupLayout.PREFERRED_SIZE, 65, GroupLayout.PREFERRED_SIZE)
@@ -133,7 +133,7 @@ public class DialogCircle extends JDialog {
 								.addGroup(gl_contentPanel.createSequentialGroup()
 									.addComponent(lblKoordinataX)
 									.addPreferredGap(ComponentPlacement.UNRELATED)
-									.addComponent(txtKoordX, GroupLayout.PREFERRED_SIZE, 176, GroupLayout.PREFERRED_SIZE)))
+									.addComponent(txtCoordX, GroupLayout.PREFERRED_SIZE, 176, GroupLayout.PREFERRED_SIZE)))
 							.addContainerGap(94, Short.MAX_VALUE))
 						.addComponent(lblCentar, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 102, GroupLayout.PREFERRED_SIZE)))
 		);
@@ -146,18 +146,18 @@ public class DialogCircle extends JDialog {
 							.addComponent(lblCentar, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
 							.addGap(27)
 							.addComponent(lblKoordinataX, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
-						.addComponent(txtKoordX, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
+						.addComponent(txtCoordX, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
 						.addComponent(pnlCircleOutlineColor, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 58, GroupLayout.PREFERRED_SIZE))
 					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_contentPanel.createSequentialGroup()
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
 								.addComponent(lblKoordinataY, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
-								.addComponent(txtKoordY, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE))
+								.addComponent(txtCoordY, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE))
 							.addGap(43)
 							.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
 								.addComponent(lblPoluprenik)
-								.addComponent(txtPoluprecnik, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+								.addComponent(txtRadius, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
 						.addGroup(Alignment.TRAILING, gl_contentPanel.createSequentialGroup()
 							.addGap(48)
 							.addComponent(pnlCircleInnerColor, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE)))
@@ -175,12 +175,12 @@ public class DialogCircle extends JDialog {
 					{
 						try
 						{
-						Circle c= new Circle();
-						c.setRadius(Integer.parseInt(getTextPoluprecnik()));
-						int i=Integer.parseInt(getTxtKoordX());
-						int j=Integer.parseInt(getTxtKoordY());
-						setOk(true);
-						dispose();
+							Circle c= new Circle();
+							c.setRadius(Integer.parseInt(getTextRadius()));
+							Integer.parseInt(getTxtCoordX());
+							Integer.parseInt(getTxtCoordY());
+							setOk(true);
+							dispose();
 						}
 						catch(NumberFormatException ex)
 						{
@@ -210,30 +210,30 @@ public class DialogCircle extends JDialog {
 		}
 	}
 
-	public String getTxtKoordY() {
-		return txtKoordY.getText();
+	public String getTxtCoordY() {
+		return txtCoordY.getText();
 	}
 
-	public void setTxtKoordY(String txtKoordY) {
-		this.txtKoordY.setText(txtKoordY);
+	public void setTxtCoordY(String txtCoordY) {
+		this.txtCoordY.setText(txtCoordY);
 	}
 
-	public String getTxtKoordX() {
-		return txtKoordX.getText();
+	public String getTxtCoordX() {
+		return txtCoordX.getText();
 	}
 
-	public void setTxtKoordX(String txtKoordX) {
-		this.txtKoordX.setText(txtKoordX);
+	public void setTxtCoordX(String txtKoordX) {
+		this.txtCoordX.setText(txtKoordX);
 	}
 	
-	public void setTxtKoordXEdt(boolean b)
+	public void setTxtCoordXEdt(boolean b)
 	{
-		this.txtKoordX.setEditable(b);
+		this.txtCoordX.setEditable(b);
 	}
 	
-	public void setTxtKoordYEdt(boolean b)
+	public void setTxtCoordYEdt(boolean b)
 	{
-		this.txtKoordY.setEditable(b);
+		this.txtCoordY.setEditable(b);
 	}
 
 	public boolean isOk() {
@@ -244,12 +244,12 @@ public class DialogCircle extends JDialog {
 		this.ok = ok;
 	}
 
-	public String getTextPoluprecnik() {
-		return txtPoluprecnik.getText();
+	public String getTextRadius() {
+		return txtRadius.getText();
 	}
 
-	public void setPoluprecnik(String textField) {
-		this.txtPoluprecnik.setText(textField);
+	public void setRadius(String textField) {
+		this.txtRadius.setText(textField);
 		}
 
 	public Color getPnlCircleOutlineColor() {

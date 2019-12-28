@@ -44,5 +44,10 @@ public class CmdUpdateLine implements Command {
 		oldLine.getEndPoint().setY(original.getEndPoint().getY());
 		oldLine.setOutlineColor(original.getOutlineColor());
 	}
+	
+	@Override
+	public String toString() {
+		return "Update line:" + oldLine.toString() + "|" + newLine.toString();
+	}
 
 }

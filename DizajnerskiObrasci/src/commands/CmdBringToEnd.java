@@ -27,5 +27,10 @@ public class CmdBringToEnd implements Command {
 		model.getShapes().remove(shape);
 		model.getShapes().add(currentIndex,shape);
 	}
+	
+	@Override
+	public String toString() {
+		return "Bring to end:" + currentIndex;
+	}
 
 }

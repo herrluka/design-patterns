@@ -102,4 +102,10 @@ public class HexagonAdapter extends ArealShape implements Serializable{
 		return hexagonAdapter;
 	}
 
+
+	@Override
+	public String toString() {
+		return "hexagon:" + hexagon.getX() + "," + hexagon.getX() + "," + hexagon.getR() + "," + hexagon.getBorderColor() + "," + hexagon.getAreaColor() ;
+	}
+
 }

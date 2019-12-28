@@ -22,8 +22,6 @@ public class Point extends Shape implements Serializable{
 		this(x, y);
 		setSelected(selected);
 	}
-	
-	
 
 	public Point(int x, int y, Color color) {
 		this.x = x;
@@ -88,6 +86,7 @@ public class Point extends Shape implements Serializable{
 		this.y = y;
 	}
 
+	@Override
 	public String toString() {
 		return "(" + x + ", " + y + ")" ;
 	}

@@ -43,5 +43,10 @@ public class CmdUpdateCircle implements Command{
 		oldCircle.setOutlineColor(original.getOutlineColor());
 		
 	}
+	
+	@Override
+	public String toString() {
+		return "Update circle:" + oldCircle.toString() + "|" + newCircle.toString();
+	}
 
 }

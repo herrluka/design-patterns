@@ -29,5 +29,10 @@ public class CmdUpdatePoint implements Command {
 		oldPoint.setOutlineColor(original.getOutlineColor());
 		
 	}
+	
+	@Override
+	public String toString() {
+		return "Update point:" + oldPoint.toString() + "|" + newPoint.toString();
+	}
 
 }

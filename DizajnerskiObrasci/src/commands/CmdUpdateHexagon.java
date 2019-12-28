@@ -35,5 +35,10 @@ public class CmdUpdateHexagon implements Command{
 		oldHexagon.setInnerColor(original.getInnerColor());
 		oldHexagon.setOutlineColor(original.getOutlineColor());
 	}
+	
+	@Override
+	public String toString() {
+		return "Update hexagon:" + oldHexagon.toString() + "|" + newHexagon.toString();
+	}
 
 }

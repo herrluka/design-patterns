@@ -17,6 +17,7 @@ public abstract class Shape implements Moveable, Cloneable, Serializable {
 	public abstract boolean contains(Point p);
 	public abstract void draw(Graphics g);
 	public abstract void drawSelectedSquare(Graphics g);
+	public abstract String toString();
 	
 	public Shape(boolean selected) {
 		this.selected = selected;

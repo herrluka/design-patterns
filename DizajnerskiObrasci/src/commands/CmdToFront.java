@@ -24,5 +24,10 @@ public class CmdToFront implements Command{
 		model.swap(index,index + 1);
 		
 	}
+	
+	@Override
+	public String toString() {
+		return "Bring front:" + index;
+	}
 
 }

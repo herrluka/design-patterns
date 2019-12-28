@@ -1,5 +1,6 @@
 package commands;
 
+import java.util.Iterator;
 import java.util.List;
 
 import mvc.Model.Model;
@@ -28,6 +29,20 @@ public class CmdRemoveShape implements Command {
 			model.add(shape);
 		}
 		
+	}
+	
+	@Override
+	public String toString() {
+		String str= "";
+		for(Shape s : shapes) {
+			if(!s.equals(shapes.get(shapes.size() - 1))) {
+				str += s.toString() + ";";
+			} else { 
+				str += s.toString();
+			}
+			
+		}
+		return "Remove:" + str;
 	}
 
 }

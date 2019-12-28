@@ -69,5 +69,10 @@ public class CmdUpdateRectangle implements Command{
 		oldRectangle.setInnerColor(original.getInnerColor());
 		
 	}
+	
+	@Override
+	public String toString() {
+		return "Update rectangle:" + oldRectangle.toString() + "|" + newRectangle.toString();
+	}
 
 }

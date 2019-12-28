@@ -28,10 +28,10 @@ import java.awt.event.MouseEvent;
 public class DialogLine extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
-	private JTextField txtPocKoordX;
-	private JTextField txtPocKoordY;
-	private JTextField txtKrKoordX;
-	private JTextField txtKrKoordY;
+	private JTextField txtStartCoordX;
+	private JTextField txtStartCoordY;
+	private JTextField txtEndCoordX;
+	private JTextField txtEndCoordY;
 	private JPanel pnlLineColor;
 	private boolean ok;
 	
@@ -59,11 +59,11 @@ public class DialogLine extends JDialog {
 		lblKrKoordX.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		JLabel lblKrKoordY = new JLabel("Koordinata Y");
 		lblKrKoordY.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		txtPocKoordX = new JTextField();
-		txtPocKoordX.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		txtPocKoordX.setColumns(10);
+		txtStartCoordX = new JTextField();
+		txtStartCoordX.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		txtStartCoordX.setColumns(10);
 		
-		txtPocKoordX.addKeyListener(new KeyAdapter() {
+		txtStartCoordX.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyTyped(KeyEvent e) {
 				char c = e.getKeyChar();
@@ -73,11 +73,11 @@ public class DialogLine extends JDialog {
 					}
 			}
 		});
-		txtPocKoordY = new JTextField();
-		txtPocKoordY.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		txtPocKoordY.setColumns(10);
+		txtStartCoordY = new JTextField();
+		txtStartCoordY.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		txtStartCoordY.setColumns(10);
 		
-		txtPocKoordY.addKeyListener(new KeyAdapter() {
+		txtStartCoordY.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyTyped(KeyEvent e) {
 				char c = e.getKeyChar();
@@ -87,11 +87,11 @@ public class DialogLine extends JDialog {
 					}
 			}
 		});
-		txtKrKoordX = new JTextField();
-		txtKrKoordX.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		txtKrKoordX.setColumns(10);
+		txtEndCoordX = new JTextField();
+		txtEndCoordX.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		txtEndCoordX.setColumns(10);
 		
-		txtKrKoordX.addKeyListener(new KeyAdapter() {
+		txtEndCoordX.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyTyped(KeyEvent e) {
 				char c = e.getKeyChar();
@@ -101,11 +101,11 @@ public class DialogLine extends JDialog {
 					}
 			}
 		});
-		txtKrKoordY = new JTextField();
-		txtKrKoordY.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		txtKrKoordY.setColumns(10);
+		txtEndCoordY = new JTextField();
+		txtEndCoordY.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		txtEndCoordY.setColumns(10);
 		
-		txtKrKoordY.addKeyListener(new KeyAdapter() {
+		txtEndCoordY.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyTyped(KeyEvent e) {
 				char c = e.getKeyChar();
@@ -141,13 +141,13 @@ public class DialogLine extends JDialog {
 								.addComponent(lblKrKoordY, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 							.addGap(38)
 							.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-								.addComponent(txtPocKoordX, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(txtKrKoordY, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(txtStartCoordX, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(txtEndCoordY, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 								.addGroup(gl_contentPanel.createSequentialGroup()
-									.addComponent(txtPocKoordY, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+									.addComponent(txtStartCoordY, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 									.addGap(37)
 									.addComponent(pnlLineColor, GroupLayout.PREFERRED_SIZE, 88, GroupLayout.PREFERRED_SIZE))
-								.addComponent(txtKrKoordX, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
+								.addComponent(txtEndCoordX, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
 					.addGap(116))
 		);
 		gl_contentPanel.setVerticalGroup(
@@ -159,17 +159,17 @@ public class DialogLine extends JDialog {
 							.addComponent(lblPocetnaTacka)
 							.addGap(29)
 							.addComponent(lblPocKoordX))
-						.addComponent(txtPocKoordX, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(txtStartCoordX, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addGap(18)
 					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
 						.addComponent(pnlLineColor, GroupLayout.PREFERRED_SIZE, 86, GroupLayout.PREFERRED_SIZE)
 						.addGroup(gl_contentPanel.createSequentialGroup()
 							.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
 								.addComponent(lblPocKoordY)
-								.addComponent(txtPocKoordY, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+								.addComponent(txtStartCoordY, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 							.addGap(31)
 							.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
-								.addComponent(txtKrKoordX, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(txtEndCoordX, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 								.addGroup(gl_contentPanel.createSequentialGroup()
 									.addComponent(lblKrajnjaTacka, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
 									.addGap(18)
@@ -177,7 +177,7 @@ public class DialogLine extends JDialog {
 							.addPreferredGap(ComponentPlacement.UNRELATED)
 							.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
 								.addComponent(lblKrKoordY)
-								.addComponent(txtKrKoordY, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
+								.addComponent(txtEndCoordY, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
 					.addContainerGap(92, Short.MAX_VALUE))
 		);
 		contentPanel.setLayout(gl_contentPanel);
@@ -191,12 +191,12 @@ public class DialogLine extends JDialog {
 					public void actionPerformed(ActionEvent arg0) {
 						try
 						{
-						Integer.parseInt(getTxtPocKoordX());
-						Integer.parseInt(getTxtPocKoordY());
-						Integer.parseInt(getTxtKrKoordX());
-						Integer.parseInt(getTxtKrKoordY());
-						setOk(true);
-						dispose();
+							Integer.parseInt(getTxtStartCoordX());
+							Integer.parseInt(getTxtStartCoordY());
+							Integer.parseInt(getTxtEndCoordX());
+							Integer.parseInt(getTxtEndCoordY());
+							setOk(true);
+							dispose();
 						}
 						catch(NumberFormatException e)
 						{
@@ -220,36 +220,36 @@ public class DialogLine extends JDialog {
 			}
 		}
 	}
-	public String getTxtPocKoordX() {
-		return txtPocKoordX.getText();
+	public String getTxtStartCoordX() {
+		return txtStartCoordX.getText();
 	}
 
-	public void setTxtPocKoordX(String txtPocKoordX) {
-		this.txtPocKoordX.setText(txtPocKoordX);
+	public void setTxtStartCoordX(String txtStartCoordX) {
+		this.txtStartCoordX.setText(txtStartCoordX);
 	}
 
-	public String getTxtPocKoordY() {
-		return txtPocKoordY.getText();
+	public String getTxtStartCoordY() {
+		return txtStartCoordY.getText();
 	}
 
-	public void setTxtPocKoordY(String txtPocKoordY) {
-		this.txtPocKoordY.setText(txtPocKoordY);
+	public void setTxtStartCoordY(String txtStartCoordY) {
+		this.txtStartCoordY.setText(txtStartCoordY);
 	}
 
-	public String getTxtKrKoordX() {
-		return txtKrKoordX.getText();
+	public String getTxtEndCoordX() {
+		return txtEndCoordX.getText();
 	}
 
-	public void setTxtKrKoordX(String txtKrKoordX) {
-		this.txtKrKoordX.setText(txtKrKoordX);
+	public void setTxtEndCoordX(String txtEndCoordX) {
+		this.txtEndCoordX.setText(txtEndCoordX);
 	}
 
-	public String getTxtKrKoordY() {
-		return txtKrKoordY.getText();
+	public String getTxtEndCoordY() {
+		return txtEndCoordY.getText();
 	}
 
-	public void setTxtKrKoordY(String txtKrKoordY) {
-		this.txtKrKoordY.setText(txtKrKoordY);
+	public void setTxtEndCoordY(String txtEndCoordY) {
+		this.txtEndCoordY.setText(txtEndCoordY);
 	}
 
 	public boolean isOk() {
@@ -260,24 +260,24 @@ public class DialogLine extends JDialog {
 		this.ok = ok;
 	}
 	
-	public void setTxtPocKoordXEdt(boolean b)
+	public void setTxtStartCoordXEdt(boolean b)
 	{
-		this.txtPocKoordX.setEditable(b);
+		this.txtStartCoordX.setEditable(b);
 	}
 	
-	public void setTxtPocKoordYEdt(boolean b)
+	public void setTxtStartCoordYEdt(boolean b)
 	{
-		this.txtPocKoordY.setEditable(b);
+		this.txtStartCoordY.setEditable(b);
 	}
 	
-	public void setTxtKrKoordXEdt(boolean b)
+	public void setTxtEndCoordXEdt(boolean b)
 	{
-		this.txtKrKoordX.setEditable(b);
+		this.txtEndCoordX.setEditable(b);
 	}
 	
-	public void setTxtKrKoordYEdt(boolean b)
+	public void setTxtEndCoordYEdt(boolean b)
 	{
-		this.txtKrKoordY.setEditable(b);
+		this.txtEndCoordY.setEditable(b);
 	}
 
 

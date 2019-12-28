@@ -23,5 +23,10 @@ public class CmdToBack implements Command{
 	public void unexecute() {
 		model.swap(index, index - 1);
 	}
+	
+	@Override
+	public String toString() {
+		return "Bring back:" + index;
+	}
 
 }

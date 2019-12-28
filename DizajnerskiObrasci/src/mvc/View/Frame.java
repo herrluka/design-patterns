@@ -69,6 +69,7 @@ public class Frame extends JFrame implements Observer{
 	private JPanel outlineColorPanel;
 	private JButton tglBtnBringTo;
 	private JList list;
+	private DefaultListModel<String> loggList;
 	private JMenuBar menuBar;
 	private JMenu mnFile;
 	private JMenuItem mntmOpen;
@@ -128,6 +129,9 @@ public class Frame extends JFrame implements Observer{
 		innerColorPanel.setLayout(gl_innerColorPanel);
 		
 		list = new JList();
+		loggList = new DefaultListModel<String>();
+		list.setModel(loggList);
+		
 		JScrollPane scrollPane = new JScrollPane();
 		GroupLayout gl_colorsParentPanel = new GroupLayout(colorsParentPanel);
 		gl_colorsParentPanel.setHorizontalGroup(
@@ -467,8 +471,15 @@ public class Frame extends JFrame implements Observer{
 		return innerColorPanel.getBackground();
 	}
 	
-	public void setList(DefaultListModel<Command> listOfShapes) {
-		list.setModel(listOfShapes);
+	public void setList(List<String> listOfCommands) {
+		loggList = new DefaultListModel<String>();
+		for(String c : listOfCommands) {
+			loggList.addElement(c);
+		}
+	}
+	
+	public void addToLoggList(String element) {
+		loggList.addElement(element);
 	}
 
 	
