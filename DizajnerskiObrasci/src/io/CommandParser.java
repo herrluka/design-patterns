@@ -5,7 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import commands.CmdAddShape;
+import commands.CmdBringToEnd;
+import commands.CmdBringToFront;
 import commands.CmdRemoveShape;
+import commands.CmdToBack;
+import commands.CmdToFront;
 import commands.CmdUpdateCircle;
 import commands.CmdUpdateDonut;
 import commands.CmdUpdateHexagon;
@@ -44,8 +48,32 @@ public class CommandParser {
 			return parseRemove(withoutCommand);
 		} else if (command.equals("Update")) {
 			return parseUpdate(withoutCommand);
+		} else if (command.equals("Bring back")) {
+			return parseBringBack(withoutCommand);
+		} else if (command.equals("Bring front")) {
+			return parseBringFront(withoutCommand);
+		} else if (command.equals("Bring to end")) {
+			return parseBringToEnd(withoutCommand);
+		} else if (command.equals("Bring to front")) {
+			return parseBringToFront(withoutCommand);
 		}
 		return null;
+	}
+	
+	private Command parseBringToFront(String oldIndex) {
+		return new CmdBringToFront(model, Integer.parseInt(oldIndex));
+	}
+		
+	private Command parseBringToEnd(String oldIndex) {
+		return new CmdBringToEnd(model, Integer.parseInt(oldIndex));	
+	}
+	
+	private Command parseBringBack(String oldIndex) {
+		return new CmdToBack(model, Integer.parseInt(oldIndex));
+	}
+	
+	private Command parseBringFront(String oldIndex) {
+		return new CmdToFront(model, Integer.parseInt(oldIndex));
 	}
 	
 	private Command parseUpdate(String text) {
@@ -65,7 +93,6 @@ public class CommandParser {
 		} else if(oldShape instanceof HexagonAdapter && newShape instanceof HexagonAdapter) {
 			command = new CmdUpdateHexagon((HexagonAdapter)oldShape,(HexagonAdapter)newShape);
 		}
-		System.out.println(command); //ispis nakon executea
 		return command;
 	}
 	
@@ -76,9 +103,7 @@ public class CommandParser {
 			Shape shape = parseShape(row);
 			helperList.add(shape);
 		}
-		Command cmdRemoveShape = new CmdRemoveShape(helperList, model);
-		System.out.println(cmdRemoveShape);
-		return null;
+		return new CmdRemoveShape(helperList, model);
 	}
 	
 	private Command parseAdd(String text) {

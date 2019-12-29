@@ -13,19 +13,19 @@ public class CmdBringToEnd implements Command {
 		super();
 		this.model = model;
 		this.currentIndex = index;
-		shape = model.getShapes().get(index);
 	}
 
 	@Override
 	public void execute() {
+		shape = model.get(currentIndex);
 		model.getShapes().remove(shape);
 		model.getShapes().add(0,shape);
 	}
 
 	@Override
 	public void unexecute() {
-		model.getShapes().remove(shape);
-		model.getShapes().add(currentIndex,shape);
+		model.remove(shape);
+		model.addOnPosition(shape,currentIndex);
 	}
 	
 	@Override

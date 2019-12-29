@@ -14,19 +14,19 @@ public class CmdBringToFront implements Command{
 		super();
 		this.model = model;
 		this.currentIndex = currentIndex;
-		this.shape = model.getShapes().get(currentIndex);
 	}
 
 	@Override
 	public void execute() {
-		model.getShapes().remove(shape);
-		model.getShapes().add(shape);
+		this.shape = model.get(currentIndex);
+		model.remove(shape);
+		model.add(shape);
 	}
 
 	@Override
 	public void unexecute() {
-		model.getShapes().remove(shape);
-		model.getShapes().add(currentIndex,shape);
+		model.remove(shape);
+		model.addOnPosition(shape,currentIndex);
 		
 	}
 	

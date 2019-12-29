@@ -642,17 +642,20 @@ public class Controller extends Observable {
 					loadManager.load(line);
 					this.frame.addToLoggList(line);
 				}
-				
+				buffer.close();
+				commandList = loadManager.getList();
+				actualCommand = loadManager.getActualCommand();
+				for(Command command : commandList) {
+					command.execute();
+				}
+				this.frame.repaint();
+				enableButtons();
 			} catch (FileNotFoundException e) {
 				JOptionPane.showMessageDialog(null,"Datoteka nije pronaðena","GREŠKA!",JOptionPane.WARNING_MESSAGE);
 			} catch (IOException e) {
 				JOptionPane.showMessageDialog(null,"Problem formata","GREŠKA!",JOptionPane.WARNING_MESSAGE);
 			}
-
 		}	
-		
-		this.frame.setList(new ArrayList<String>());
-		this.model.set(new ArrayList<Shape>());
 	}
 	
 	public void saveFile() {

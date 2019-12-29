@@ -50,4 +50,14 @@ public class LoadTextual {
 		}
 	}
 
+	public List<Command> getList() {
+		return list;
+	}
+
+	public int getActualCommand() {
+		return actualCommand;
+	}
+	
+	
+
 }

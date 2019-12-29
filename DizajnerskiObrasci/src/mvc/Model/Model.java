@@ -17,6 +17,10 @@ public class Model {
 		list.add(shape);
 	}
 	
+	public void addOnPosition(Shape shape, int index) {
+		list.add(index,shape);
+	}
+	
 	public void remove(Shape shape) {
 		list.remove(shape);
 	}
