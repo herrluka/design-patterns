@@ -1,10 +1,17 @@
 package io;
 
 import java.awt.Color;
-
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
-
 import commands.CmdAddShape;
+import commands.CmdRemoveShape;
+import commands.CmdUpdateCircle;
+import commands.CmdUpdateDonut;
+import commands.CmdUpdateHexagon;
+import commands.CmdUpdateLine;
+import commands.CmdUpdatePoint;
+import commands.CmdUpdateRectangle;
 import commands.Command;
 import mvc.Model.Circle;
 import mvc.Model.Donut;
@@ -13,6 +20,7 @@ import mvc.Model.Line;
 import mvc.Model.Model;
 import mvc.Model.Point;
 import mvc.Model.Rectangle;
+import mvc.Model.Shape;
 
 public class CommandParser {
 	
@@ -28,31 +36,72 @@ public class CommandParser {
 	}
 	
 	public Command parseCommand(String line) {
-		String command = line.split(":")[0];
+		String command = line.split("_")[0];
+		String withoutCommand = line.split("_")[1];
 		if(command.equals("Add")) {
-			return parseAdd(line);
+			return parseAdd(withoutCommand);
+		} else if(command.equals("Remove")) {
+			return parseRemove(withoutCommand);
+		} else if (command.equals("Update")) {
+			return parseUpdate(withoutCommand);
 		}
-		System.out.println(command);
+		return null;
+	}
+	
+	private Command parseUpdate(String text) {
+		Command command = null;
+		Shape oldShape = parseShape(text.split(";")[0]);
+		Shape newShape = parseShape(text.split(";")[1]);
+		if(oldShape instanceof Point && newShape instanceof Point) {
+			command = new CmdUpdatePoint((Point)oldShape, (Point)newShape);
+		} else if(oldShape instanceof Line && newShape instanceof Line) {
+			command = new CmdUpdateLine((Line)oldShape, (Line)newShape);
+		} else if(oldShape instanceof Rectangle && newShape instanceof Rectangle) {
+			command = new CmdUpdateRectangle((Rectangle)oldShape, (Rectangle)newShape);
+		} else if(oldShape instanceof Donut && newShape instanceof Donut) {
+			command = new CmdUpdateDonut((Donut)oldShape, (Donut)newShape);
+		} else if(oldShape instanceof Circle && newShape instanceof Circle) {
+			command = new CmdUpdateCircle((Circle)oldShape, (Circle)newShape);
+		} else if(oldShape instanceof HexagonAdapter && newShape instanceof HexagonAdapter) {
+			command = new CmdUpdateHexagon((HexagonAdapter)oldShape,(HexagonAdapter)newShape);
+		}
+		System.out.println(command); //ispis nakon executea
+		return command;
+	}
+	
+	private Command parseRemove(String text) {
+		String[] shapeStrings = text.split(";");
+		List<Shape> helperList = new ArrayList<Shape>();
+		for(String row : shapeStrings) {
+			Shape shape = parseShape(row);
+			helperList.add(shape);
+		}
+		Command cmdRemoveShape = new CmdRemoveShape(helperList, model);
+		System.out.println(cmdRemoveShape);
 		return null;
 	}
 	
 	private Command parseAdd(String text) {
-		String shape = text.split(":")[1];
+		Shape shape = parseShape(text);
+		Command command = new CmdAddShape(shape, model);
+		return command;
+	}
+	
+	private Shape parseShape(String text) {
+		String shape = text.split(":")[0];
 		String[] props = text.split(",");
 		if(shape.equals("Point")) {
 			Point point = new Point();
 			point.setX(Integer.parseInt(props[0].split("=")[1]));
 			point.setY(Integer.parseInt(props[1].split("=")[1]));
 			point.setOutlineColor(new Color(Integer.parseInt(props[2].split("=")[1])));
-			Command command = new CmdAddShape(point, model);
-			System.out.println(command);
+			return point;
 		} else if(shape.equals("Line")) {
 			Line line = new Line();
 			line.setStartPoint(new Point(Integer.parseInt(props[0].split("=")[1]),Integer.parseInt(props[1].split("=")[1])));
 			line.setEndPoint(new Point(Integer.parseInt(props[2].split("=")[1]),Integer.parseInt(props[3].split("=")[1])));
 			line.setOutlineColor(new Color(Integer.parseInt(props[4].split("=")[1])));
-			Command command = new CmdAddShape(line, model);
-			System.out.println(command);
+			return line;
 		} else if(shape.equals("Rectangle")) {
 			Rectangle rectangle = new Rectangle();
 			rectangle.setUpperLeftPoint(new Point(Integer.parseInt(props[0].split("=")[1]),Integer.parseInt(props[1].split("=")[1])));
@@ -64,8 +113,7 @@ public class CommandParser {
 			}
 			rectangle.setOutlineColor(new Color(Integer.parseInt(props[4].split("=")[1])));
 			rectangle.setInnerColor(new Color(Integer.parseInt(props[5].split("=")[1])));
-			Command command = new CmdAddShape(rectangle, model);
-			System.out.println(command);
+			return rectangle;
 		} else if(shape.equals("Circle")) {
 			Circle circle = new Circle();
 			circle.setCenter(new Point(Integer.parseInt(props[0].split("=")[1]),Integer.parseInt(props[1].split("=")[1])));
@@ -76,8 +124,7 @@ public class CommandParser {
 			}
 			circle.setOutlineColor(new Color(Integer.parseInt(props[3].split("=")[1])));
 			circle.setInnerColor(new Color(Integer.parseInt(props[4].split("=")[1])));
-			Command command = new CmdAddShape(circle, model);
-			System.out.println(command);
+			return circle;
 		} else if(shape.equals("Donut")) {
 			Donut donut = new Donut();
 			donut.setCenter(new Point(Integer.parseInt(props[0].split("=")[1]),Integer.parseInt(props[1].split("=")[1])));
@@ -89,16 +136,14 @@ public class CommandParser {
 			}
 			donut.setOutlineColor(new Color(Integer.parseInt(props[4].split("=")[1])));
 			donut.setInnerColor(new Color(Integer.parseInt(props[5].split("=")[1])));
-			Command command = new CmdAddShape(donut, model);
-			System.out.println(command);
+			return donut;
 		} else if(shape.equals("Hexagon")) {
 			HexagonAdapter hexagonAdapter = new HexagonAdapter(
 					new Point(Integer.parseInt(props[0].split("=")[1]),Integer.parseInt(props[1].split("=")[1])),
 					Integer.parseInt(props[2].split("=")[1]));
 			hexagonAdapter.setOutlineColor(new Color(Integer.parseInt(props[3].split("=")[1])));
 			hexagonAdapter.setInnerColor(new Color(Integer.parseInt(props[4].split("=")[1])));
-			Command command = new CmdAddShape(hexagonAdapter, model);
-			System.out.println(command);
+			return hexagonAdapter;
 		}
 		return null;
 	}

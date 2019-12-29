@@ -72,7 +72,7 @@ public class CmdUpdateRectangle implements Command{
 	
 	@Override
 	public String toString() {
-		return "Update rectangle:" + original.toString() + "|" + oldRectangle.toString();
+		return "Update_" + original.toString() + ";" + oldRectangle.toString();
 	}
 
 }

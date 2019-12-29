@@ -26,7 +26,7 @@ public class CmdToBack implements Command{
 	
 	@Override
 	public String toString() {
-		return "Bring back:" + index;
+		return "Bring back_" + index;
 	}
 
 }

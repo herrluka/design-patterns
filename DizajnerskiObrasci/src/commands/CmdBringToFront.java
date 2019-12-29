@@ -32,7 +32,7 @@ public class CmdBringToFront implements Command{
 	
 	@Override
 	public String toString() {
-		return "Bring to front:" + currentIndex;
+		return "Bring to front_" + currentIndex;
 	}
 
 }

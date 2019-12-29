@@ -38,7 +38,7 @@ public class CmdUpdateHexagon implements Command{
 	
 	@Override
 	public String toString() {
-		return "Update hexagon:" + original.toString() + "|" + oldHexagon.toString();
+		return "Update_" + original.toString() + ";" + oldHexagon.toString();
 	}
 
 }

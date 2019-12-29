@@ -30,7 +30,7 @@ public class CmdBringToEnd implements Command {
 	
 	@Override
 	public String toString() {
-		return "Bring to end:" + currentIndex;
+		return "Bring to end_" + currentIndex;
 	}
 
 }

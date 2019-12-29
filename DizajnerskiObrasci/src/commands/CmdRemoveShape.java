@@ -42,7 +42,7 @@ public class CmdRemoveShape implements Command {
 			}
 			
 		}
-		return "Remove:" + str;
+		return "Remove_" + str;
 	}
 
 }

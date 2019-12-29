@@ -27,7 +27,7 @@ public class CmdToFront implements Command{
 	
 	@Override
 	public String toString() {
-		return "Bring front:" + index;
+		return "Bring front_" + index;
 	}
 
 }

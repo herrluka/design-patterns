@@ -56,7 +56,7 @@ public class CmdUpdateDonut implements Command{
 	
 	@Override
 	public String toString() {
-		return "Update donut:" + original.toString() + "|" + oldDonut.toString();
+		return "Update_" + original.toString() + ";" + oldDonut.toString();
 	}
 
 }

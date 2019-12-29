@@ -46,7 +46,7 @@ public class CmdUpdateCircle implements Command{
 	
 	@Override
 	public String toString() {
-		return "Update circle:" + original.toString() + "|" + newCircle.toString();
+		return "Update_" + original.toString() + ";" + newCircle.toString();
 	}
 
 }
