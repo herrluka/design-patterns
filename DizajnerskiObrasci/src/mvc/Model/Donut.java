@@ -77,7 +77,7 @@ private int innerRadius;
 		return innerRadius;
 	}
 	public void setInnerRadius(int innerRadius) throws Exception {
-		if(innerRadius >= 0 && innerRadius < this.getRadius())
+		if(innerRadius > 0 && innerRadius < this.getRadius())
 		{
 		this.innerRadius = innerRadius;
 		}
@@ -85,9 +85,6 @@ private int innerRadius;
 			throw new Exception("There has to be set Radius to be able to compare with him in that if statement");
 	}
 	
-	public String toString() {
-		return super.toString() + ", inner radius=" + innerRadius ;
-	}
 	
 	@Override 
 	public Donut clone() {
@@ -102,6 +99,10 @@ private int innerRadius;
 		donut.setOutlineColor(getOutlineColor());
 		donut.setInnerColor(getInnerColor());
 		return donut;
+	}
+	
+	public String toString() {
+		return "Donut:Center-" + getCenter() + ", radius=" + getRadius() + ",inner radius=" + innerRadius + ",outline color=" + getOutlineColor().getRGB() + ",inner color=" + getInnerColor().getRGB(); 
 	}
 	
 }

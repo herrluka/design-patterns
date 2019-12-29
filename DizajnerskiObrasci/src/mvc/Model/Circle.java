@@ -75,14 +75,10 @@ public class Circle extends ArealShape implements Serializable{
 		return radius;
 	}
 	public void setRadius(int radius) throws Exception{
-		if(radius>=0)
+		if(radius>0)
 			this.radius = radius;
 		else
 			throw new Exception();
-	}
-	
-	public String toString() {
-		return "Center=" + center + ", radius=" + radius; 
 	}
 
 	@Override
@@ -123,6 +119,8 @@ public class Circle extends ArealShape implements Serializable{
 		return circle;
 	}
 
-
+	public String toString() {
+		return "Circle:Center-" + center + ", radius=" + radius + ",outline color=" + getOutlineColor().getRGB() + ",inner color=" + getInnerColor().getRGB(); 
+	}
 
 }

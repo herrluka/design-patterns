@@ -47,7 +47,7 @@ public class CmdUpdateLine implements Command {
 	
 	@Override
 	public String toString() {
-		return "Update line:" + oldLine.toString() + "|" + newLine.toString();
+		return "Update line:" + original.toString() + "|" + oldLine.toString();
 	}
 
 }

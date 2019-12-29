@@ -32,7 +32,7 @@ public class CmdUpdatePoint implements Command {
 	
 	@Override
 	public String toString() {
-		return "Update point:" + oldPoint.toString() + "|" + newPoint.toString();
+		return "Update point:" + original.toString() + "|" + oldPoint.toString();
 	}
 
 }

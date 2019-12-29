@@ -83,7 +83,7 @@ public class Rectangle extends ArealShape implements Serializable{
 		return width;
 	}
 	public void setWidth(int width) throws Exception {
-		if(width>=0)
+		if(width>0)
 		this.width = width;
 		else
 			throw new Exception();
@@ -92,15 +92,11 @@ public class Rectangle extends ArealShape implements Serializable{
 		return height;
 	}
 	public void setHeight(int height) throws Exception {
-		if(height>=0)
+		if(height>0)
 		this.height = height;
 		else
 			throw new Exception();
 		
-	}
-	
-	public String toString() {
-		return "Upper left point=" + upperLeftPoint + ", height=" + height + ", width=" + width;
 	}
 
 
@@ -135,5 +131,9 @@ public class Rectangle extends ArealShape implements Serializable{
 		rectangle.setOutlineColor(getOutlineColor());
 		rectangle.setInnerColor(getInnerColor());
 		return rectangle;
+	}
+	
+	public String toString() {
+		return "Rectangle:Upper left point-" + upperLeftPoint + ",height=" + height + ",width=" + width + ",outline color=" + getOutlineColor().getRGB() + ",inner color=" + getInnerColor().getRGB();
 	}
 }

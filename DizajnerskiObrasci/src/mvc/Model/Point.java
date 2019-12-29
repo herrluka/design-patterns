@@ -85,12 +85,6 @@ public class Point extends Shape implements Serializable{
 	public void setY(int y) {
 		this.y = y;
 	}
-
-	@Override
-	public String toString() {
-		return "(" + x + ", " + y + ")" ;
-	}
-	
 	
 	public boolean equals(Point p) {
 	
@@ -106,6 +100,16 @@ public class Point extends Shape implements Serializable{
 	@Override
 	public Point clone() {
 		return new Point(this.x,this.y,this.getOutlineColor());
+	}
+	
+	@Override
+	public String toString() {
+		String s = "x=" + x + ",y=" + y;
+		if(getOutlineColor() != null) {
+			s += ",outline color=" + getOutlineColor().getRGB();
+			return "Point:" + s;
+		}
+		return s;
 	}
 
 

@@ -30,6 +30,10 @@ import javax.swing.border.EmptyBorder;
 
 import commands.Command;
 import constants.Constants;
+import io.LoadTextual;
+import io.Save;
+import io.SaveLogg;
+import io.SaveSerialized;
 
 import javax.swing.ImageIcon;
 import javax.swing.JColorChooser;
@@ -71,17 +75,19 @@ public class Frame extends JFrame implements Observer{
 	private JList list;
 	private DefaultListModel<String> loggList;
 	private JMenuBar menuBar;
-	private JMenu mnFile;
-	private JMenuItem mntmOpen;
+	private JMenu mnOpen;
+	private JMenuItem mntmOpenSerialized;
 	private JMenuItem mntmSave;
-	private JMenuItem mntmSaveAs;
+	private JMenuItem mntmSaveAsSerialized;
+	private JMenuItem mntmOpenTextual;
 	private JMenuItem bringToFront; 
 	private JMenuItem bringToEnd; 
 	private JMenuItem toBack;
 	private JMenuItem toFront;
-	private JSeparator separator;
-	
-	
+	private Save savingType;
+	private JMenuItem mntmSaveAsTextual;
+	private JMenu mnSave;
+
 	public Frame() {
 		view.addMouseListener(new MouseAdapter() {
 			@Override
@@ -246,24 +252,59 @@ public class Frame extends JFrame implements Observer{
 		menuBar.setMargin(new Insets(0, 0, 70, 0));
 		setJMenuBar(menuBar);
 		
-		mnFile = new JMenu("File");
-		menuBar.add(mnFile);
+		mnOpen = new JMenu("Open");
+		menuBar.add(mnOpen);
 		
-		mntmOpen = new JMenuItem("Open");
-		mntmOpen.setHorizontalAlignment(SwingConstants.LEFT);
-		mntmOpen.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-		mnFile.add(mntmOpen);
+		mntmOpenSerialized = new JMenuItem("Open serialized");
+		mntmOpenSerialized.setHorizontalAlignment(SwingConstants.LEFT);
+		mntmOpenSerialized.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+		mnOpen.add(mntmOpenSerialized);
 		
-		separator = new JSeparator();
-		mnFile.add(separator);
+		mntmOpenTextual = new JMenuItem("Open textual");
+		mntmOpenTextual.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+		mnOpen.add(mntmOpenTextual);
+		
+		mnSave = new JMenu("Save");
+		menuBar.add(mnSave);
 		
 		mntmSave = new JMenuItem("Save");
+		mnSave.add(mntmSave);
 		mntmSave.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-		mnFile.add(mntmSave);
+		mntmSave.setEnabled(false);
 		
-		mntmSaveAs = new JMenuItem("Save as...");
-		mntmSaveAs.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-		mnFile.add(mntmSaveAs);
+		mntmSaveAsSerialized = new JMenuItem("Save as serialized...");
+		mnSave.add(mntmSaveAsSerialized);
+		mntmSaveAsSerialized.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+		
+		mntmSaveAsTextual = new JMenuItem("Save as textual...");
+		mnSave.add(mntmSaveAsTextual);
+		mntmSaveAsTextual.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+		
+		mntmSaveAsTextual.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				controler.saveFileAsTextual();
+			}
+		});
+		
+		mntmSaveAsSerialized.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				controler.saveFileAsSerialized();
+			}
+		});
+		
+		mntmSave.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				controler.saveFile();
+				
+			}
+		});
+		
 		
 		tglBtnPoint.addMouseListener(new MouseAdapter() {
 			@Override
@@ -386,29 +427,19 @@ public class Frame extends JFrame implements Observer{
 			}
 		});
 		
-		mntmSaveAs.addActionListener(new ActionListener() {
+		mntmOpenSerialized.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				controler.saveFileAs();
-				
+				controler.openFileAsSerialized();
 			}
 		});
 		
-		mntmOpen.addActionListener(new ActionListener() {
+		mntmOpenTextual.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				controler.openFile();
-			}
-		});
-		
-		mntmSave.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				controler.saveFile();
-				
+				controler.openFileAsTextual();
 			}
 		});
 	}
@@ -482,6 +513,14 @@ public class Frame extends JFrame implements Observer{
 		loggList.addElement(element);
 	}
 
+	public void setSaveButtonEnabled(boolean enabled) {
+		this.mntmSave.setEnabled(enabled);
+	}
+
+	public DefaultListModel<String> getLoggList() {
+		return loggList;
+	}
+	
 	
 	
 	

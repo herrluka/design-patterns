@@ -83,10 +83,6 @@ public class Line extends Shape implements Serializable{
 		this.endPoint = endPoint;
 	}
 
-	public String toString() {
-		return startPoint + "-->" + endPoint;
-	}
-
 	@Override
 	public void moveTo(int x, int y) {
 		startPoint.moveTo(x, y);
@@ -99,6 +95,10 @@ public class Line extends Shape implements Serializable{
 		return new Line(new Point(startPoint.clone().getX(),startPoint.getY())
 				,new Point(endPoint.getX(),endPoint.getY())
 				,getOutlineColor());
+	}
+	
+	public String toString() {
+		return "Line:startPoint-" + startPoint + ",endPoint-" + endPoint + ",outline color=" + getOutlineColor().getRGB();
 	}
 
 }

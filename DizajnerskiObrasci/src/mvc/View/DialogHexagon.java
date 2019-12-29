@@ -109,13 +109,18 @@ public class DialogHexagon extends JDialog {
 				{
 					Integer.parseInt(getTxtCoordX());
 					Integer.parseInt(getTxtCoordY());
-					Integer.parseInt(getTxtRadius());
+					if(Integer.parseInt(getTxtRadius()) == 0) {
+						throw new Exception();
+					}
 					setOk(true);
 					dispose();
 				}
 				catch(NumberFormatException ex)
 				{
 					JOptionPane.showMessageDialog(new JFrame(), "Neispravan unos podataka.Proverite da li su sva polja popunjena brojnim vrednostima!", "Greška", JOptionPane.WARNING_MESSAGE);
+				}
+				catch(Exception exc) {
+					JOptionPane.showMessageDialog(new JFrame(), "Polupreènik mora da bude veæi od 0!", "Greška", JOptionPane.WARNING_MESSAGE);
 				}
 			}
 		});

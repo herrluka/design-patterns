@@ -2,10 +2,12 @@ package mvc.Controler;
 
 import java.awt.Color;
 import java.awt.event.MouseEvent;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -15,12 +17,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Observable;
-
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import commands.CmdAddShape;
 import commands.CmdBringToEnd;
@@ -36,6 +37,12 @@ import commands.CmdUpdatePoint;
 import commands.CmdUpdateRectangle;
 import commands.Command;
 import constants.Constants;
+import io.LoadSerialized;
+import io.LoadTextual;
+import io.Save;
+import io.SaveLogg;
+import io.SaveManager;
+import io.SaveSerialized;
 import mvc.Model.Point;
 import mvc.Model.Rectangle;
 import mvc.Model.Shape;
@@ -600,63 +607,57 @@ public class Controller extends Observable {
 		commandExecuteHelper(cmd);
 		sendChanges();
 		frame.getView().repaint();
-		
 	}
 	
-	public void saveFileAs() {
-		JFileChooser jFileChooser = new JFileChooser(new File("c:\\"));
-		jFileChooser.setDialogTitle("Saèuvajte datoteku");
-		int result = jFileChooser.showSaveDialog(null);
-		if(result == JFileChooser.APPROVE_OPTION) {
-			String path = jFileChooser.getSelectedFile().getAbsolutePath();
-			try {
-				ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(path));
-				os.writeObject(model.getShapes());
-				filePath = path;
-				os.close();
-			} catch (FileNotFoundException e) {
-				JOptionPane.showMessageDialog(null,"Datoteka nije pronaðena","GREŠKA!",JOptionPane.WARNING_MESSAGE);
-				filePath = null;
-			} catch (IOException e) {
-				JOptionPane.showMessageDialog(null,"Datoteka nije pronaðena","GREŠKA!",JOptionPane.WARNING_MESSAGE);
-				filePath = null;
-			}
-		}
+	private void saveFileAs(Save saveObj) {
+		SaveManager sm = new SaveManager(saveObj);
+		filePath = sm.saveAs();
+		this.frame.setSaveButtonEnabled(true);
 	}
 	
-	public void openFile() {
-		JFileChooser jFileChooser = new JFileChooser(new File("C:\\"));
-		jFileChooser.setDialogTitle("Otvorite datoteku");
-		int result = jFileChooser.showOpenDialog(null);
-		if(result == JFileChooser.APPROVE_OPTION) {
-			String path = jFileChooser.getSelectedFile().getAbsolutePath();
-			try {
-				ObjectInputStream is = new ObjectInputStream(new FileInputStream(path));
-				ArrayList<Shape> list = (ArrayList<Shape>)is.readObject();
-				model.set(list);
+	public void openFileAsSerialized() {
+		LoadSerialized loadManager = new LoadSerialized();
+			List<Shape> shapeList = loadManager.load();
+				model.set(shapeList);
 				frame.getView().repaint();
 				actualCommand = -1;
 				commandList = new ArrayList<Command>();
-				filePath = path;
 				sendChanges();
 				enableButtons();
-				is.close();
+	}
+	
+	public void openFileAsTextual() {
+		List<Command> helperList = new ArrayList<Command>();
+		LoadTextual loadManager = new LoadTextual(this.model);
+		JFileChooser jFileChooser = new JFileChooser(new File("C:\\"));
+		jFileChooser.setDialogTitle("Otvorite datoteku");
+		jFileChooser.setFileFilter(new FileNameExtensionFilter("Text file", "txt"));
+		int result = jFileChooser.showOpenDialog(null);
+		if(result == JFileChooser.APPROVE_OPTION) {
+			 filePath = jFileChooser.getSelectedFile().getAbsolutePath();
+			try {
+				BufferedReader buffer = new BufferedReader(new FileReader(filePath));
+				String line;
+				while((line = buffer.readLine()) != null) {
+					loadManager.load(line);
+					this.frame.addToLoggList(line);
+				}
+				
 			} catch (FileNotFoundException e) {
 				JOptionPane.showMessageDialog(null,"Datoteka nije pronaðena","GREŠKA!",JOptionPane.WARNING_MESSAGE);
-				filePath = null;
 			} catch (IOException e) {
-				JOptionPane.showMessageDialog(null,"GREŠKA!","GREŠKA!",JOptionPane.WARNING_MESSAGE);
-				filePath = null;
-			} catch (ClassNotFoundException e) {
-				JOptionPane.showMessageDialog(null,"GREŠKA!","GREŠKA!",JOptionPane.WARNING_MESSAGE);
-				filePath = null;
+				JOptionPane.showMessageDialog(null,"Problem formata","GREŠKA!",JOptionPane.WARNING_MESSAGE);
 			}
-		}
+
+		}	
+		
+		this.frame.setList(new ArrayList<String>());
+		this.model.set(new ArrayList<Shape>());
 	}
 	
 	public void saveFile() {
 		if(filePath == null) {
-			saveFileAs();
+			//saveFileAs();
 		} else {
 			try {
 				ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(filePath));
@@ -670,6 +671,21 @@ public class Controller extends Observable {
 				filePath = null;
 			}
 		}
+	}
+	
+	public void saveFileAsTextual() {
+		List<String> helperList = new ArrayList<String>();
+		DefaultListModel<String> helper = this.frame.getLoggList();
+		for(int i = 0;i < helper.size();i++) {
+			helperList.add(helper.get(i));
+		}
+		Save saveObj = new SaveLogg(helperList);
+		saveFileAs(saveObj);
+	}
+	
+	public void saveFileAsSerialized() {
+		Save saveObj = new SaveSerialized(this.model.getShapes());
+		saveFileAs(saveObj);
 	}
 	
 	public void sendChanges() {

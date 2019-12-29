@@ -25,7 +25,7 @@ public class Model {
 		return list.get(index);
 	}
 	
-	public void set(ArrayList<Shape> list) {
+	public void set(List<Shape> list) {
 		this.list = list;
 	}
 	
