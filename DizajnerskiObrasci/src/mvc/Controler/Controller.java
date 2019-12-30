@@ -617,7 +617,7 @@ public class Controller extends Observable {
 		filePath = saveManager.saveAs();
 		this.frame.setSaveButtonEnabled(true);
 	}
-	
+	//promena
 	public void openFileAsSerialized() {
 		LoadSerialized loadManager = new LoadSerialized();
 		List<Shape> shapeList = loadManager.load();
