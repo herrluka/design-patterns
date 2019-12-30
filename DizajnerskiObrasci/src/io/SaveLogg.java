@@ -11,8 +11,11 @@ import javax.swing.JOptionPane;
 public class SaveLogg implements Save {
 
 	private List<String> list;
-	private String path;
 
+	public SaveLogg() {
+	
+	}
+	
 	public SaveLogg(List<String> list) {
 		this.list = list;
 	}
@@ -23,7 +26,7 @@ public class SaveLogg implements Save {
 		jFileChooser.setDialogTitle("Saèuvajte datoteku");
 		int result = jFileChooser.showSaveDialog(null);
 		if(result == JFileChooser.APPROVE_OPTION) {
-			path = jFileChooser.getSelectedFile().getAbsolutePath() + ".txt";
+			String path = jFileChooser.getSelectedFile().getAbsolutePath() + ".txt";
 			try {
 				FileWriter fw = new FileWriter(path);
 				for(String s: list) {
@@ -46,19 +49,19 @@ public class SaveLogg implements Save {
 	}
 
 
-//	@Override
-//	public void save() {
-//		try {
-//			FileWriter fw = new FileWriter(path);
-//			for(String s: list) {
-//				fw.write(s + System.lineSeparator());
-//			}
-//			fw.close();
-//		} catch (IOException e) {
-//			JOptionPane.showMessageDialog(null,"Datoteka nije pronaðena","GREŠKA!",JOptionPane.WARNING_MESSAGE);
-//		}
-//		
-//	}
+	@Override
+	public void save(String path, List<Object> list) {
+		try {
+			FileWriter fw = new FileWriter(path);
+			for(Object o: list) {
+				fw.write((String)o + System.lineSeparator());
+			}
+			fw.close();
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(null,"Datoteka nije pronaðena","GREŠKA!",JOptionPane.WARNING_MESSAGE);
+		}
+		
+	}
 
 
 	

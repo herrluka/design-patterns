@@ -1,9 +1,14 @@
 package io;
 
+import java.util.List;
+
 public class SaveManager implements Save{
 
 	private Save saver;
 	
+	public SaveManager() {
+	}
+
 	public SaveManager(Save saver) {
 		this.saver = saver;
 	}
@@ -15,6 +20,11 @@ public class SaveManager implements Save{
 	@Override
 	public String saveAs() {
 		return saver.saveAs();
+	}
+
+	@Override
+	public void save(String path, List<Object> listOfObjects) {
+		saver.save(path,listOfObjects);
 	}
 
 }

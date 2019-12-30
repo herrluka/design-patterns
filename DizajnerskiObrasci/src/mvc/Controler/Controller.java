@@ -68,14 +68,17 @@ public class Controller extends Observable {
 	private Model model;
 	private String mode = Constants.NORMAL; //mode where nothing happens
 	private Point startPoint = null; //for line to save startPoint
-	private List<Command> commandList = new ArrayList<Command>(); 
+	private List<Command> commandList;
 	private int actualCommand = -1;
 	private String filePath;
+	private SaveManager saveManager;
 	
 	public Controller(Model model, Frame frame) {
 
 		this.frame = frame;
 		this.model = model;
+		commandList = new ArrayList<Command>();
+		saveManager = new SaveManager();
 	}
 
 	public void mouseClicked(MouseEvent e) {
@@ -610,24 +613,25 @@ public class Controller extends Observable {
 	}
 	
 	private void saveFileAs(Save saveObj) {
-		SaveManager sm = new SaveManager(saveObj);
-		filePath = sm.saveAs();
+		saveManager.setSaver(saveObj);
+		filePath = saveManager.saveAs();
 		this.frame.setSaveButtonEnabled(true);
 	}
 	
 	public void openFileAsSerialized() {
 		LoadSerialized loadManager = new LoadSerialized();
-			List<Shape> shapeList = loadManager.load();
-				model.set(shapeList);
-				frame.getView().repaint();
-				actualCommand = -1;
-				commandList = new ArrayList<Command>();
-				sendChanges();
-				enableButtons();
+		List<Shape> shapeList = loadManager.load();
+		saveManager.setSaver(new SaveSerialized());
+		model.set(shapeList);
+		frame.getView().repaint();
+		actualCommand = -1;
+		commandList = new ArrayList<Command>();
+		sendChanges();
+		enableButtons();
 	}
 	
 	public void openFileAsTextual() {
-		List<Command> helperList = new ArrayList<Command>();
+		DefaultListModel<String> helperDlm = this.frame.getLoggList();
 		LoadTextual loadManager = new LoadTextual(this.model);
 		JFileChooser jFileChooser = new JFileChooser(new File("C:\\"));
 		jFileChooser.setDialogTitle("Otvorite datoteku");
@@ -638,6 +642,7 @@ public class Controller extends Observable {
 			try {
 				BufferedReader buffer = new BufferedReader(new FileReader(filePath));
 				String line;
+				this.frame.clearLoggList();
 				while((line = buffer.readLine()) != null) {
 					loadManager.load(line);
 					this.frame.addToLoggList(line);
@@ -645,35 +650,32 @@ public class Controller extends Observable {
 				buffer.close();
 				commandList = loadManager.getList();
 				actualCommand = loadManager.getActualCommand();
-				for(Command command : commandList) {
-					command.execute();
+				this.model.set(new ArrayList<Shape>());
+				for(int i = 0;i <= actualCommand;i++) {
+					commandList.get(i).execute();
 				}
 				this.frame.repaint();
+				sendChanges();
 				enableButtons();
+				saveManager.setSaver(new SaveLogg());
 			} catch (FileNotFoundException e) {
+				this.frame.setLoggList(helperDlm);
 				JOptionPane.showMessageDialog(null,"Datoteka nije pronaðena","GREŠKA!",JOptionPane.WARNING_MESSAGE);
 			} catch (IOException e) {
 				JOptionPane.showMessageDialog(null,"Problem formata","GREŠKA!",JOptionPane.WARNING_MESSAGE);
+				this.frame.setLoggList(helperDlm);
 			}
 		}	
 	}
 	
 	public void saveFile() {
-		if(filePath == null) {
-			//saveFileAs();
-		} else {
-			try {
-				ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(filePath));
-				os.writeObject(model.getShapes());
-				os.close();
-			} catch (FileNotFoundException e) {
-				JOptionPane.showMessageDialog(null,"GREŠKA!","GREŠKA!",JOptionPane.WARNING_MESSAGE);
-				filePath = null;
-			} catch (IOException e) {
-				JOptionPane.showMessageDialog(null,"GREŠKA!","GREŠKA!",JOptionPane.WARNING_MESSAGE);
-				filePath = null;
-			}
+		List<Object> helperList = new ArrayList<>();
+		DefaultListModel<String> dlmHelp = this.frame.getLoggList();
+		for(int i = 0;i < dlmHelp.size();i++) {
+			helperList.add(dlmHelp.get(i));
 		}
+		saveManager.save(filePath,helperList);
+	
 	}
 	
 	public void saveFileAsTextual() {

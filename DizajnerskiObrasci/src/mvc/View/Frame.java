@@ -521,6 +521,14 @@ public class Frame extends JFrame implements Observer{
 		return loggList;
 	}
 	
+	public void clearLoggList() {
+		loggList.removeAllElements();
+	}
+	
+	public void setLoggList(DefaultListModel<String> dlm) {
+		loggList = dlm;
+	}
+	
 	
 	
 	

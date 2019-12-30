@@ -23,6 +23,7 @@ public class LoadTextual {
 	private CommandParser parser;
 	private Model model;
 	private int actualCommand = -1;
+	private String lastCommand = null;
 	
 	public LoadTextual(Model model) {
 		this.model = model;
@@ -42,12 +43,15 @@ public class LoadTextual {
 			list.add(parser.parseCommand(line));
 			actualCommand++;
 		} 
+		lastCommand = line;
 	}
 	
 	private void cleanList() {
 		for(int i = actualCommand + 1; i < list.size(); i++) {
-			list.remove(i);
+			System.out.println(list.remove(i));
+			
 		}
+		System.out.println(list.size());
 	}
 
 	public List<Command> getList() {

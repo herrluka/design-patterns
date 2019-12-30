@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JFileChooser;
@@ -15,7 +16,10 @@ import mvc.Model.Shape;
 public class SaveSerialized implements Save {
 	
 	private List<Shape> list;
-	private String path;
+	
+	public SaveSerialized() {
+		
+	}
 
 	public SaveSerialized(List<Shape> list) {
 		this.list = list;
@@ -27,7 +31,7 @@ public class SaveSerialized implements Save {
 		jFileChooser.setDialogTitle("Saèuvajte datoteku");
 		int result = jFileChooser.showSaveDialog(null);
 		if(result == JFileChooser.APPROVE_OPTION) {
-			path = jFileChooser.getSelectedFile().getAbsolutePath();
+			String path = jFileChooser.getSelectedFile().getAbsolutePath();
 			try {
 				ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(path));
 				os.writeObject(list);	
@@ -49,18 +53,23 @@ public class SaveSerialized implements Save {
 		this.list = list;
 	}
 
-//	@Override
-//	public void save() {
-//
-//		try {
-//			ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(path));
-//			os.writeObject(list);
-//		} catch (FileNotFoundException e) {
-//			JOptionPane.showMessageDialog(null,"Datoteka nije pronaðena","GREŠKA!",JOptionPane.WARNING_MESSAGE);
-//		} catch (IOException e) {
-//			JOptionPane.showMessageDialog(null,"Datoteka nije pronaðena","GREŠKA!",JOptionPane.WARNING_MESSAGE);
-//		}
-//	}
+	@Override
+	public void save(String path, List<Object> listOfObjects) {
+
+		List<Shape> listOfShapes = new ArrayList<Shape>();
+		for(Object o : listOfObjects) {
+			listOfShapes.add((Shape)o);
+		}
+		try {
+			ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(path));
+			os.writeObject(listOfShapes);
+			os.close();
+		} catch (FileNotFoundException e) {
+			JOptionPane.showMessageDialog(null,"Datoteka nije pronaðena","GREŠKA!",JOptionPane.WARNING_MESSAGE);
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(null,"Datoteka nije pronaðena","GREŠKA!",JOptionPane.WARNING_MESSAGE);
+		}
+	}
 
 
 	
