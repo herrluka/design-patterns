@@ -4,6 +4,9 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
+
+import org.w3c.dom.DOMConfiguration;
+
 import commands.CmdAddShape;
 import commands.CmdBringToEnd;
 import commands.CmdBringToFront;
@@ -30,16 +33,18 @@ public class CommandParser {
 	
 	private String lastString = null;
 	private Model model;
+	private List<Shape> shapes;
 	
 	public CommandParser(Model model) {
 		this.model = model;
+		shapes = new ArrayList<Shape>();
 	}
 
 	public void parseCommandType(String type){
 		
 	}
 	
-	public Command parseCommand(String line) {
+	public Command parseCommand(String line) { //throws Exception {
 		String command = line.split("_")[0];
 		String withoutCommand = line.split("_")[1];
 		if(command.equals("Add")) {
@@ -81,16 +86,46 @@ public class CommandParser {
 		Shape oldShape = parseShape(text.split(";")[0]);
 		Shape newShape = parseShape(text.split(";")[1]);
 		if(oldShape instanceof Point && newShape instanceof Point) {
+			for(Shape shape : shapes) {
+				if(shape instanceof Point && ((Point) oldShape).equals(shape)) {
+					oldShape = shape;
+				}
+			}
 			command = new CmdUpdatePoint((Point)oldShape, (Point)newShape);
 		} else if(oldShape instanceof Line && newShape instanceof Line) {
+			for(Shape shape : shapes) {
+				if(shape instanceof Line && ((Line) oldShape).equals(shape)) {
+					oldShape = shape;
+				}
+			}
 			command = new CmdUpdateLine((Line)oldShape, (Line)newShape);
 		} else if(oldShape instanceof Rectangle && newShape instanceof Rectangle) {
+			for(Shape shape : shapes) {
+				if(shape instanceof Rectangle && ((Rectangle) oldShape).equals((Rectangle)shape)) {
+					oldShape = shape;
+				}
+			}
 			command = new CmdUpdateRectangle((Rectangle)oldShape, (Rectangle)newShape);
 		} else if(oldShape instanceof Donut && newShape instanceof Donut) {
+			for(Shape shape : shapes) {
+				if(shape instanceof Donut && ((Donut) oldShape).equals((Donut)shape)) {
+					oldShape = shape;
+				}
+			}
 			command = new CmdUpdateDonut((Donut)oldShape, (Donut)newShape);
 		} else if(oldShape instanceof Circle && newShape instanceof Circle) {
+			for(Shape shape : shapes) {
+				if(shape instanceof Circle && ((Circle) oldShape).equals((Circle)shape)) {
+					oldShape = shape;
+				}
+			}
 			command = new CmdUpdateCircle((Circle)oldShape, (Circle)newShape);
 		} else if(oldShape instanceof HexagonAdapter && newShape instanceof HexagonAdapter) {
+			for(Shape shape : shapes) {
+				if(shape instanceof HexagonAdapter && ((HexagonAdapter) oldShape).equals((HexagonAdapter)shape)) {
+					oldShape = shape;
+				}
+			}
 			command = new CmdUpdateHexagon((HexagonAdapter)oldShape,(HexagonAdapter)newShape);
 		}
 		return command;
@@ -108,6 +143,7 @@ public class CommandParser {
 	
 	private Command parseAdd(String text) {
 		Shape shape = parseShape(text);
+		shapes.add(shape);
 		Command command = new CmdAddShape(shape, model);
 		return command;
 	}
@@ -172,4 +208,5 @@ public class CommandParser {
 		}
 		return null;
 	}
+	
 }

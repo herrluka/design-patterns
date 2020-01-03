@@ -66,6 +66,13 @@ public class Line extends Shape implements Serializable{
 		return false;
 	}
 	
+	public boolean equals(Shape shape) {
+		Line line = (Line)shape;
+		return line.startPoint.equals(startPoint) 
+				&& line.endPoint.equals(endPoint)
+				&& line.getOutlineColor().equals(getOutlineColor());
+	}
+	
 	public double length() {
 		return startPoint.distance(endPoint.getX(), endPoint.getY());
 	}

@@ -32,6 +32,15 @@ public class HexagonAdapter extends ArealShape implements Serializable{
 	public boolean contains(Point p) {
 		return hexagon.doesContain(p.getX(), p.getY());
 	}
+	
+	
+	public boolean equals(HexagonAdapter hexagonAdapter) {
+		return getX() == hexagonAdapter.getX()
+				&& getY() == hexagonAdapter.getY()
+				&& getRadius() == hexagonAdapter.getRadius()
+				&& getOutlineColor().equals(hexagonAdapter.getOutlineColor())
+				&& getInnerColor().equals(hexagonAdapter.getInnerColor());
+	}
 
 	@Override
 	public void draw(Graphics g) {

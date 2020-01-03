@@ -73,6 +73,14 @@ private int innerRadius;
 		return dFromCenter > innerRadius && super.contains(p);
 	}
 	
+	public boolean equals(Donut donut) {
+		return getCenter().equals(donut.getCenter())
+				&& getRadius() == donut.getRadius()
+				&& getInnerRadius() == donut.getInnerRadius()
+				&& getOutlineColor().equals(donut.getOutlineColor())
+				&& getInnerColor().equals(donut.getInnerColor());
+	}
+	
 	public int getInnerRadius() {
 		return innerRadius;
 	}

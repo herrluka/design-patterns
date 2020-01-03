@@ -69,6 +69,14 @@ public class Rectangle extends ArealShape implements Serializable{
 		}
 	}
 	
+	public boolean equals(Rectangle rectangle) {
+		return upperLeftPoint.equals(rectangle.getUpperLeftPoint())
+				&& height == rectangle.getHeight()
+				&& width == rectangle.getWidth()
+				&& getOutlineColor().equals(rectangle.getOutlineColor())
+				&& getInnerColor().equals(rectangle.getInnerColor());
+	}
+	
 	public double area() {
 		return width * height;
 	}
@@ -96,9 +104,7 @@ public class Rectangle extends ArealShape implements Serializable{
 		this.height = height;
 		else
 			throw new Exception();
-		
 	}
-
 
 	@Override
 	public void fill(Graphics g) {

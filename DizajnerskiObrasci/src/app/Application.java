@@ -1,14 +1,8 @@
 package app;
 
-
-
-import java.awt.Dimension;
-
 import javax.swing.JFrame;
-
 import mvc.Controler.Controller;
 import mvc.Model.Model;
-import mvc.View.DialogHexagon;
 import mvc.View.Frame;
 
 public class Application {

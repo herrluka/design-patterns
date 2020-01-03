@@ -617,12 +617,13 @@ public class Controller extends Observable {
 		filePath = saveManager.saveAs();
 		this.frame.setSaveButtonEnabled(true);
 	}
-	//promena
+	
 	public void openFileAsSerialized() {
 		LoadSerialized loadManager = new LoadSerialized();
 		List<Shape> shapeList = loadManager.load();
 		saveManager.setSaver(new SaveSerialized());
 		model.set(shapeList);
+		this.frame.clearLoggList();
 		frame.getView().repaint();
 		actualCommand = -1;
 		commandList = new ArrayList<Command>();
@@ -632,6 +633,7 @@ public class Controller extends Observable {
 	
 	public void openFileAsTextual() {
 		DefaultListModel<String> helperDlm = this.frame.getLoggList();
+		List<Shape> helpShapeList = this.model.getShapes();
 		LoadTextual loadManager = new LoadTextual(this.model);
 		JFileChooser jFileChooser = new JFileChooser(new File("C:\\"));
 		jFileChooser.setDialogTitle("Otvorite datoteku");
@@ -660,11 +662,18 @@ public class Controller extends Observable {
 				saveManager.setSaver(new SaveLogg());
 			} catch (FileNotFoundException e) {
 				this.frame.setLoggList(helperDlm);
+				this.model.set(helpShapeList);
 				JOptionPane.showMessageDialog(null,"Datoteka nije pronaðena","GREŠKA!",JOptionPane.WARNING_MESSAGE);
 			} catch (IOException e) {
-				JOptionPane.showMessageDialog(null,"Problem formata","GREŠKA!",JOptionPane.WARNING_MESSAGE);
 				this.frame.setLoggList(helperDlm);
+				this.model.set(helpShapeList);
+				JOptionPane.showMessageDialog(null,"Problem formata","GREŠKA!",JOptionPane.WARNING_MESSAGE);
 			}
+//			} catch (Exception e) {
+//				this.frame.setLoggList(helperDlm);
+//				this.model.set(helpShapeList);
+//				JOptionPane.showMessageDialog(null,"Neuspešno uèitavanje fajla.","GREŠKA!",JOptionPane.WARNING_MESSAGE);
+//			}
 		}	
 	}
 	

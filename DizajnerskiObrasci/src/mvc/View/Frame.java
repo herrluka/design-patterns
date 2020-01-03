@@ -110,7 +110,10 @@ public class Frame extends JFrame implements Observer{
 		innerColorPanel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				setInnerColor(JColorChooser.showDialog(null, "Izaberite boju unutrašnjosti", getPnlInnerColor()));
+				Color color = JColorChooser.showDialog(null, "Izaberite boju unutrašnjosti", getPnlInnerColor());
+				if(color != null) {
+					setInnerColor(color);
+				}
 			}
 		});
 		innerColorPanel.setBackground(Color.WHITE);
@@ -119,7 +122,10 @@ public class Frame extends JFrame implements Observer{
 		outlineColorPanel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				setOutlineColor(JColorChooser.showDialog(null, "Izaberite boju ivice", getPnlOutlineColor()));
+				Color color = JColorChooser.showDialog(null, "Izaberite boju ivice", getPnlOutlineColor());
+				if(color != null) {
+					setOutlineColor(color);
+				}
 			}
 		});
 		outlineColorPanel.setBackground(Color.BLACK);
@@ -526,7 +532,10 @@ public class Frame extends JFrame implements Observer{
 	}
 	
 	public void setLoggList(DefaultListModel<String> dlm) {
-		loggList = dlm;
+		loggList.removeAllElements();
+		for(int i = 0;i < dlm.size();i++) {
+			loggList.addElement(dlm.elementAt(i));
+		}
 	}
 	
 	

@@ -87,8 +87,11 @@ public class Point extends Shape implements Serializable{
 	}
 	
 	public boolean equals(Point p) {
-	
-		return this.getX() == p.getX() && this.getY() == p.getY();
+		if(getOutlineColor() == null) {
+			return this.getX() == p.getX() && this.getY() == p.getY() ;
+		} else {
+			return this.getX() == p.getX() && this.getY() == p.getY() && p.getOutlineColor().equals(getOutlineColor());
+		}
 	}
 
 	@Override
@@ -111,7 +114,6 @@ public class Point extends Shape implements Serializable{
 		}
 		return s;
 	}
-
 
 	
 }

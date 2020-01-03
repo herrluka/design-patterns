@@ -64,6 +64,13 @@ public class Circle extends ArealShape implements Serializable{
 	public boolean contains(Point p) {
 		return center.distance(p.getX(), p.getY()) <= radius;
 	}
+	
+	public boolean equals(Circle circle) {
+		return center.equals(circle.getCenter())
+				&& radius == circle.getRadius()
+				&& getOutlineColor().equals(circle.getOutlineColor())
+				&& getInnerColor().equals(circle.getInnerColor());
+	}
 
 	public Point getCenter() {
 		return center;

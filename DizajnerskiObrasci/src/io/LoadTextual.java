@@ -31,7 +31,7 @@ public class LoadTextual {
 		this.list = new ArrayList<Command>();
 	}
 
-	public void load(String line) throws IOException {
+	public void load(String line) {// throws Exception {
 		if(line.equals("Undo")) {
 			actualCommand--;
 		} else if(line.equals("Redo")) {
@@ -48,10 +48,8 @@ public class LoadTextual {
 	
 	private void cleanList() {
 		for(int i = actualCommand + 1; i < list.size(); i++) {
-			System.out.println(list.remove(i));
-			
+			list.remove(i);
 		}
-		System.out.println(list.size());
 	}
 
 	public List<Command> getList() {
