@@ -120,7 +120,10 @@ public class DialogRectangle extends JDialog {
 		pnlRectangleInnerColor.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				setPnlRectangleInnerColor(JColorChooser.showDialog(null, "Izaberite boju", Color.WHITE));
+				Color color = JColorChooser.showDialog(null, "Izaberite boju", getPnlRectangleInnerColor());
+				if(color != null) {
+					setPnlRectangleInnerColor(color);
+				}
 			}
 		});
 		
@@ -129,7 +132,10 @@ public class DialogRectangle extends JDialog {
 		pnlRectangleOutlineColor.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				setPnlRectangleOutlineColor(JColorChooser.showDialog(null, "Izaberite boju", Color.BLACK));
+				Color color = JColorChooser.showDialog(null, "Izaberite boju", getPnlRectangleOutlineColor());
+				if(color != null) {
+					setPnlRectangleOutlineColor(color);
+				}
 			}
 		});
 		

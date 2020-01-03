@@ -103,7 +103,10 @@ public class DialogDonut extends JDialog {
 		pnlDonutInnerColor.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				setPnlDonutInnerColor(JColorChooser.showDialog(null, "Izaberite boju", Color.WHITE));
+				Color color = JColorChooser.showDialog(null, "Izaberite boju", getPnlDonutInnerColor());
+				if(color != null) {
+					setPnlDonutInnerColor(color);
+				}
 			}
 		});
 		
@@ -112,7 +115,10 @@ public class DialogDonut extends JDialog {
 		pnlDonutOutlineColor.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				setPnlDonutOutlineColor(JColorChooser.showDialog(null, "Izaberite boju", Color.BLACK));
+				Color color = JColorChooser.showDialog(null, "Izaberite boju", getPnlDonutOutlineColor());
+				if(color != null) {
+					setPnlDonutOutlineColor(color);
+				}
 			}
 		});
 		

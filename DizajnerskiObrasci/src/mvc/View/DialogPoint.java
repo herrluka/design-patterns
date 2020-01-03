@@ -83,7 +83,10 @@ public class DialogPoint extends JDialog {
 		pnlColor.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				setPnlColor(JColorChooser.showDialog(null, "Izaberite boju tacke", null));
+				Color color = JColorChooser.showDialog(null, "Izaberite boju tacke", getPnlColor());
+				if(color != null) {
+					setPnlColor(color);
+				}
 			}
 		});
 		

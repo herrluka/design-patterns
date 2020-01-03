@@ -120,7 +120,10 @@ public class DialogLine extends JDialog {
 		pnlLineColor.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				setPnlLineColor(JColorChooser.showDialog(null, "Izaberite boju linije", null));
+				Color color = JColorChooser.showDialog(null, "Izaberite boju linije", getPnlLineColor());
+				if(color != null) {
+					setPnlLineColor(color);
+				}
 			}
 		});
 		pnlLineColor.setBackground(Color.BLACK);

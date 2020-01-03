@@ -138,7 +138,10 @@ public class DialogHexagon extends JDialog {
 		pnlOutlineColor.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				setPnlOutlineColor(new JColorChooser().showDialog(null, "Izaberite boju",getPnlOutlineColor()));
+				Color color = new JColorChooser().showDialog(null, "Izaberite boju",getPnlOutlineColor());
+				if(color != null) {
+					setPnlOutlineColor(color);
+				}
 			}
 		});
 		
@@ -150,7 +153,10 @@ public class DialogHexagon extends JDialog {
 		pnlInnerColor.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				setPnlInnerColor(new JColorChooser().showDialog(null, "Izaberite boju",getPnlInnerColor()));
+				Color color = new JColorChooser().showDialog(null, "Izaberite boju",getPnlInnerColor());
+				if(color != null) {
+					setPnlInnerColor(color);
+				}
 			}
 		});
 		pnlInnerColor.setBackground(Color.WHITE);

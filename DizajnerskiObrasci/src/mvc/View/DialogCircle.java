@@ -95,7 +95,10 @@ public class DialogCircle extends JDialog {
 		pnlCircleOutlineColor.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				setPnlCircleOutlineColor(JColorChooser.showDialog(null, "Izaberite boju", Color.BLACK));
+				Color color = JColorChooser.showDialog(null, "Izaberite boju", getPnlCircleOutlineColor());
+				if(color != null) {
+					setPnlCircleOutlineColor(color);
+				}
 			}
 		});
 		
@@ -104,7 +107,10 @@ public class DialogCircle extends JDialog {
 		pnlCircleInnerColor.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				setPnlCircleInnerColor(JColorChooser.showDialog(null, "Izaberite boju", Color.WHITE));
+				Color color = JColorChooser.showDialog(null, "Izaberite boju", getPnlCircleInnerColor());
+				if(color != null) {
+					setPnlCircleInnerColor(color);
+				}
 			}
 		});
 		
