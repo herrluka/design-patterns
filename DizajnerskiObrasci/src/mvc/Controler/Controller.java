@@ -645,6 +645,7 @@ public class Controller extends Observable {
 				BufferedReader buffer = new BufferedReader(new FileReader(filePath));
 				String line;
 				this.frame.clearLoggList();
+				this.model.removeAll();
 				while((line = buffer.readLine()) != null) {
 					loadManager.load(line);
 					this.frame.addToLoggList(line);
@@ -652,10 +653,10 @@ public class Controller extends Observable {
 				buffer.close();
 				commandList = loadManager.getList();
 				actualCommand = loadManager.getActualCommand();
-				this.model.set(new ArrayList<Shape>());
-				for(int i = 0;i <= actualCommand;i++) {
-					commandList.get(i).execute();
-				}
+//				for(int i = 0;i <= actualCommand;i++) {
+//					commandList.get(i).execute();
+//					System.out.println(commandList.get(i));
+//				}
 				this.frame.repaint();
 				sendChanges();
 				enableButtons();

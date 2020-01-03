@@ -25,6 +25,10 @@ public class Model {
 		list.remove(shape);
 	}
 	
+	public void removeAll() {
+		list.clear();
+	}
+	
 	public Shape get(int index) {
 		return list.get(index);
 	}

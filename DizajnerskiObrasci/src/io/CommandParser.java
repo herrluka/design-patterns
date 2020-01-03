@@ -3,10 +3,9 @@ package io;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-
-import org.w3c.dom.DOMConfiguration;
-
 import commands.CmdAddShape;
 import commands.CmdBringToEnd;
 import commands.CmdBringToFront;
@@ -31,17 +30,10 @@ import mvc.Model.Shape;
 
 public class CommandParser {
 	
-	private String lastString = null;
 	private Model model;
-	private List<Shape> shapes;
 	
 	public CommandParser(Model model) {
 		this.model = model;
-		shapes = new ArrayList<Shape>();
-	}
-
-	public void parseCommandType(String type){
-		
 	}
 	
 	public Command parseCommand(String line) { //throws Exception {
@@ -83,45 +75,45 @@ public class CommandParser {
 	
 	private Command parseUpdate(String text) {
 		Command command = null;
-		Shape oldShape = parseShape(text.split(";")[0]);
-		Shape newShape = parseShape(text.split(";")[1]);
+		Shape oldShape = parseShape(text.split(";")[0],false);
+		Shape newShape = parseShape(text.split(";")[1],false);
 		if(oldShape instanceof Point && newShape instanceof Point) {
-			for(Shape shape : shapes) {
-				if(shape instanceof Point && ((Point) oldShape).equals(shape)) {
+			for(Shape shape : this.model.getShapes()) {
+				if(shape instanceof Point && ((Point) oldShape).equals((Point)shape)) {
 					oldShape = shape;
 				}
 			}
 			command = new CmdUpdatePoint((Point)oldShape, (Point)newShape);
 		} else if(oldShape instanceof Line && newShape instanceof Line) {
-			for(Shape shape : shapes) {
+			for(Shape shape : this.model.getShapes()) {
 				if(shape instanceof Line && ((Line) oldShape).equals(shape)) {
 					oldShape = shape;
 				}
 			}
 			command = new CmdUpdateLine((Line)oldShape, (Line)newShape);
 		} else if(oldShape instanceof Rectangle && newShape instanceof Rectangle) {
-			for(Shape shape : shapes) {
+			for(Shape shape : this.model.getShapes()) {
 				if(shape instanceof Rectangle && ((Rectangle) oldShape).equals((Rectangle)shape)) {
 					oldShape = shape;
 				}
 			}
 			command = new CmdUpdateRectangle((Rectangle)oldShape, (Rectangle)newShape);
 		} else if(oldShape instanceof Donut && newShape instanceof Donut) {
-			for(Shape shape : shapes) {
+			for(Shape shape : this.model.getShapes()) {
 				if(shape instanceof Donut && ((Donut) oldShape).equals((Donut)shape)) {
 					oldShape = shape;
 				}
 			}
 			command = new CmdUpdateDonut((Donut)oldShape, (Donut)newShape);
 		} else if(oldShape instanceof Circle && newShape instanceof Circle) {
-			for(Shape shape : shapes) {
+			for(Shape shape : this.model.getShapes()) {
 				if(shape instanceof Circle && ((Circle) oldShape).equals((Circle)shape)) {
 					oldShape = shape;
 				}
 			}
 			command = new CmdUpdateCircle((Circle)oldShape, (Circle)newShape);
 		} else if(oldShape instanceof HexagonAdapter && newShape instanceof HexagonAdapter) {
-			for(Shape shape : shapes) {
+			for(Shape shape : this.model.getShapes()) {
 				if(shape instanceof HexagonAdapter && ((HexagonAdapter) oldShape).equals((HexagonAdapter)shape)) {
 					oldShape = shape;
 				}
@@ -135,20 +127,19 @@ public class CommandParser {
 		String[] shapeStrings = text.split(";");
 		List<Shape> helperList = new ArrayList<Shape>();
 		for(String row : shapeStrings) {
-			Shape shape = parseShape(row);
+			Shape shape = parseShape(row,true);
 			helperList.add(shape);
 		}
 		return new CmdRemoveShape(helperList, model);
 	}
 	
 	private Command parseAdd(String text) {
-		Shape shape = parseShape(text);
-		shapes.add(shape);
+		Shape shape = parseShape(text,false);
 		Command command = new CmdAddShape(shape, model);
 		return command;
 	}
 	
-	private Shape parseShape(String text) {
+	private Shape parseShape(String text, boolean isLog) {
 		String shape = text.split(":")[0];
 		String[] props = text.split(",");
 		if(shape.equals("Point")) {
@@ -156,13 +147,29 @@ public class CommandParser {
 			point.setX(Integer.parseInt(props[0].split("=")[1]));
 			point.setY(Integer.parseInt(props[1].split("=")[1]));
 			point.setOutlineColor(new Color(Integer.parseInt(props[2].split("=")[1])));
-			return point;
+			if(isLog) {
+				for(Shape test : this.model.getShapes()) {
+					if(test instanceof Point && point.equals((Point)test)) {
+						return test;
+					}
+				}
+			} else {
+				return point;
+			}
 		} else if(shape.equals("Line")) {
 			Line line = new Line();
 			line.setStartPoint(new Point(Integer.parseInt(props[0].split("=")[1]),Integer.parseInt(props[1].split("=")[1])));
 			line.setEndPoint(new Point(Integer.parseInt(props[2].split("=")[1]),Integer.parseInt(props[3].split("=")[1])));
 			line.setOutlineColor(new Color(Integer.parseInt(props[4].split("=")[1])));
-			return line;
+			if(isLog) {
+				for(Shape test : this.model.getShapes()) {
+					if(test instanceof Line && line.equals((Line)test)) {
+						return test;
+					}
+				}
+			} else {
+				return line;
+			}
 		} else if(shape.equals("Rectangle")) {
 			Rectangle rectangle = new Rectangle();
 			rectangle.setUpperLeftPoint(new Point(Integer.parseInt(props[0].split("=")[1]),Integer.parseInt(props[1].split("=")[1])));
@@ -174,7 +181,15 @@ public class CommandParser {
 			}
 			rectangle.setOutlineColor(new Color(Integer.parseInt(props[4].split("=")[1])));
 			rectangle.setInnerColor(new Color(Integer.parseInt(props[5].split("=")[1])));
-			return rectangle;
+			if(isLog) {
+				for(Shape test : this.model.getShapes()) {
+					if(test instanceof Rectangle && rectangle.equals((Rectangle)test)) {
+						return test;
+					}
+				}
+			} else {
+				return rectangle;
+			}
 		} else if(shape.equals("Circle")) {
 			Circle circle = new Circle();
 			circle.setCenter(new Point(Integer.parseInt(props[0].split("=")[1]),Integer.parseInt(props[1].split("=")[1])));
@@ -185,7 +200,15 @@ public class CommandParser {
 			}
 			circle.setOutlineColor(new Color(Integer.parseInt(props[3].split("=")[1])));
 			circle.setInnerColor(new Color(Integer.parseInt(props[4].split("=")[1])));
-			return circle;
+			if(isLog) {
+				for(Shape test : this.model.getShapes()) {
+					if(test instanceof Circle && circle.equals((Circle)test)) {
+						return test;
+					}
+				}
+			} else {
+				return circle;
+			}
 		} else if(shape.equals("Donut")) {
 			Donut donut = new Donut();
 			donut.setCenter(new Point(Integer.parseInt(props[0].split("=")[1]),Integer.parseInt(props[1].split("=")[1])));
@@ -197,14 +220,30 @@ public class CommandParser {
 			}
 			donut.setOutlineColor(new Color(Integer.parseInt(props[4].split("=")[1])));
 			donut.setInnerColor(new Color(Integer.parseInt(props[5].split("=")[1])));
-			return donut;
+			if(isLog) {
+				for(Shape test : this.model.getShapes()) {
+					if(test instanceof Donut && donut.equals((Donut)test)) {
+						return test;
+					}
+				}
+			} else {
+				return donut;
+			}
 		} else if(shape.equals("Hexagon")) {
 			HexagonAdapter hexagonAdapter = new HexagonAdapter(
 					new Point(Integer.parseInt(props[0].split("=")[1]),Integer.parseInt(props[1].split("=")[1])),
 					Integer.parseInt(props[2].split("=")[1]));
 			hexagonAdapter.setOutlineColor(new Color(Integer.parseInt(props[3].split("=")[1])));
 			hexagonAdapter.setInnerColor(new Color(Integer.parseInt(props[4].split("=")[1])));
-			return hexagonAdapter;
+			if(isLog) {
+				for(Shape test : this.model.getShapes()) {
+					if(test instanceof HexagonAdapter && hexagonAdapter.equals((HexagonAdapter)test)) {
+						return test;
+					}
+				}
+			} else {
+				return hexagonAdapter;
+			}
 		}
 		return null;
 	}

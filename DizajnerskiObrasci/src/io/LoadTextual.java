@@ -33,15 +33,18 @@ public class LoadTextual {
 
 	public void load(String line) {// throws Exception {
 		if(line.equals("Undo")) {
+			list.get(actualCommand).unexecute();
 			actualCommand--;
 		} else if(line.equals("Redo")) {
 			actualCommand++;
+			list.get(actualCommand).execute();
 		} else {
 			if(actualCommand < list.size() - 1) {
 				cleanList();
 			}
-			list.add(parser.parseCommand(line));
 			actualCommand++;
+			list.add(parser.parseCommand(line));
+			list.get(actualCommand).execute();
 		} 
 		lastCommand = line;
 	}
