@@ -108,6 +108,7 @@ public class HexagonAdapter extends ArealShape implements Serializable{
 		HexagonAdapter hexagonAdapter = new HexagonAdapter(new Point(hexagon.getX(),hexagon.getY()), hexagon.getR());
 		hexagonAdapter.setOutlineColor(getOutlineColor());
 		hexagonAdapter.setInnerColor(getInnerColor());
+		hexagonAdapter.setSelected(isSelected());
 		return hexagonAdapter;
 	}
 

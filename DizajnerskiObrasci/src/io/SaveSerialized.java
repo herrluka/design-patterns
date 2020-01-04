@@ -41,7 +41,7 @@ public class SaveSerialized implements Save {
 				JOptionPane.showMessageDialog(null,"Datoteka nije pronaðena","GREŠKA!",JOptionPane.WARNING_MESSAGE);
 				return null;
 			} catch (IOException e) {
-				JOptionPane.showMessageDialog(null,"Datoteka nije pronaðena","GREŠKA!",JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(null,"Neuspešno èuvanje datoteke.","GREŠKA!",JOptionPane.WARNING_MESSAGE);
 				return null;
 			}
 		} else {

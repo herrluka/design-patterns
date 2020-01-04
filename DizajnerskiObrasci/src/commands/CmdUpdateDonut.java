@@ -52,6 +52,7 @@ public class CmdUpdateDonut implements Command{
 		}
 		oldDonut.setInnerColor(original.getInnerColor());
 		oldDonut.setOutlineColor(original.getOutlineColor());
+		oldDonut.setSelected(original.isSelected());
 	}
 	
 	@Override

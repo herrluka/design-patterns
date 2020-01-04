@@ -31,7 +31,7 @@ public class LoadTextual {
 		this.list = new ArrayList<Command>();
 	}
 
-	public void load(String line) {// throws Exception {
+	public void load(String line) throws Exception {
 		if(line.equals("Undo")) {
 			list.get(actualCommand).unexecute();
 			actualCommand--;

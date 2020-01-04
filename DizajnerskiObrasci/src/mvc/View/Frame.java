@@ -5,16 +5,11 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
-
 import mvc.Controler.Controller;
-import mvc.Model.Model;
 import mvc.Model.Shape;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.MenuItem;
-import java.awt.ScrollPane;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -23,21 +18,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
-
 import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
-import javax.swing.border.EmptyBorder;
-
-import commands.Command;
 import constants.Constants;
-import io.LoadTextual;
 import io.Save;
-import io.SaveLogg;
-import io.SaveSerialized;
-
 import javax.swing.ImageIcon;
 import javax.swing.JColorChooser;
-import javax.print.attribute.standard.NumberOfDocuments;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultListModel;
 import javax.swing.GroupLayout;
@@ -50,7 +36,6 @@ import javax.swing.JMenu;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 import java.awt.Insets;
-import javax.swing.JSeparator;
 
 public class Frame extends JFrame implements Observer{
 	
@@ -84,9 +69,10 @@ public class Frame extends JFrame implements Observer{
 	private JMenuItem bringToEnd; 
 	private JMenuItem toBack;
 	private JMenuItem toFront;
-	private Save savingType;
 	private JMenuItem mntmSaveAsTextual;
 	private JMenu mnSave;
+	private JMenu mnFile;
+	private JMenuItem mntmNew;
 
 	public Frame() {
 		view.addMouseListener(new MouseAdapter() {
@@ -258,7 +244,16 @@ public class Frame extends JFrame implements Observer{
 		menuBar.setMargin(new Insets(0, 0, 70, 0));
 		setJMenuBar(menuBar);
 		
+		mnFile = new JMenu("File");
+		mnFile.setHorizontalAlignment(SwingConstants.LEFT);
+		menuBar.add(mnFile);
+		
+		mntmNew = new JMenuItem("New");
+		mntmNew.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+		mnFile.add(mntmNew);
+		
 		mnOpen = new JMenu("Open");
+		mnOpen.setHorizontalAlignment(SwingConstants.LEFT);
 		menuBar.add(mnOpen);
 		
 		mntmOpenSerialized = new JMenuItem("Open serialized");
@@ -271,18 +266,22 @@ public class Frame extends JFrame implements Observer{
 		mnOpen.add(mntmOpenTextual);
 		
 		mnSave = new JMenu("Save");
+		mnSave.setHorizontalAlignment(SwingConstants.LEFT);
 		menuBar.add(mnSave);
 		
 		mntmSave = new JMenuItem("Save");
+		mntmSave.setHorizontalAlignment(SwingConstants.LEFT);
 		mnSave.add(mntmSave);
 		mntmSave.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 		mntmSave.setEnabled(false);
 		
 		mntmSaveAsSerialized = new JMenuItem("Save as serialized...");
+		mntmSaveAsSerialized.setHorizontalAlignment(SwingConstants.LEFT);
 		mnSave.add(mntmSaveAsSerialized);
 		mntmSaveAsSerialized.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 		
 		mntmSaveAsTextual = new JMenuItem("Save as textual...");
+		mntmSaveAsTextual.setHorizontalAlignment(SwingConstants.LEFT);
 		mnSave.add(mntmSaveAsTextual);
 		mntmSaveAsTextual.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 		
@@ -404,7 +403,9 @@ public class Frame extends JFrame implements Observer{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				controler.bringToFront();
+				if(bringToFront.isEnabled()) {
+					controler.bringToFront();
+				}
 			}
 		});
 		
@@ -412,7 +413,9 @@ public class Frame extends JFrame implements Observer{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				controler.bringToEnd();
+				if(bringToEnd.isEnabled()) {
+					controler.bringToEnd();
+				}
 			}
 		});
 		
@@ -420,7 +423,9 @@ public class Frame extends JFrame implements Observer{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				controler.toFront();
+				if(toFront.isEnabled()) {
+					controler.toFront();
+				}
 				
 			}
 		});
@@ -429,7 +434,9 @@ public class Frame extends JFrame implements Observer{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				controler.toBack();
+				if(toBack.isEnabled()) {
+					controler.toBack();
+				}
 			}
 		});
 		
@@ -446,6 +453,15 @@ public class Frame extends JFrame implements Observer{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				controler.openFileAsTextual();
+			}
+		});
+		
+		mntmNew.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				controler.newFile();
+				
 			}
 		});
 	}

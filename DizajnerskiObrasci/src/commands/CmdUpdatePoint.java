@@ -19,15 +19,13 @@ public class CmdUpdatePoint implements Command {
 		original = oldPoint.clone();
 		oldPoint.moveTo(newPoint.getX(), newPoint.getY());
 		oldPoint.setOutlineColor(newPoint.getOutlineColor());
-		
-		
 	}
 
 	@Override
 	public void unexecute() {
 		oldPoint.moveTo(original.getX(), original.getY());
 		oldPoint.setOutlineColor(original.getOutlineColor());
-		
+		oldPoint.setSelected(original.isSelected());
 	}
 	
 	@Override

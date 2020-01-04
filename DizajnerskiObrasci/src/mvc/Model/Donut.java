@@ -106,6 +106,7 @@ private int innerRadius;
 		}
 		donut.setOutlineColor(getOutlineColor());
 		donut.setInnerColor(getInnerColor());
+		donut.setSelected(isSelected());
 		return donut;
 	}
 	

@@ -27,7 +27,6 @@ public class CmdUpdateCircle implements Command{
 		}
 		oldCircle.setInnerColor(newCircle.getInnerColor());
 		oldCircle.setOutlineColor(newCircle.getOutlineColor());
-		
 	}
 
 	@Override
@@ -41,7 +40,7 @@ public class CmdUpdateCircle implements Command{
 		}
 		oldCircle.setInnerColor(original.getInnerColor());
 		oldCircle.setOutlineColor(original.getOutlineColor());
-		
+		oldCircle.setSelected(original.isSelected());
 	}
 	
 	@Override

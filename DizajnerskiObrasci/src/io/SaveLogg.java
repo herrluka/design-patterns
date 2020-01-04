@@ -34,7 +34,7 @@ public class SaveLogg implements Save {
 				}
 				fw.close();
 			} catch (IOException e) {
-				JOptionPane.showMessageDialog(null,"Datoteka nije pronaðena","GREŠKA!",JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(null,"Neuspešno èuvanje datoteke","GREŠKA!",JOptionPane.WARNING_MESSAGE);
 				return null;
 			}
 			return path;

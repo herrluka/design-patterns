@@ -43,6 +43,7 @@ public class CmdUpdateLine implements Command {
 		oldLine.getEndPoint().setX(original.getEndPoint().getX());
 		oldLine.getEndPoint().setY(original.getEndPoint().getY());
 		oldLine.setOutlineColor(original.getOutlineColor());
+		oldLine.setSelected(original.isSelected());
 	}
 	
 	@Override

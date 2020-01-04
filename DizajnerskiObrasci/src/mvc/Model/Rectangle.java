@@ -136,6 +136,7 @@ public class Rectangle extends ArealShape implements Serializable{
 		}
 		rectangle.setOutlineColor(getOutlineColor());
 		rectangle.setInnerColor(getInnerColor());
+		rectangle.setSelected(isSelected());
 		return rectangle;
 	}
 	

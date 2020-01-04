@@ -14,7 +14,6 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-
 import java.awt.Font;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JTextField;
@@ -44,20 +43,21 @@ public class DialogLine extends JDialog {
 	public DialogLine() {
 		setBounds(100, 100, 638, 477);
 		getContentPane().setLayout(new BorderLayout());
+		setTitle("Line");
 		setModal(true);
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
-		JLabel lblPocetnaTacka = new JLabel("Po\u010Detna ta\u010Dka");
+		JLabel lblPocetnaTacka = new JLabel("Start point");
 		lblPocetnaTacka.setFont(new Font("Tahoma", Font.PLAIN, 21));
-		JLabel lblPocKoordX = new JLabel("Koordinata X");
+		JLabel lblPocKoordX = new JLabel("Coordinate X");
 		lblPocKoordX.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		JLabel lblPocKoordY = new JLabel("Koordinata Y");
+		JLabel lblPocKoordY = new JLabel("Coordinate Y");
 		lblPocKoordY.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		JLabel lblKrajnjaTacka = new JLabel("Krajnja ta\u010Dka");
+		JLabel lblKrajnjaTacka = new JLabel("End point");
 		lblKrajnjaTacka.setFont(new Font("Tahoma", Font.PLAIN, 21));
-		JLabel lblKrKoordX = new JLabel("Koordinata X");
+		JLabel lblKrKoordX = new JLabel("Coordinate X");
 		lblKrKoordX.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		JLabel lblKrKoordY = new JLabel("Koordinata Y");
+		JLabel lblKrKoordY = new JLabel("Coordinate Y");
 		lblKrKoordY.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		txtStartCoordX = new JTextField();
 		txtStartCoordX.setFont(new Font("Tahoma", Font.PLAIN, 20));
@@ -203,7 +203,7 @@ public class DialogLine extends JDialog {
 						}
 						catch(NumberFormatException e)
 						{
-							JOptionPane.showMessageDialog(new JFrame(), "Neispravan unos podataka.Proverite da li su sva polja popunjena brojnim vrednostima!", "Greška", JOptionPane.WARNING_MESSAGE);
+							JOptionPane.showMessageDialog(new JFrame(), "Check are all fields fullfilled with numeric values!", "Error", JOptionPane.WARNING_MESSAGE);
 						}
 					}
 				});

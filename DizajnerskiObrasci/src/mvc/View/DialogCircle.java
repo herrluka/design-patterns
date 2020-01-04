@@ -45,19 +45,19 @@ public class DialogCircle extends JDialog {
 		this.setModal(true);
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
-		JLabel lblPoluprenik = new JLabel("Polupre\u010Dnik");
+		JLabel lblPoluprenik = new JLabel("Radius");
 		lblPoluprenik.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		txtRadius = new JTextField();
 		txtRadius.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		txtRadius.setColumns(10);
 		
-		JLabel lblKoordinataX = new JLabel("Koordinata X");
+		JLabel lblKoordinataX = new JLabel("Coordinate X");
 		lblKoordinataX.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		
-		JLabel lblCentar = new JLabel("Centar");
+		JLabel lblCentar = new JLabel("Center");
 		lblCentar.setFont(new Font("Tahoma", Font.PLAIN, 22));
 		
-		JLabel lblKoordinataY = new JLabel("Koordinata Y");
+		JLabel lblKoordinataY = new JLabel("Coordinate Y");
 		lblKoordinataY.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		
 		txtCoordY = new JTextField();
@@ -194,7 +194,7 @@ public class DialogCircle extends JDialog {
 						}
 						catch(Exception ex)
 						{
-							JOptionPane.showMessageDialog(new JFrame(), "Vrednost poluprecnika mora da bude pozitivna!", "Greška", JOptionPane.WARNING_MESSAGE);	
+							JOptionPane.showMessageDialog(new JFrame(), "Radius must be greater that zero!", "Error", JOptionPane.WARNING_MESSAGE);	
 						}
 						
 					}

@@ -18,7 +18,6 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-
 import java.awt.Font;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JTextField;
@@ -49,11 +48,11 @@ public class DialogDonut extends JDialog {
 		setModal(true);
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
-		JLabel lblCentar = new JLabel("Centar");
+		JLabel lblCentar = new JLabel("Center");
 		lblCentar.setFont(new Font("Tahoma", Font.PLAIN, 21));
-		JLabel lblKoordinataX = new JLabel("Koordinata X");
+		JLabel lblKoordinataX = new JLabel("Coordinate X");
 		lblKoordinataX.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		JLabel lblKoordinataY = new JLabel("Koordinata Y");
+		JLabel lblKoordinataY = new JLabel("Coordinate Y");
 		lblKoordinataY.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		txtCoordX = new JTextField();
 		txtCoordX.setFont(new Font("Tahoma", Font.PLAIN, 20));
@@ -85,11 +84,11 @@ public class DialogDonut extends JDialog {
 			}
 		});
 		
-		JLabel lblRadius = new JLabel("Polupre\u010Dnici");
+		JLabel lblRadius = new JLabel("Radius");
 		lblRadius.setFont(new Font("Tahoma", Font.PLAIN, 21));
-		JLabel lblUnutranji = new JLabel("Unutra\u0161nji");
+		JLabel lblUnutranji = new JLabel("Inner");
 		lblUnutranji.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		JLabel lblSpoljni = new JLabel("Spoljni");
+		JLabel lblSpoljni = new JLabel("Outer");
 		lblSpoljni.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		txtInner = new JTextField();
 		txtInner.setFont(new Font("Tahoma", Font.PLAIN, 20));
@@ -206,11 +205,11 @@ public class DialogDonut extends JDialog {
 						}
 						catch(NumberFormatException ex)
 						{
-							JOptionPane.showMessageDialog(new JFrame(), "Neispravan unos podataka.Proverite da li su sva polja popunjena brojnim vrednostima!", "Greška", JOptionPane.WARNING_MESSAGE);
+							JOptionPane.showMessageDialog(new JFrame(), "Check are all fields fullfilled with numeric values!", "Error", JOptionPane.WARNING_MESSAGE);
 						}
 						catch(Exception ex)
 						{
-							JOptionPane.showMessageDialog(new JFrame(), "Poluprecnici moraju da budu veci od nule i poluprecnik unutrasnjeg kruga mora da bude manji od poluprecnika velikog kruga!", "Greška", JOptionPane.WARNING_MESSAGE);
+							JOptionPane.showMessageDialog(new JFrame(), "Outer and inner radius must be greater than zero and inner radius must be smaller than outer!", "Greška", JOptionPane.WARNING_MESSAGE);
 						}
 					}
 				});

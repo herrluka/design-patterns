@@ -99,9 +99,11 @@ public class Line extends Shape implements Serializable{
 	
 	@Override
 	public Line clone() {
-		return new Line(new Point(startPoint.clone().getX(),startPoint.getY())
+		Line line =  new Line(new Point(startPoint.clone().getX(),startPoint.getY())
 				,new Point(endPoint.getX(),endPoint.getY())
 				,getOutlineColor());
+		line.setSelected(isSelected());
+		return line;
 	}
 	
 	public String toString() {

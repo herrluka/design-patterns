@@ -17,29 +17,25 @@ import mvc.Model.Shape;
 public class LoadSerialized {
 	
 	private ArrayList<Shape> list;
+	private String path;
 
-	public List<Shape> load() {
+	public List<Shape> load() throws FileNotFoundException, IOException, ClassNotFoundException {
 		JFileChooser jFileChooser = new JFileChooser(new File("C:\\"));
 		jFileChooser.setDialogTitle("Otvorite datoteku");
 		int result = jFileChooser.showOpenDialog(null);
 		if(result == JFileChooser.APPROVE_OPTION) {
-			String path = jFileChooser.getSelectedFile().getAbsolutePath();
+			path = jFileChooser.getSelectedFile().getAbsolutePath();
 			ObjectInputStream is;
-			try {
-				is = new ObjectInputStream(new FileInputStream(path));
-				list = (ArrayList<Shape>)is.readObject();
-				is.close();
-			} catch (FileNotFoundException e) {
-				JOptionPane.showMessageDialog(null,"Datoteka nije pronaðena","GREŠKA!",JOptionPane.WARNING_MESSAGE);
-				return null;
-			} catch (IOException e) {
-				JOptionPane.showMessageDialog(null,"Datoteka nije pronaðena","GREŠKA!",JOptionPane.WARNING_MESSAGE);
-				return null;
-			} catch (ClassNotFoundException e) {
-				JOptionPane.showMessageDialog(null,"Nije moguæe da se uèita datoteka.","GREŠKA!",JOptionPane.WARNING_MESSAGE);
-				return null;
-			}
+			is = new ObjectInputStream(new FileInputStream(path));
+			list = (ArrayList<Shape>)is.readObject();
+			is.close();
 		}
 		return list;
 	}
+
+	public String getPath() {
+		return path;
+	}
+	
+	
 }

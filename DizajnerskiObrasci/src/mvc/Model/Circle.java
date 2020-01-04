@@ -123,6 +123,7 @@ public class Circle extends ArealShape implements Serializable{
 		}
 		circle.setOutlineColor(getOutlineColor());
 		circle.setInnerColor(getInnerColor());
+		circle.setSelected(isSelected());
 		return circle;
 	}
 

@@ -102,7 +102,9 @@ public class Point extends Shape implements Serializable{
 	
 	@Override
 	public Point clone() {
-		return new Point(this.x,this.y,this.getOutlineColor());
+		Point point = new Point(this.x,this.y,this.getOutlineColor());
+		point.setSelected(isSelected());
+		return point;
 	}
 	
 	@Override

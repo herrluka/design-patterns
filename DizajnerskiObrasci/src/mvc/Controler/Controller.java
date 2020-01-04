@@ -22,7 +22,6 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
-
 import commands.CmdAddShape;
 import commands.CmdBringToEnd;
 import commands.CmdBringToFront;
@@ -100,7 +99,6 @@ public class Controller extends Observable {
 				setOutlineColor(dialogPoint.getPnlColor());
 				CmdAddShape cmd = new CmdAddShape(newPoint, model);
 				commandExecuteHelper(cmd);
-//				cleanCommandList();
 				deselectAll();
 			}
 		}
@@ -111,7 +109,7 @@ public class Controller extends Observable {
 				flag = true;
 			}
 			else if(startPoint.equals(new Point(e.getX(),e.getY()))) {
-				JOptionPane.showMessageDialog(new JFrame(), "Nije moguæe nacrtati liniju koja sadrži dve iste taèke. Izaberite drugu taèku.", "Greška", JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(new JFrame(), "It is not possible to draw line with two same points. Please choose the other one.", "Error", JOptionPane.WARNING_MESSAGE);
 			}
 			else {
 				Line newLine = new Line(startPoint,new Point(e.getX(),e.getY()));
@@ -131,7 +129,6 @@ public class Controller extends Observable {
 					setOutlineColor(dialogLine.getPnlLineColor());
 					CmdAddShape cmd = new CmdAddShape(newLine, model);
 					commandExecuteHelper(cmd);
-//					cleanCommandList();
 					startPoint=null;
 					deselectAll();
 				}
@@ -159,17 +156,16 @@ public class Controller extends Observable {
 					setOutlineColor(dialogRectangle.getPnlRectangleOutlineColor());
 					CmdAddShape cmd = new CmdAddShape(rct, model);
 					commandExecuteHelper(cmd);
-//					cleanCommandList();
 					deselectAll();
 				}
 			}
 			catch(NumberFormatException ex)
 			{
-				JOptionPane.showMessageDialog(new JFrame(), "Neispravan unos podataka.Proverite da li su sva polja popunjena brojnim vrednostima!", "Greška", JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(new JFrame(), "Check are all fields fullfilled with numeric values!", "Error", JOptionPane.WARNING_MESSAGE);
 			}
 			catch(Exception ex)
 			{
-				JOptionPane.showMessageDialog(new JFrame(), "Visina i sirina moraju da budu pozitivne!", "Greška", JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(new JFrame(), "Width and height must be greater than zero!", "Error", JOptionPane.WARNING_MESSAGE);
 			}
 			}
 		}
@@ -196,18 +192,17 @@ public class Controller extends Observable {
 				setOutlineColor(dialogCircle.getPnlCircleOutlineColor());
 				CmdAddShape cmd = new CmdAddShape(circle, model);
 				commandExecuteHelper(cmd);
-//				cleanCommandList();
 				deselectAll();
 			
 			}
 			}
 			catch(NumberFormatException ex)
 			{
-				JOptionPane.showMessageDialog(new JFrame(), "Neispravan unos podataka.Proverite da li su sva polja popunjena brojnim vrednostima!!", "Greška", JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(new JFrame(), "Check are all fields fullfilled with numeric values!", "Error", JOptionPane.WARNING_MESSAGE);
 			}
 			catch(Exception ex)
 			{
-				JOptionPane.showMessageDialog(new JFrame(), "Vrednost poluprecnika mora da bude pozitivna!", "Greška", JOptionPane.WARNING_MESSAGE);	
+				JOptionPane.showMessageDialog(new JFrame(), "Radius must be greater than zero!", "Error", JOptionPane.WARNING_MESSAGE);	
 			}
 		}
 		else if(mode == Constants.DONUT)
@@ -234,17 +229,16 @@ public class Controller extends Observable {
 				setOutlineColor(dialogDonut.getPnlDonutOutlineColor());
 				CmdAddShape cmd = new CmdAddShape(donut, model);
 				commandExecuteHelper(cmd);
-//				cleanCommandList();
 				deselectAll();
 			}
 			}
 			catch(NumberFormatException ex)
 			{
-				JOptionPane.showMessageDialog(new JFrame(), "Neispravan unos podataka.Proverite da li su sva polja popunjena brojnim vrednostima!", "Greška", JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(new JFrame(), "Check are all fields fullfilled with numeric values!", "Error", JOptionPane.WARNING_MESSAGE);
 			}
 			catch(Exception ex)
 			{
-				JOptionPane.showMessageDialog(new JFrame(), "Poluprecnici moraju da budu veci od nule i poluprecnik unutrasnjeg kruga mora da bude manji od poluprecnika velikog kruga!", "Greška", JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(new JFrame(), "Outer and inner radius must be greater than zero and inner radius must be smaller than outer!", "Error", JOptionPane.WARNING_MESSAGE);
 			}
 			
 		}
@@ -266,7 +260,6 @@ public class Controller extends Observable {
 				setInnerColor(dialogHexagon.getPnlInnerColor());
 				CmdAddShape cmd = new CmdAddShape(hexagon, model);
 				commandExecuteHelper(cmd);
-//				cleanCommandList();
 				deselectAll();
 				
 			}
@@ -313,23 +306,17 @@ public class Controller extends Observable {
 			dialogPoint.setTxtY(Integer.toString(((Point) selectedShape).getY()));
 			dialogPoint.setPnlColor(((Point)selectedShape).getOutlineColor());
 			dialogPoint.setVisible(true);
-			try {
-			if(dialogPoint.isOk())
-			{
+			if(dialogPoint.isOk()) {
 				newPoint = new Point();
 				newPoint.setX(Integer.parseInt(dialogPoint.getTbX()));
 				newPoint.setY(Integer.parseInt(dialogPoint.getTxtY()));
 				newPoint.setOutlineColor(dialogPoint.getPnlColor());
 				setOutlineColor(dialogPoint.getPnlColor());
-				
-			CmdUpdatePoint cmd = new CmdUpdatePoint((Point)selectedShape, newPoint);
-			commandExecuteHelper(cmd);
+					
+				CmdUpdatePoint cmd = new CmdUpdatePoint((Point)selectedShape, newPoint);
+				commandExecuteHelper(cmd);
 			}
-			}
-			catch(Exception e)
-			{
-				JOptionPane.showMessageDialog(new JFrame(), "Neispravan unos podataka.Proverite da li su sva polja popunjena brojnim vrednostima!", "Greška", JOptionPane.WARNING_MESSAGE);
-			}
+			
 		}
 		else if(selectedShape instanceof Line)
 		{
@@ -341,10 +328,7 @@ public class Controller extends Observable {
 			dialogLine.setTxtEndCoordY(Integer.toString(((Line) selectedShape).getEndPoint().getY()));
 			dialogLine.setPnlLineColor(((Line) selectedShape).getOutlineColor());
 			dialogLine.setVisible(true);
-			try
-			{
-			if(dialogLine.isOk())
-			{
+				if(dialogLine.isOk()) {
 				newLine = new Line();
 				newLine.setStartPoint(new Point((Integer.parseInt(dialogLine.getTxtStartCoordX())),(Integer.parseInt(dialogLine.getTxtStartCoordY()))));
 				newLine.setEndPoint(new Point((Integer.parseInt(dialogLine.getTxtEndCoordX())),(Integer.parseInt(dialogLine.getTxtEndCoordY()))));
@@ -352,11 +336,7 @@ public class Controller extends Observable {
 				setOutlineColor(dialogLine.getPnlLineColor());
 				CmdUpdateLine cmd = new CmdUpdateLine((Line)selectedShape, newLine);
 				commandExecuteHelper(cmd);
-			}
-			}
-			catch(Exception ex)
-			{
-				JOptionPane.showMessageDialog(new JFrame(), "Neispravan unos podataka.Proverite da li su sva polja popunjena brojnim vrednostima!", "Greška", JOptionPane.WARNING_MESSAGE);
+				
 			}
 		}
 		else if(selectedShape instanceof Rectangle)
@@ -370,26 +350,21 @@ public class Controller extends Observable {
 			dialogRectangle.setPnlRectangleInnerColor(((Rectangle)selectedShape).getInnerColor());
 			dialogRectangle.setPnlRectangleOutlineColor(((Rectangle)selectedShape).getOutlineColor());
 			dialogRectangle.setVisible(true);
-			try
-			{
-			if(dialogRectangle.isOk())
-			{
-				newRectangle = new Rectangle();
-				newRectangle.setUpperLeftPoint(new Point(Integer.parseInt(dialogRectangle.getTxtXCoord()),Integer.parseInt(dialogRectangle.getTxtYCoord())));
-				newRectangle.setHeight(Integer.parseInt(dialogRectangle.getTxtHeight()));
-				newRectangle.setWidth(Integer.parseInt(dialogRectangle.getTxtWidth()));
-				newRectangle.setOutlineColor(dialogRectangle.getPnlRectangleOutlineColor());
-				newRectangle.setInnerColor(dialogRectangle.getPnlRectangleInnerColor());
-				setInnerColor(dialogRectangle.getPnlRectangleInnerColor());
-				setOutlineColor(dialogRectangle.getPnlRectangleOutlineColor());
-				
-				CmdUpdateRectangle cmd = new CmdUpdateRectangle((Rectangle)selectedShape, newRectangle);
-				commandExecuteHelper(cmd);
-			}
-			}
-			catch(NumberFormatException ex)
-			{
-				JOptionPane.showMessageDialog(new JFrame(), "Neispravan unos podataka.Proverite da li su sva polja popunjena brojnim vrednostima!", "Greška", JOptionPane.WARNING_MESSAGE);
+			try {
+				if(dialogRectangle.isOk())
+				{
+					newRectangle = new Rectangle();
+					newRectangle.setUpperLeftPoint(new Point(Integer.parseInt(dialogRectangle.getTxtXCoord()),Integer.parseInt(dialogRectangle.getTxtYCoord())));
+					newRectangle.setHeight(Integer.parseInt(dialogRectangle.getTxtHeight()));
+					newRectangle.setWidth(Integer.parseInt(dialogRectangle.getTxtWidth()));
+					newRectangle.setOutlineColor(dialogRectangle.getPnlRectangleOutlineColor());
+					newRectangle.setInnerColor(dialogRectangle.getPnlRectangleInnerColor());
+					setInnerColor(dialogRectangle.getPnlRectangleInnerColor());
+					setOutlineColor(dialogRectangle.getPnlRectangleOutlineColor());
+					
+					CmdUpdateRectangle cmd = new CmdUpdateRectangle((Rectangle)selectedShape, newRectangle);
+					commandExecuteHelper(cmd);
+				}
 			}
 			catch(Exception e)
 			{
@@ -409,23 +384,19 @@ public class Controller extends Observable {
 			dialogDonut.setPnlDonutInnerColor((((Donut)selectedShape).getInnerColor()));
 			dialogDonut.setVisible(true);
 			try {
-			if(dialogDonut.isOk())
-			{
-				newDonut = new Donut();
-				newDonut.setCenter(new Point(Integer.parseInt(dialogDonut.getTxtCoordX()),Integer.parseInt(dialogDonut.getTxtCoordY())));
-				newDonut.setRadius(Integer.parseInt(dialogDonut.getTxtOutter()));
-				newDonut.setInnerRadius(Integer.parseInt(dialogDonut.getTxtInner()));
-				newDonut.setOutlineColor(dialogDonut.getPnlDonutOutlineColor());
-				newDonut.setInnerColor(dialogDonut.getPnlDonutInnerColor());
-				setInnerColor(dialogDonut.getPnlDonutInnerColor());
-				setOutlineColor(dialogDonut.getPnlDonutOutlineColor());
-				CmdUpdateDonut cmd = new CmdUpdateDonut((Donut)selectedShape, newDonut);
-				commandExecuteHelper(cmd);
-			}
-			}
-			catch(NumberFormatException e)
-			{
-				JOptionPane.showMessageDialog(new JFrame(), "Neispravan unos podataka.Proverite da li su sva polja popunjena brojnim vrednostima!", "Greška", JOptionPane.WARNING_MESSAGE);
+				if(dialogDonut.isOk())
+				{
+					newDonut = new Donut();
+					newDonut.setCenter(new Point(Integer.parseInt(dialogDonut.getTxtCoordX()),Integer.parseInt(dialogDonut.getTxtCoordY())));
+					newDonut.setRadius(Integer.parseInt(dialogDonut.getTxtOutter()));
+					newDonut.setInnerRadius(Integer.parseInt(dialogDonut.getTxtInner()));
+					newDonut.setOutlineColor(dialogDonut.getPnlDonutOutlineColor());
+					newDonut.setInnerColor(dialogDonut.getPnlDonutInnerColor());
+					setInnerColor(dialogDonut.getPnlDonutInnerColor());
+					setOutlineColor(dialogDonut.getPnlDonutOutlineColor());
+					CmdUpdateDonut cmd = new CmdUpdateDonut((Donut)selectedShape, newDonut);
+					commandExecuteHelper(cmd);
+				}
 			}
 			catch(Exception ex)
 			{
@@ -442,25 +413,20 @@ public class Controller extends Observable {
 			dialogCircle.setPnlCircleInnerColor(((Circle)selectedShape).getInnerColor());
 			dialogCircle.setPnlCircleOutlineColor(((Circle)selectedShape).getOutlineColor());
 			dialogCircle.setVisible(true);
-			try
-			{
-			if(dialogCircle.isOk())
-			{
-				newCircle = new Circle();
-				newCircle.setCenter(new Point(Integer.parseInt(dialogCircle.getTxtCoordX()),Integer.parseInt(dialogCircle.getTxtCoordY())));
-				newCircle.setRadius(Integer.parseInt(dialogCircle.getTextRadius()));
-				newCircle.setOutlineColor(dialogCircle.getPnlCircleOutlineColor());
-				newCircle.setInnerColor(dialogCircle.getPnlCircleInnerColor());
-				setInnerColor(dialogCircle.getPnlCircleInnerColor());
-				setOutlineColor(dialogCircle.getPnlCircleOutlineColor());
-				
-				CmdUpdateCircle cmd = new CmdUpdateCircle((Circle)selectedShape, newCircle);
-				commandExecuteHelper(cmd);
-			}
-			}
-			catch(NumberFormatException ex)
-			{
-				JOptionPane.showMessageDialog(new JFrame(), "Neispravan unos podataka.Proverite da li su sva polja popunjena brojnim vrednostima!", "Greška", JOptionPane.WARNING_MESSAGE);
+			try {
+				if(dialogCircle.isOk())
+				{
+					newCircle = new Circle();
+					newCircle.setCenter(new Point(Integer.parseInt(dialogCircle.getTxtCoordX()),Integer.parseInt(dialogCircle.getTxtCoordY())));
+					newCircle.setRadius(Integer.parseInt(dialogCircle.getTextRadius()));
+					newCircle.setOutlineColor(dialogCircle.getPnlCircleOutlineColor());
+					newCircle.setInnerColor(dialogCircle.getPnlCircleInnerColor());
+					setInnerColor(dialogCircle.getPnlCircleInnerColor());
+					setOutlineColor(dialogCircle.getPnlCircleOutlineColor());
+					
+					CmdUpdateCircle cmd = new CmdUpdateCircle((Circle)selectedShape, newCircle);
+					commandExecuteHelper(cmd);
+				}
 			}
 			catch(Exception e)
 			{
@@ -551,7 +517,7 @@ public class Controller extends Observable {
 	public void handleDelete() {
 		ArrayList<Shape> list = getSelectedShapes();
 		if(list.size() != 0) {
-			if(JOptionPane.showConfirmDialog(new JFrame(), "Da li ste sigurni da želite da obrišete selektovane oblike?","Potvrda",JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION) {
+			if(JOptionPane.showConfirmDialog(new JFrame(), "Are you sure to delete these shapes?","Sure?",JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION) {
 				CmdRemoveShape cmd = new CmdRemoveShape(list, model);
 				commandExecuteHelper(cmd);
 				frame.getView().repaint();
@@ -612,28 +578,38 @@ public class Controller extends Observable {
 		frame.getView().repaint();
 	}
 	
-	private void saveFileAs(Save saveObj) {
-		saveManager.setSaver(saveObj);
-		filePath = saveManager.saveAs();
-		this.frame.setSaveButtonEnabled(true);
-	}
-	
 	public void openFileAsSerialized() {
 		LoadSerialized loadManager = new LoadSerialized();
-		List<Shape> shapeList = loadManager.load();
-		saveManager.setSaver(new SaveSerialized());
-		model.set(shapeList);
-		this.frame.clearLoggList();
-		frame.getView().repaint();
-		actualCommand = -1;
-		commandList = new ArrayList<Command>();
-		sendChanges();
-		enableButtons();
+		List<Shape> shapeList = null;
+		try {
+			shapeList = loadManager.load();
+			saveManager.setSaver(new SaveSerialized());
+			model.set(shapeList);
+			this.frame.clearLoggList();
+			frame.getView().repaint();
+			actualCommand = -1;
+			commandList = new ArrayList<Command>();
+			this.frame.setSaveButtonEnabled(true);
+			sendChanges();
+			enableButtons();
+		} catch (FileNotFoundException e) {
+			JOptionPane.showMessageDialog(null,"File not loaded.","Error!",JOptionPane.WARNING_MESSAGE);
+		} catch (ClassNotFoundException e) {
+			JOptionPane.showMessageDialog(null,"File not loaded.","Error!",JOptionPane.WARNING_MESSAGE);
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(null,"File not loaded.","Error!",JOptionPane.WARNING_MESSAGE);
+		}
 	}
 	
 	public void openFileAsTextual() {
-		DefaultListModel<String> helperDlm = this.frame.getLoggList();
-		List<Shape> helpShapeList = this.model.getShapes();
+		DefaultListModel<String> helperDlm = new DefaultListModel<String>();
+		for(int i = 0; i < this.frame.getLoggList().getSize(); i++) {
+			helperDlm.addElement(this.frame.getLoggList().get(i));
+		}
+		List<Shape> helpShapeList = new ArrayList<Shape>();
+		for(Shape s : this.model.getShapes()) {
+			helpShapeList.add(s);
+		}
 		LoadTextual loadManager = new LoadTextual(this.model);
 		JFileChooser jFileChooser = new JFileChooser(new File("C:\\"));
 		jFileChooser.setDialogTitle("Otvorite datoteku");
@@ -653,28 +629,24 @@ public class Controller extends Observable {
 				buffer.close();
 				commandList = loadManager.getList();
 				actualCommand = loadManager.getActualCommand();
-//				for(int i = 0;i <= actualCommand;i++) {
-//					commandList.get(i).execute();
-//					System.out.println(commandList.get(i));
-//				}
 				this.frame.repaint();
+				this.frame.setSaveButtonEnabled(true);
 				sendChanges();
 				enableButtons();
 				saveManager.setSaver(new SaveLogg());
 			} catch (FileNotFoundException e) {
 				this.frame.setLoggList(helperDlm);
 				this.model.set(helpShapeList);
-				JOptionPane.showMessageDialog(null,"Datoteka nije pronaðena","GREŠKA!",JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(null,"File not found","Error",JOptionPane.WARNING_MESSAGE);
 			} catch (IOException e) {
 				this.frame.setLoggList(helperDlm);
 				this.model.set(helpShapeList);
-				JOptionPane.showMessageDialog(null,"Problem formata","GREŠKA!",JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(null,"Format problem","Error",JOptionPane.WARNING_MESSAGE);
+			} catch (Exception e) {
+				this.frame.setLoggList(helperDlm);
+				this.model.set(helpShapeList);
+				JOptionPane.showMessageDialog(null,"File not loaded.","Error",JOptionPane.WARNING_MESSAGE);
 			}
-//			} catch (Exception e) {
-//				this.frame.setLoggList(helperDlm);
-//				this.model.set(helpShapeList);
-//				JOptionPane.showMessageDialog(null,"Neuspešno uèitavanje fajla.","GREŠKA!",JOptionPane.WARNING_MESSAGE);
-//			}
 		}	
 	}
 	
@@ -686,6 +658,12 @@ public class Controller extends Observable {
 		}
 		saveManager.save(filePath,helperList);
 	
+	}
+	
+	private void saveFileAs(Save saveObj) {
+		saveManager.setSaver(saveObj);
+		filePath = saveManager.saveAs();
+		this.frame.setSaveButtonEnabled(true);
 	}
 	
 	public void saveFileAsTextual() {
@@ -701,6 +679,16 @@ public class Controller extends Observable {
 	public void saveFileAsSerialized() {
 		Save saveObj = new SaveSerialized(this.model.getShapes());
 		saveFileAs(saveObj);
+	}
+	
+	public void newFile() {
+		commandList.clear();
+		this.model.removeAll();
+		actualCommand = -1;
+		this.frame.clearLoggList();
+		sendChanges();
+		enableButtons();
+		this.frame.setSaveButtonEnabled(false);
 	}
 	
 	public void sendChanges() {

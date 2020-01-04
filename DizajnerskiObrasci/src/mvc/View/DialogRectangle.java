@@ -2,23 +2,15 @@ package mvc.View;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.FlowLayout;
-
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-
 import mvc.Model.Rectangle;
-
-import java.awt.GridBagLayout;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import java.awt.event.ActionListener;
@@ -54,7 +46,7 @@ public class DialogRectangle extends JDialog {
 		this.setModal(true);
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		
-		JLabel lblXKoordinata = new JLabel("X koordinata");
+		JLabel lblXKoordinata = new JLabel("Coordinate X ");
 		lblXKoordinata.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblXKoordinata.setHorizontalTextPosition(SwingConstants.LEFT);
 		lblXKoordinata.setHorizontalAlignment(SwingConstants.LEFT);
@@ -77,7 +69,7 @@ public class DialogRectangle extends JDialog {
 		});
 		
 		
-		JLabel lblYKoordinata = new JLabel("Y koordinata");
+		JLabel lblYKoordinata = new JLabel("Coordinate Y ");
 		lblYKoordinata.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		
 		
@@ -97,7 +89,7 @@ public class DialogRectangle extends JDialog {
 			}
 		});
 		
-		JLabel lblVisina = new JLabel("Visina");
+		JLabel lblVisina = new JLabel("Height");
 		lblVisina.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		
 		
@@ -106,7 +98,7 @@ public class DialogRectangle extends JDialog {
 		txtHeight.setColumns(10);
 		
 		
-		JLabel lblSirina = new JLabel("Sirina");
+		JLabel lblSirina = new JLabel("Width");
 		lblSirina.setFont(new Font("Tahoma", Font.PLAIN, 20));
 			
 		
@@ -211,11 +203,11 @@ public class DialogRectangle extends JDialog {
 						}
 						catch(NumberFormatException ex)
 						{
-							JOptionPane.showMessageDialog(new JFrame(), "Neispravan unos podataka.Proverite da li su sva polja popunjena brojnim vrednostima!", "Greška", JOptionPane.WARNING_MESSAGE);
+							JOptionPane.showMessageDialog(new JFrame(), "Check are all fields fullfilled with numeric values!", "Error", JOptionPane.WARNING_MESSAGE);
 						}
 						catch(Exception ex)
 						{
-							JOptionPane.showMessageDialog(new JFrame(), "Visina i sirina moraju da budu pozitivne!", "Greška", JOptionPane.WARNING_MESSAGE);
+							JOptionPane.showMessageDialog(new JFrame(), "Width and height must be greater than zero!", "Greška", JOptionPane.WARNING_MESSAGE);
 						}
 					}
 				});

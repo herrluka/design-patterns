@@ -12,7 +12,6 @@ import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-
 import java.awt.Font;
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
@@ -43,6 +42,7 @@ public class DialogHexagon extends JDialog {
 	public DialogHexagon() {
 		setBounds(100, 100, 564, 380);
 		setModal(true);
+		setTitle("Hexagon");
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -59,10 +59,10 @@ public class DialogHexagon extends JDialog {
 		txtRadius.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		txtRadius.setColumns(10);
 		
-		JLabel lblCoordX = new JLabel("Koordinata X");
+		JLabel lblCoordX = new JLabel("Coordinate X");
 		lblCoordX.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		
-		JLabel lblCoordY = new JLabel("Koordinata Y");
+		JLabel lblCoordY = new JLabel("Coordinate Y");
 		lblCoordY.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		
 		JLabel lblRadius = new JLabel("Radius");
@@ -117,10 +117,10 @@ public class DialogHexagon extends JDialog {
 				}
 				catch(NumberFormatException ex)
 				{
-					JOptionPane.showMessageDialog(new JFrame(), "Neispravan unos podataka.Proverite da li su sva polja popunjena brojnim vrednostima!", "Greška", JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(new JFrame(), "Check are all fields fullfilled with numeric values!!", "Error", JOptionPane.WARNING_MESSAGE);
 				}
 				catch(Exception exc) {
-					JOptionPane.showMessageDialog(new JFrame(), "Polupreènik mora da bude veæi od 0!", "Greška", JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(new JFrame(), "Radius must be greater than zero!", "Error", JOptionPane.WARNING_MESSAGE);
 				}
 			}
 		});
@@ -146,7 +146,7 @@ public class DialogHexagon extends JDialog {
 		});
 		
 		
-		JLabel lblBojaIvice = new JLabel("Boja ivice");
+		JLabel lblBojaIvice = new JLabel("Outline");
 		lblBojaIvice.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
 		pnlInnerColor = new JPanel();
@@ -161,50 +161,53 @@ public class DialogHexagon extends JDialog {
 		});
 		pnlInnerColor.setBackground(Color.WHITE);
 		
-		JLabel lblBojaUnutranjosti = new JLabel("Boja unutra\u0161njosti");
+		JLabel lblBojaUnutranjosti = new JLabel("Inner");
 		lblBojaUnutranjosti.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
 		
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
-			gl_contentPane.createParallelGroup(Alignment.TRAILING)
-				.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
-					.addGap(48)
-					.addComponent(pnlOutlineColor, GroupLayout.PREFERRED_SIZE, 83, GroupLayout.PREFERRED_SIZE)
-					.addGap(115)
-					.addComponent(pnlInnerColor, GroupLayout.PREFERRED_SIZE, 83, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(211, Short.MAX_VALUE))
+			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addContainerGap()
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-								.addComponent(txtCoordX, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(txtCoordY, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(txtRadius, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGap(56)
-							.addComponent(lblBojaIvice)))
-					.addGap(42)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblBojaUnutranjosti, GroupLayout.PREFERRED_SIZE, 137, GroupLayout.PREFERRED_SIZE)
-						.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
-							.addComponent(lblCoordY, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-							.addComponent(lblCoordX, GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE))
-						.addComponent(lblRadius, GroupLayout.PREFERRED_SIZE, 84, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(153, Short.MAX_VALUE))
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addContainerGap(418, Short.MAX_VALUE)
+					.addContainerGap(408, Short.MAX_VALUE)
 					.addComponent(btnOk)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(btnCancel)
 					.addContainerGap())
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_contentPane.createSequentialGroup()
+									.addContainerGap()
+									.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+										.addComponent(txtCoordX, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+										.addComponent(txtCoordY, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+										.addComponent(txtRadius, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+								.addGroup(gl_contentPane.createSequentialGroup()
+									.addGap(56)
+									.addComponent(lblBojaIvice)))
+							.addGap(42)
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
+									.addComponent(lblCoordY, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+									.addComponent(lblCoordX, GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE))
+								.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+									.addComponent(lblBojaUnutranjosti, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)
+									.addComponent(lblRadius, GroupLayout.PREFERRED_SIZE, 84, GroupLayout.PREFERRED_SIZE)))
+							.addPreferredGap(ComponentPlacement.RELATED, 48, Short.MAX_VALUE))
+						.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
+							.addGap(48)
+							.addComponent(pnlOutlineColor, GroupLayout.PREFERRED_SIZE, 83, GroupLayout.PREFERRED_SIZE)
+							.addGap(115)
+							.addComponent(pnlInnerColor, GroupLayout.PREFERRED_SIZE, 83, GroupLayout.PREFERRED_SIZE)))
+					.addContainerGap(105, Short.MAX_VALUE))
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addContainerGap(34, Short.MAX_VALUE)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 								.addComponent(txtCoordX, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
@@ -226,7 +229,7 @@ public class DialogHexagon extends JDialog {
 								.addComponent(pnlOutlineColor, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE)
 								.addComponent(pnlInnerColor, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE))
 							.addGap(76))
-						.addGroup(Alignment.TRAILING, gl_contentPane.createParallelGroup(Alignment.BASELINE)
+						.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 							.addComponent(btnOk)
 							.addComponent(btnCancel))))
 		);

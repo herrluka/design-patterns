@@ -36,7 +36,7 @@ public class CommandParser {
 		this.model = model;
 	}
 	
-	public Command parseCommand(String line) { //throws Exception {
+	public Command parseCommand(String line) throws Exception {
 		String command = line.split("_")[0];
 		String withoutCommand = line.split("_")[1];
 		if(command.equals("Add")) {

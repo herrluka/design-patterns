@@ -38,13 +38,14 @@ public class DialogPoint extends JDialog {
 		setBounds(100, 100, 686, 314);
 		getContentPane().setLayout(new BorderLayout());
 		setModal(true);
+		setTitle("Point");
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		
-		JLabel lblKoordinataX = new JLabel("Koordinata X");
+		JLabel lblKoordinataX = new JLabel("Coordinate X");
 		lblKoordinataX.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		
-		JLabel lblKoordinataY = new JLabel("Koordinata Y");
+		JLabel lblKoordinataY = new JLabel("Coordinate Y");
 		lblKoordinataY.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		
 		tbX = new JTextField();
@@ -140,7 +141,7 @@ public class DialogPoint extends JDialog {
 						}
 						catch(NumberFormatException e)
 						{
-							JOptionPane.showMessageDialog(new JFrame(), "Neispravan unos podataka.Proverite da li su sva polja popunjena brojnim vrednostima!", "Greška", JOptionPane.WARNING_MESSAGE);
+							JOptionPane.showMessageDialog(new JFrame(), "Check are all fields fullfilled with numeric values!", "Error", JOptionPane.WARNING_MESSAGE);
 						}
 					}
 				});
