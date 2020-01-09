@@ -23,7 +23,7 @@ public class SaveLogg implements Save {
 	@Override
 	public String saveAs() {
 		JFileChooser jFileChooser = new JFileChooser(new File("c:\\"));
-		jFileChooser.setDialogTitle("Saèuvajte datoteku");
+		jFileChooser.setDialogTitle("Save file");
 		int result = jFileChooser.showSaveDialog(null);
 		if(result == JFileChooser.APPROVE_OPTION) {
 			String path = jFileChooser.getSelectedFile().getAbsolutePath() + ".txt";
@@ -34,7 +34,7 @@ public class SaveLogg implements Save {
 				}
 				fw.close();
 			} catch (IOException e) {
-				JOptionPane.showMessageDialog(null,"Neuspešno èuvanje datoteke","GREŠKA!",JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(null,"File is not successfully saved.","Failed!",JOptionPane.WARNING_MESSAGE);
 				return null;
 			}
 			return path;

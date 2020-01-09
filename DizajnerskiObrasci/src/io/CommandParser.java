@@ -9,7 +9,9 @@ import javax.swing.JOptionPane;
 import commands.CmdAddShape;
 import commands.CmdBringToEnd;
 import commands.CmdBringToFront;
+import commands.CmdDeselect;
 import commands.CmdRemoveShape;
+import commands.CmdSelect;
 import commands.CmdToBack;
 import commands.CmdToFront;
 import commands.CmdUpdateCircle;
@@ -53,8 +55,28 @@ public class CommandParser {
 			return parseBringToEnd(withoutCommand);
 		} else if (command.equals("Bring to front")) {
 			return parseBringToFront(withoutCommand);
+		} else if (command.equals("Select")) {
+			return parseSelect(withoutCommand);
+		} else if (command.equals("Deselect")) {
+			return parseDeselect(withoutCommand);
 		}
 		return null;
+	}
+	
+	private Command parseDeselect(String text) throws Exception {
+		String[] shapeStrings = text.split(";");
+		List<Shape> helperList = new ArrayList<Shape>();
+		for(String row : shapeStrings) {
+			Shape shape = parseShape(row,true);
+			helperList.add(shape);
+		}
+		return new CmdDeselect(helperList);
+	}
+	
+	private Command parseSelect(String text) throws Exception {
+		Shape shape = parseShape(text, true);
+		Command command = new CmdSelect(shape);
+		return command;
 	}
 	
 	private Command parseBringToFront(String oldIndex) {
@@ -73,7 +95,7 @@ public class CommandParser {
 		return new CmdToFront(model, Integer.parseInt(oldIndex));
 	}
 	
-	private Command parseUpdate(String text) {
+	private Command parseUpdate(String text) throws Exception{
 		Command command = null;
 		Shape oldShape = parseShape(text.split(";")[0],false);
 		Shape newShape = parseShape(text.split(";")[1],false);
@@ -123,7 +145,7 @@ public class CommandParser {
 		return command;
 	}
 	
-	private Command parseRemove(String text) {
+	private Command parseRemove(String text) throws Exception{
 		String[] shapeStrings = text.split(";");
 		List<Shape> helperList = new ArrayList<Shape>();
 		for(String row : shapeStrings) {
@@ -133,13 +155,13 @@ public class CommandParser {
 		return new CmdRemoveShape(helperList, model);
 	}
 	
-	private Command parseAdd(String text) {
+	private Command parseAdd(String text) throws Exception {
 		Shape shape = parseShape(text,false);
 		Command command = new CmdAddShape(shape, model);
 		return command;
 	}
 	
-	private Shape parseShape(String text, boolean isLog) {
+	private Shape parseShape(String text, boolean isLog) throws Exception {
 		String shape = text.split(":")[0];
 		String[] props = text.split(",");
 		if(shape.equals("Point")) {
@@ -173,12 +195,8 @@ public class CommandParser {
 		} else if(shape.equals("Rectangle")) {
 			Rectangle rectangle = new Rectangle();
 			rectangle.setUpperLeftPoint(new Point(Integer.parseInt(props[0].split("=")[1]),Integer.parseInt(props[1].split("=")[1])));
-			try {
-				rectangle.setHeight(Integer.parseInt(props[2].split("=")[1]));
-				rectangle.setWidth(Integer.parseInt(props[3].split("=")[1]));
-			} catch (Exception e) {
-				JOptionPane.showMessageDialog(null,"Visina i širina ne mogu da budu negativne","GREŠKA!",JOptionPane.WARNING_MESSAGE);
-			}
+			rectangle.setHeight(Integer.parseInt(props[2].split("=")[1]));
+			rectangle.setWidth(Integer.parseInt(props[3].split("=")[1]));
 			rectangle.setOutlineColor(new Color(Integer.parseInt(props[4].split("=")[1])));
 			rectangle.setInnerColor(new Color(Integer.parseInt(props[5].split("=")[1])));
 			if(isLog) {
@@ -193,11 +211,7 @@ public class CommandParser {
 		} else if(shape.equals("Circle")) {
 			Circle circle = new Circle();
 			circle.setCenter(new Point(Integer.parseInt(props[0].split("=")[1]),Integer.parseInt(props[1].split("=")[1])));
-			try {
-				circle.setRadius(Integer.parseInt(props[2].split("=")[1]));
-			} catch (Exception e) {
-				JOptionPane.showMessageDialog(null,"Polupreènik mora da bude veæi od 0","GREŠKA!",JOptionPane.WARNING_MESSAGE);
-			}
+			circle.setRadius(Integer.parseInt(props[2].split("=")[1]));
 			circle.setOutlineColor(new Color(Integer.parseInt(props[3].split("=")[1])));
 			circle.setInnerColor(new Color(Integer.parseInt(props[4].split("=")[1])));
 			if(isLog) {
@@ -212,12 +226,8 @@ public class CommandParser {
 		} else if(shape.equals("Donut")) {
 			Donut donut = new Donut();
 			donut.setCenter(new Point(Integer.parseInt(props[0].split("=")[1]),Integer.parseInt(props[1].split("=")[1])));
-			try {
-				donut.setRadius(Integer.parseInt(props[2].split("=")[1]));
-				donut.setInnerRadius(Integer.parseInt(props[3].split("=")[1]));
-			} catch (Exception e) {
-				JOptionPane.showMessageDialog(null,"Polupreènici moraju da budu veæi od 0","GREŠKA!",JOptionPane.WARNING_MESSAGE);
-			}
+			donut.setRadius(Integer.parseInt(props[2].split("=")[1]));
+			donut.setInnerRadius(Integer.parseInt(props[3].split("=")[1]));
 			donut.setOutlineColor(new Color(Integer.parseInt(props[4].split("=")[1])));
 			donut.setInnerColor(new Color(Integer.parseInt(props[5].split("=")[1])));
 			if(isLog) {

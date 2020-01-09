@@ -25,7 +25,9 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import commands.CmdAddShape;
 import commands.CmdBringToEnd;
 import commands.CmdBringToFront;
+import commands.CmdDeselect;
 import commands.CmdRemoveShape;
+import commands.CmdSelect;
 import commands.CmdToBack;
 import commands.CmdToFront;
 import commands.CmdUpdateCircle;
@@ -65,8 +67,8 @@ public class Controller extends Observable {
 
 	private Frame frame;
 	private Model model;
-	private String mode = Constants.NORMAL; //mode where nothing happens
-	private Point startPoint = null; //for line to save startPoint
+	private String mode = Constants.NORMAL; 
+	private Point startPoint = null; 
 	private List<Command> commandList;
 	private int actualCommand = -1;
 	private String filePath;
@@ -280,16 +282,22 @@ public class Controller extends Observable {
 				flag = true;
 				if(shape.isSelected() == false) {
 					shape.setSelected(true);
+					Command command = new CmdSelect(shape);
+					commandExecuteHelper(command);
 					break;
 				}
 				else {
+					List<Shape> deselectList = new ArrayList<Shape>();
 					shape.setSelected(false);
+					deselectList.add(shape);
+					Command command = new CmdDeselect(deselectList);
+					commandExecuteHelper(command);
 					break;
 				}
 			}
 		}
 		if(flag == false) {
-			deselectAll();
+			deselectAllCommand();
 		}
 		
 	}
@@ -455,7 +463,7 @@ public class Controller extends Observable {
 				commandExecuteHelper(cmd);
 			}
 		}
-		frame.getView().repaint();
+		this.frame.getView().repaint();
 		
 	}
 	
@@ -477,7 +485,6 @@ public class Controller extends Observable {
 		for(int i = commandList.size() - 1; i > actualCommand; i--) {
 			commandList.remove(i);
 		}
-		enableButtons();
 	}
 	
 	public void undo() {
@@ -503,10 +510,25 @@ public class Controller extends Observable {
 		this.frame.setRedoButtonEnabled(actualCommand < (commandList.size() - 1));
 	}
 	
+	private void deselectAllCommand() {
+		List<Shape> deselectList = new ArrayList<Shape>();
+		for(Shape s : model.getShapes()) {
+			if(s.isSelected()) {
+				s.setSelected(false);
+				deselectList.add(s);
+			}
+		}
+		if(deselectList.size() > 0) {
+			Command command = new CmdDeselect(deselectList);
+			commandExecuteHelper(command);
+		}
+	}
+	
 	private void deselectAll() {
 		for(Shape s : model.getShapes()) {
-			if(s.isSelected())
+			if(s.isSelected()) {
 				s.setSelected(false);
+			}
 		}
 	}
 
@@ -522,6 +544,7 @@ public class Controller extends Observable {
 				commandExecuteHelper(cmd);
 				frame.getView().repaint();
 				sendChanges();
+				enableButtons();
 			}
 		}
 	}
@@ -583,15 +606,17 @@ public class Controller extends Observable {
 		List<Shape> shapeList = null;
 		try {
 			shapeList = loadManager.load();
-			saveManager.setSaver(new SaveSerialized());
-			model.set(shapeList);
-			this.frame.clearLoggList();
-			frame.getView().repaint();
-			actualCommand = -1;
-			commandList = new ArrayList<Command>();
-			this.frame.setSaveButtonEnabled(true);
-			sendChanges();
-			enableButtons();
+			if(shapeList != null) {
+				saveManager.setSaver(new SaveSerialized());
+				model.set(shapeList);
+				this.frame.clearLoggList();
+				frame.getView().repaint();
+				actualCommand = -1;
+				commandList = new ArrayList<Command>();
+				this.frame.setSaveButtonEnabled(true);
+				sendChanges();
+				enableButtons();
+			}
 		} catch (FileNotFoundException e) {
 			JOptionPane.showMessageDialog(null,"File not loaded.","Error!",JOptionPane.WARNING_MESSAGE);
 		} catch (ClassNotFoundException e) {
@@ -612,7 +637,7 @@ public class Controller extends Observable {
 		}
 		LoadTextual loadManager = new LoadTextual(this.model);
 		JFileChooser jFileChooser = new JFileChooser(new File("C:\\"));
-		jFileChooser.setDialogTitle("Otvorite datoteku");
+		jFileChooser.setDialogTitle("Open file");
 		jFileChooser.setFileFilter(new FileNameExtensionFilter("Text file", "txt"));
 		int result = jFileChooser.showOpenDialog(null);
 		if(result == JFileChooser.APPROVE_OPTION) {
@@ -629,11 +654,11 @@ public class Controller extends Observable {
 				buffer.close();
 				commandList = loadManager.getList();
 				actualCommand = loadManager.getActualCommand();
+				saveManager.setSaver(new SaveLogg());
 				this.frame.repaint();
 				this.frame.setSaveButtonEnabled(true);
 				sendChanges();
 				enableButtons();
-				saveManager.setSaver(new SaveLogg());
 			} catch (FileNotFoundException e) {
 				this.frame.setLoggList(helperDlm);
 				this.model.set(helpShapeList);
@@ -689,6 +714,8 @@ public class Controller extends Observable {
 		sendChanges();
 		enableButtons();
 		this.frame.setSaveButtonEnabled(false);
+		filePath = null;
+		this.frame.repaint();
 	}
 	
 	public void sendChanges() {

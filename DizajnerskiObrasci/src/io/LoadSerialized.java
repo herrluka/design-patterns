@@ -21,7 +21,7 @@ public class LoadSerialized {
 
 	public List<Shape> load() throws FileNotFoundException, IOException, ClassNotFoundException {
 		JFileChooser jFileChooser = new JFileChooser(new File("C:\\"));
-		jFileChooser.setDialogTitle("Otvorite datoteku");
+		jFileChooser.setDialogTitle("Open file");
 		int result = jFileChooser.showOpenDialog(null);
 		if(result == JFileChooser.APPROVE_OPTION) {
 			path = jFileChooser.getSelectedFile().getAbsolutePath();

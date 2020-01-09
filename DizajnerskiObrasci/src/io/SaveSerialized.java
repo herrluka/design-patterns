@@ -28,7 +28,7 @@ public class SaveSerialized implements Save {
 	@Override
 	public String saveAs() {
 		JFileChooser jFileChooser = new JFileChooser(new File("c:\\"));
-		jFileChooser.setDialogTitle("Saèuvajte datoteku");
+		jFileChooser.setDialogTitle("Save file");
 		int result = jFileChooser.showSaveDialog(null);
 		if(result == JFileChooser.APPROVE_OPTION) {
 			String path = jFileChooser.getSelectedFile().getAbsolutePath();

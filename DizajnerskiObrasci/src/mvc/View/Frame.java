@@ -40,7 +40,7 @@ import java.awt.Insets;
 public class Frame extends JFrame implements Observer{
 	
 	
-	private View view = new View(); //dodato new zbog window buildera
+	private View view = new View(); 
 	private Controller controler;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 	private JToggleButton tglBtnPoint;
@@ -363,14 +363,18 @@ public class Frame extends JFrame implements Observer{
 		tglBtnEdit.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				controler.handleEdit();
+				if(tglBtnEdit.isEnabled()) {
+					controler.handleEdit();
+				}
 			}
 		});
 		
 		tglBtnDelete.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				controler.handleDelete();
+				if(tglBtnDelete.isEnabled()) {
+					controler.handleDelete();
+				}
 			}
 		});
 		
@@ -552,10 +556,6 @@ public class Frame extends JFrame implements Observer{
 		for(int i = 0;i < dlm.size();i++) {
 			loggList.addElement(dlm.elementAt(i));
 		}
-	}
-	
-	
-	
-	
+	}	
 	
 }
