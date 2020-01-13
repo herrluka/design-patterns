@@ -111,7 +111,7 @@ private int innerRadius;
 	}
 	
 	public String toString() {
-		return "Donut:Center-" + getCenter() + ", radius=" + getRadius() + ",inner radius=" + innerRadius + ",outline color=" + getOutlineColor().getRGB() + ",inner color=" + getInnerColor().getRGB(); 
+		return "Donut:Center-" + getCenter() + ", radius=" + getRadius() + ",inner radius=" + innerRadius + ",outline color=" + getOutlineColor().getRGB() + ",inner color=" + getInnerColor().getRGB() + ",selected=" + isSelected(); 
 	}
 	
 }

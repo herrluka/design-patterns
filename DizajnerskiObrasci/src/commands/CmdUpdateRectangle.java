@@ -64,7 +64,6 @@ public class CmdUpdateRectangle implements Command{
 		}
 		oldRectangle.setOutlineColor(original.getOutlineColor());
 		oldRectangle.setInnerColor(original.getInnerColor());
-		oldRectangle.setSelected(original.isSelected());
 	}
 	
 	@Override

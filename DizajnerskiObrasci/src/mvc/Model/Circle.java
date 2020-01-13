@@ -128,7 +128,7 @@ public class Circle extends ArealShape implements Serializable{
 	}
 
 	public String toString() {
-		return "Circle:Center-" + center + ", radius=" + radius + ",outline color=" + getOutlineColor().getRGB() + ",inner color=" + getInnerColor().getRGB(); 
+		return "Circle:Center-" + center + ", radius=" + radius + ",outline color=" + getOutlineColor().getRGB() + ",inner color=" + getInnerColor().getRGB() + ",selected=" + isSelected(); 
 	}
 
 }

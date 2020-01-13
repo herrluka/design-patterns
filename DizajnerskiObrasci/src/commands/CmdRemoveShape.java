@@ -8,8 +8,8 @@ import mvc.Model.Shape;
 
 public class CmdRemoveShape implements Command {
 
-	List<Shape> shapes;
-	Model model;
+	private List<Shape> shapes;
+	private Model model;
 	
 	public CmdRemoveShape(List<Shape> s, Model model) {
 		this.shapes = s;
@@ -18,15 +18,18 @@ public class CmdRemoveShape implements Command {
 	
 	@Override
 	public void execute() {
+		int i = 0;
 		for(Shape shape : shapes) {
+			shape.setPositionInList(model.getShapes().indexOf(shape) + i);
 			model.remove(shape);
+			i++;
 		}
 	}
 
 	@Override
 	public void unexecute() {
 		for(Shape shape : shapes) {
-			model.add(shape);
+			model.addOnPosition(shape,shape.getPositionInList());
 		}
 		
 	}

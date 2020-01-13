@@ -141,6 +141,6 @@ public class Rectangle extends ArealShape implements Serializable{
 	}
 	
 	public String toString() {
-		return "Rectangle:Upper left point-" + upperLeftPoint + ",height=" + height + ",width=" + width + ",outline color=" + getOutlineColor().getRGB() + ",inner color=" + getInnerColor().getRGB();
+		return "Rectangle:Upper left point-" + upperLeftPoint + ",height=" + height + ",width=" + width + ",outline color=" + getOutlineColor().getRGB() + ",inner color=" + getInnerColor().getRGB() + ",selected=" + isSelected();
 	}
 }

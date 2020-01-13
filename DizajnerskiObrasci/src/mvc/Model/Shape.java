@@ -8,7 +8,7 @@ public abstract class Shape implements Moveable, Cloneable, Serializable {
 
 	private boolean selected;
 	private Color outlineColor;
-
+	private int positionInList;
 	
 	public Shape() {
 		
@@ -18,6 +18,7 @@ public abstract class Shape implements Moveable, Cloneable, Serializable {
 	public abstract void draw(Graphics g);
 	public abstract void drawSelectedSquare(Graphics g);
 	public abstract String toString();
+	public abstract Shape clone();
 	
 	public Shape(boolean selected) {
 		this.selected = selected;
@@ -39,6 +40,12 @@ public abstract class Shape implements Moveable, Cloneable, Serializable {
 		this.outlineColor = outlineColor;
 	}
 
+	public int getPositionInList() {
+		return positionInList;
+	}
 
+	public void setPositionInList(int positionInList) {
+		this.positionInList = positionInList;
+	}
 	
 }

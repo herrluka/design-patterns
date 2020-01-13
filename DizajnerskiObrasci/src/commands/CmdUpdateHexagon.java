@@ -34,7 +34,6 @@ public class CmdUpdateHexagon implements Command{
 		oldHexagon.setRadius(original.getRadius());
 		oldHexagon.setInnerColor(original.getInnerColor());
 		oldHexagon.setOutlineColor(original.getOutlineColor());
-		oldHexagon.setSelected(original.isSelected());
 	}
 	
 	@Override

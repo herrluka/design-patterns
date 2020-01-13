@@ -5,8 +5,8 @@ import mvc.Model.Shape;
 
 public class CmdAddShape implements Command{
 	
-	Shape shape;
-	Model model;
+	private Shape shape;
+	private Model model;
 
 	public CmdAddShape(Shape s, Model model) {
 		this.shape = s;

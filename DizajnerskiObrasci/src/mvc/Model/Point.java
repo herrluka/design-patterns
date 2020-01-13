@@ -111,7 +111,7 @@ public class Point extends Shape implements Serializable{
 	public String toString() {
 		String s = "x=" + x + ",y=" + y;
 		if(getOutlineColor() != null) {
-			s += ",outline color=" + getOutlineColor().getRGB();
+			s += ",outline color=" + getOutlineColor().getRGB() + ",selected=" + isSelected();
 			return "Point:" + s;
 		}
 		return s;

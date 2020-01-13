@@ -6,6 +6,8 @@ import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.text.StyledEditorKit.BoldAction;
+
 import commands.CmdAddShape;
 import commands.CmdBringToEnd;
 import commands.CmdBringToFront;
@@ -169,6 +171,7 @@ public class CommandParser {
 			point.setX(Integer.parseInt(props[0].split("=")[1]));
 			point.setY(Integer.parseInt(props[1].split("=")[1]));
 			point.setOutlineColor(new Color(Integer.parseInt(props[2].split("=")[1])));
+			point.setSelected(Boolean.parseBoolean(props[3].split("=")[1]));
 			if(isLog) {
 				for(Shape test : this.model.getShapes()) {
 					if(test instanceof Point && point.equals((Point)test)) {
@@ -183,6 +186,7 @@ public class CommandParser {
 			line.setStartPoint(new Point(Integer.parseInt(props[0].split("=")[1]),Integer.parseInt(props[1].split("=")[1])));
 			line.setEndPoint(new Point(Integer.parseInt(props[2].split("=")[1]),Integer.parseInt(props[3].split("=")[1])));
 			line.setOutlineColor(new Color(Integer.parseInt(props[4].split("=")[1])));
+			line.setSelected(Boolean.parseBoolean(props[5].split("=")[1]));
 			if(isLog) {
 				for(Shape test : this.model.getShapes()) {
 					if(test instanceof Line && line.equals((Line)test)) {
@@ -199,6 +203,7 @@ public class CommandParser {
 			rectangle.setWidth(Integer.parseInt(props[3].split("=")[1]));
 			rectangle.setOutlineColor(new Color(Integer.parseInt(props[4].split("=")[1])));
 			rectangle.setInnerColor(new Color(Integer.parseInt(props[5].split("=")[1])));
+			rectangle.setSelected(Boolean.parseBoolean(props[6].split("=")[1]));
 			if(isLog) {
 				for(Shape test : this.model.getShapes()) {
 					if(test instanceof Rectangle && rectangle.equals((Rectangle)test)) {
@@ -214,6 +219,7 @@ public class CommandParser {
 			circle.setRadius(Integer.parseInt(props[2].split("=")[1]));
 			circle.setOutlineColor(new Color(Integer.parseInt(props[3].split("=")[1])));
 			circle.setInnerColor(new Color(Integer.parseInt(props[4].split("=")[1])));
+			circle.setSelected(Boolean.parseBoolean(props[5].split("=")[1]));
 			if(isLog) {
 				for(Shape test : this.model.getShapes()) {
 					if(test instanceof Circle && circle.equals((Circle)test)) {
@@ -230,6 +236,7 @@ public class CommandParser {
 			donut.setInnerRadius(Integer.parseInt(props[3].split("=")[1]));
 			donut.setOutlineColor(new Color(Integer.parseInt(props[4].split("=")[1])));
 			donut.setInnerColor(new Color(Integer.parseInt(props[5].split("=")[1])));
+			donut.setSelected(Boolean.parseBoolean(props[6].split("=")[1]));
 			if(isLog) {
 				for(Shape test : this.model.getShapes()) {
 					if(test instanceof Donut && donut.equals((Donut)test)) {
@@ -245,6 +252,7 @@ public class CommandParser {
 					Integer.parseInt(props[2].split("=")[1]));
 			hexagonAdapter.setOutlineColor(new Color(Integer.parseInt(props[3].split("=")[1])));
 			hexagonAdapter.setInnerColor(new Color(Integer.parseInt(props[4].split("=")[1])));
+			hexagonAdapter.setSelected(Boolean.parseBoolean(props[5].split("=")[1]));
 			if(isLog) {
 				for(Shape test : this.model.getShapes()) {
 					if(test instanceof HexagonAdapter && hexagonAdapter.equals((HexagonAdapter)test)) {

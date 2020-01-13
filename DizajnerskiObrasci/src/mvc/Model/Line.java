@@ -107,7 +107,7 @@ public class Line extends Shape implements Serializable{
 	}
 	
 	public String toString() {
-		return "Line:startPoint-" + startPoint + ",endPoint-" + endPoint + ",outline color=" + getOutlineColor().getRGB();
+		return "Line:startPoint-" + startPoint + ",endPoint-" + endPoint + ",outline color=" + getOutlineColor().getRGB() + ",selected=" + isSelected();
 	}
 
 }
