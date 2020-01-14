@@ -83,7 +83,9 @@ public class Controller extends Observable {
 	}
 
 	public void mouseClicked(MouseEvent e) {
+		
 		boolean flag = false;
+		
 		if(mode == Constants.SELECT) {
 			this.handleSelectMode(e);
 		}
@@ -320,7 +322,7 @@ public class Controller extends Observable {
 				newPoint.setY(Integer.parseInt(dialogPoint.getTxtY()));
 				newPoint.setOutlineColor(dialogPoint.getPnlColor());
 				setOutlineColor(dialogPoint.getPnlColor());
-					
+
 				CmdUpdatePoint cmd = new CmdUpdatePoint((Point)selectedShape, newPoint);
 				commandExecuteHelper(cmd);
 			}
@@ -376,7 +378,7 @@ public class Controller extends Observable {
 			}
 			catch(Exception e)
 			{
-				JOptionPane.showMessageDialog(new JFrame(), "Visina i sirina moraju da budu pozitivni brojevi!", "Greška", JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(new JFrame(), "Height and width must be positive numbers!", "Error", JOptionPane.WARNING_MESSAGE);
 			}
 			
 		}
@@ -408,7 +410,7 @@ public class Controller extends Observable {
 			}
 			catch(Exception ex)
 			{
-				JOptionPane.showMessageDialog(new JFrame(), "Poluprecnici moraju da budu veci od nule i poluprecnik unutrasnjeg kruga mora da bude manji od poluprecnika velikog kruga!", "Greška", JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(new JFrame(), "Outer radius must be greater than inner radius and both of them must be greater than zero!", "Error", JOptionPane.WARNING_MESSAGE);
 			}
 			
 		}else if(selectedShape instanceof Circle)
@@ -438,7 +440,7 @@ public class Controller extends Observable {
 			}
 			catch(Exception e)
 			{
-				JOptionPane.showMessageDialog(new JFrame(), "Vrednost poluprecnika mora da bude pozitivna!", "Greška", JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(new JFrame(), "Radius must be positive!", "Error", JOptionPane.WARNING_MESSAGE);
 			}
 		}
 		else if(selectedShape instanceof HexagonAdapter) {
@@ -608,6 +610,7 @@ public class Controller extends Observable {
 			shapeList = loadManager.load();
 			if(shapeList != null) {
 				saveManager.setSaver(new SaveSerialized());
+				filePath = loadManager.getPath();
 				model.set(shapeList);
 				this.frame.clearLoggList();
 				frame.getView().repaint();
@@ -636,7 +639,7 @@ public class Controller extends Observable {
 			helpShapeList.add(s);
 		}
 		LoadTextual loadManager = new LoadTextual(this.model);
-		JFileChooser jFileChooser = new JFileChooser(new File("C:\\"));
+		JFileChooser jFileChooser = new JFileChooser(new File("D:\\"));
 		jFileChooser.setDialogTitle("Open file");
 		jFileChooser.setFileFilter(new FileNameExtensionFilter("Text file", "txt"));
 		int result = jFileChooser.showOpenDialog(null);
@@ -678,8 +681,14 @@ public class Controller extends Observable {
 	public void saveFile() {
 		List<Object> helperList = new ArrayList<>();
 		DefaultListModel<String> dlmHelp = this.frame.getLoggList();
-		for(int i = 0;i < dlmHelp.size();i++) {
-			helperList.add(dlmHelp.get(i));
+		if(saveManager.getSaver() instanceof SaveLogg) {
+			for(int i = 0;i < dlmHelp.size();i++) {
+				helperList.add(dlmHelp.get(i));
+			}
+		} else {
+			for(Shape s : this.model.getShapes()) {
+				helperList.add(s);
+			}
 		}
 		saveManager.save(filePath,helperList);
 	

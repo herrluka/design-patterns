@@ -22,7 +22,7 @@ public class CmdRemoveShape implements Command {
 		for(Shape shape : shapes) {
 			shape.setPositionInList(model.getShapes().indexOf(shape) + i);
 			model.remove(shape);
-			i++; 
+			i++;
 		}
 	}
 

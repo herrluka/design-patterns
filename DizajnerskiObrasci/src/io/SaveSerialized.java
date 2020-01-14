@@ -27,7 +27,7 @@ public class SaveSerialized implements Save {
 
 	@Override
 	public String saveAs() {
-		JFileChooser jFileChooser = new JFileChooser(new File("c:\\"));
+		JFileChooser jFileChooser = new JFileChooser(new File("D:\\"));
 		jFileChooser.setDialogTitle("Save file");
 		int result = jFileChooser.showSaveDialog(null);
 		if(result == JFileChooser.APPROVE_OPTION) {
@@ -38,10 +38,10 @@ public class SaveSerialized implements Save {
 				os.close();
 				return path;
 			}catch (FileNotFoundException e) {
-				JOptionPane.showMessageDialog(null,"Datoteka nije pronaðena","GREŠKA!",JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(null,"File not saved","Error",JOptionPane.WARNING_MESSAGE);
 				return null;
 			} catch (IOException e) {
-				JOptionPane.showMessageDialog(null,"Neuspešno èuvanje datoteke.","GREŠKA!",JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(null,"File not saved","Error",JOptionPane.WARNING_MESSAGE);
 				return null;
 			}
 		} else {
@@ -65,9 +65,9 @@ public class SaveSerialized implements Save {
 			os.writeObject(listOfShapes);
 			os.close();
 		} catch (FileNotFoundException e) {
-			JOptionPane.showMessageDialog(null,"Datoteka nije pronaðena","GREŠKA!",JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(null,"File not found","Error",JOptionPane.WARNING_MESSAGE);
 		} catch (IOException e) {
-			JOptionPane.showMessageDialog(null,"Datoteka nije pronaðena","GREŠKA!",JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(null,"File not found","Error",JOptionPane.WARNING_MESSAGE);
 		}
 	}
 

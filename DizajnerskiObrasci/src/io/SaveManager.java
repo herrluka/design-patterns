@@ -17,6 +17,10 @@ public class SaveManager implements Save{
 		this.saver = saver;
 	}
 	
+	public Save getSaver() {
+		return this.saver;
+	}
+	
 	@Override
 	public String saveAs() {
 		return saver.saveAs();

@@ -20,7 +20,7 @@ public class LoadSerialized {
 	private String path;
 
 	public List<Shape> load() throws FileNotFoundException, IOException, ClassNotFoundException {
-		JFileChooser jFileChooser = new JFileChooser(new File("C:\\"));
+		JFileChooser jFileChooser = new JFileChooser(new File("D:\\"));
 		jFileChooser.setDialogTitle("Open file");
 		int result = jFileChooser.showOpenDialog(null);
 		if(result == JFileChooser.APPROVE_OPTION) {

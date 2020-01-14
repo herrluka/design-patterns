@@ -22,7 +22,7 @@ public class SaveLogg implements Save {
 
 	@Override
 	public String saveAs() {
-		JFileChooser jFileChooser = new JFileChooser(new File("c:\\"));
+		JFileChooser jFileChooser = new JFileChooser(new File("D:\\"));
 		jFileChooser.setDialogTitle("Save file");
 		int result = jFileChooser.showSaveDialog(null);
 		if(result == JFileChooser.APPROVE_OPTION) {
@@ -58,7 +58,7 @@ public class SaveLogg implements Save {
 			}
 			fw.close();
 		} catch (IOException e) {
-			JOptionPane.showMessageDialog(null,"Datoteka nije pronaðena","GREŠKA!",JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(null,"File not found","Error",JOptionPane.WARNING_MESSAGE);
 		}
 		
 	}

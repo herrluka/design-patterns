@@ -365,6 +365,7 @@ public class Frame extends JFrame implements Observer{
 			public void mouseClicked(MouseEvent e) {
 				if(tglBtnEdit.isEnabled()) {
 					controler.handleEdit();
+					controler.setMode(Constants.NORMAL);
 				}
 			}
 		});
@@ -374,6 +375,7 @@ public class Frame extends JFrame implements Observer{
 			public void mouseClicked(MouseEvent e) {
 				if(tglBtnDelete.isEnabled()) {
 					controler.handleDelete();
+					controler.setMode(Constants.NORMAL);
 				}
 			}
 		});
@@ -381,8 +383,10 @@ public class Frame extends JFrame implements Observer{
 		tglBtnUndo.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if(tglBtnUndo.isEnabled())
+				if(tglBtnUndo.isEnabled()) {
 					controler.undo();
+					controler.setMode(Constants.NORMAL);
+				}
 			}
 		});
 		
@@ -391,6 +395,7 @@ public class Frame extends JFrame implements Observer{
 			public void mouseClicked(MouseEvent e) {
 				if(tglBtnRedo.isEnabled()) {
 					controler.redo();
+					controler.setMode(Constants.NORMAL);
 				}
 			}
 		});
@@ -398,8 +403,10 @@ public class Frame extends JFrame implements Observer{
 		tglBtnBringTo.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if(tglBtnBringTo.isEnabled() == true)
+				if(tglBtnBringTo.isEnabled() == true) {
 					menu.show(tglBtnBringTo, e.getX(), e.getY());
+					controler.setMode(Constants.NORMAL);
+				}
 			}
 		});
 		
@@ -409,6 +416,7 @@ public class Frame extends JFrame implements Observer{
 			public void actionPerformed(ActionEvent e) {
 				if(bringToFront.isEnabled()) {
 					controler.bringToFront();
+					controler.setMode(Constants.NORMAL);
 				}
 			}
 		});
@@ -419,6 +427,7 @@ public class Frame extends JFrame implements Observer{
 			public void actionPerformed(ActionEvent e) {
 				if(bringToEnd.isEnabled()) {
 					controler.bringToEnd();
+					controler.setMode(Constants.NORMAL);
 				}
 			}
 		});
@@ -429,6 +438,7 @@ public class Frame extends JFrame implements Observer{
 			public void actionPerformed(ActionEvent e) {
 				if(toFront.isEnabled()) {
 					controler.toFront();
+					controler.setMode(Constants.NORMAL);
 				}
 				
 			}
@@ -440,6 +450,7 @@ public class Frame extends JFrame implements Observer{
 			public void actionPerformed(ActionEvent e) {
 				if(toBack.isEnabled()) {
 					controler.toBack();
+					controler.setMode(Constants.NORMAL);
 				}
 			}
 		});
@@ -449,6 +460,7 @@ public class Frame extends JFrame implements Observer{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				controler.openFileAsSerialized();
+				controler.setMode(Constants.NORMAL);
 			}
 		});
 		
@@ -457,6 +469,7 @@ public class Frame extends JFrame implements Observer{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				controler.openFileAsTextual();
+				controler.setMode(Constants.NORMAL);
 			}
 		});
 		
@@ -465,7 +478,7 @@ public class Frame extends JFrame implements Observer{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				controler.newFile();
-				
+				controler.setMode(Constants.NORMAL);
 			}
 		});
 	}
