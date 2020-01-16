@@ -87,6 +87,7 @@ public class Frame extends JFrame implements Observer{
 		JToolBar toolBar = new JToolBar(null, JToolBar.VERTICAL);
 		toolBar.setEnabled(false);
 		getContentPane().add(toolBar, BorderLayout.WEST);
+		view.setBackground(Color.WHITE);
 		
 		JPanel colorsParentPanel = new JPanel();
 		colorsParentPanel.setBackground(Color.GRAY);

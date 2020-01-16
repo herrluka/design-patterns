@@ -4,18 +4,12 @@ import java.awt.Color;
 import java.awt.event.MouseEvent;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Observable;
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
@@ -656,7 +650,7 @@ public class Controller extends Observable {
 				}
 				buffer.close();
 				commandList = loadManager.getList();
-				actualCommand = loadManager.getActualCommand();
+				actualCommand = commandList.size() - 1;
 				saveManager.setSaver(new SaveLogg());
 				this.frame.repaint();
 				this.frame.setSaveButtonEnabled(true);

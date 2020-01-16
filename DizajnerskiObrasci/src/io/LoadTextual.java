@@ -1,21 +1,12 @@
 package io;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
-import javax.swing.filechooser.FileFilter;
-import javax.swing.filechooser.FileNameExtensionFilter;
+import commands.CmdRedo;
+import commands.CmdUndo;
 import commands.Command;
 import mvc.Model.Model;
-import mvc.Model.Shape;
+
 
 public class LoadTextual {
 	
@@ -32,24 +23,22 @@ public class LoadTextual {
 
 	public void load(String line) throws Exception {
 		if(line.equals("Undo")) {
-			list.get(actualCommand).unexecute();
+			Command cmd = new CmdUndo(list.get(actualCommand));
+			cmd.execute();
+			list.add(cmd);
 			actualCommand--;
+			
 		} else if(line.equals("Redo")) {
 			actualCommand++;
-			list.get(actualCommand).execute();
+			Command cmd = new CmdRedo(list.get(actualCommand));
+			cmd.execute();
+			list.add(cmd);
+			
 		} else {
-			if(actualCommand < list.size() - 1) {
-				cleanList();
-			}
-			actualCommand++;
+			actualCommand = list.size();
 			list.add(parser.parseCommand(line));
-			list.get(actualCommand).execute();	
-		}
-	}
-	
-	private void cleanList() {
-		for(int i = list.size() - 1; i > actualCommand; i--) {
-			list.remove(i);
+			list.get(actualCommand).execute();
+
 		}
 	}
 

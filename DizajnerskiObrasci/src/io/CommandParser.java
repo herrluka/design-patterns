@@ -147,7 +147,7 @@ public class CommandParser {
 		return command;
 	}
 	
-	private Command parseRemove(String text) throws Exception{
+	private Command parseRemove(String text)  throws Exception{
 		String[] shapeStrings = text.split(";");
 		List<Shape> helperList = new ArrayList<Shape>();
 		for(String row : shapeStrings) {
