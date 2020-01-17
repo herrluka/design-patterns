@@ -4,6 +4,10 @@ public class CmdUndo implements Command{
 
 	Command command;
 	
+	public CmdUndo() {
+	
+	}
+
 	public CmdUndo(Command command) {
 		this.command = command;
 	}
@@ -25,4 +29,9 @@ public class CmdUndo implements Command{
 		return "Undo";
 	}
 
+	public void setCommand(Command command) {
+		this.command = command;
+	}
+
+	
 }

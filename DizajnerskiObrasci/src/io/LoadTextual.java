@@ -10,45 +10,59 @@ import mvc.Model.Model;
 
 public class LoadTextual {
 	
-	private List<Command> list;
+	private List<Command> undoList;
+	private List<Command> redoList;
+	private List<Command> fullList;
 	private CommandParser parser;
 	private Model model;
-	private int actualCommand = -1;
+	private int currentUndo = -1;
+	private int currentRedo = -1;
 	
 	public LoadTextual(Model model) {
 		this.model = model;
 		this.parser = new CommandParser(this.model);
-		this.list = new ArrayList<Command>();
+		this.fullList = new ArrayList<Command>();
+		this.undoList = new ArrayList<Command>();
+		this.redoList = new ArrayList<Command>();
+		
 	}
 
-	public void load(String line) throws Exception {
+	public void load(String line) {// throws Exception {
+		Command command;
 		if(line.equals("Undo")) {
-			Command cmd = new CmdUndo(list.get(actualCommand));
-			cmd.execute();
-			list.add(cmd);
-			actualCommand--;
+			fullList.add(new CmdUndo());
+			undoList.get(undoList.size() - 1).unexecute();
+			redoList.add(undoList.get(undoList.size() - 1));
+			undoList.remove(undoList.size() - 1);
 			
 		} else if(line.equals("Redo")) {
-			actualCommand++;
-			Command cmd = new CmdRedo(list.get(actualCommand));
-			cmd.execute();
-			list.add(cmd);
+			fullList.add(new CmdRedo());
+			redoList.get(redoList.size() - 1).execute();
+			undoList.add(redoList.get(redoList.size() - 1));
+			redoList.remove(redoList.size() - 1);
 			
 		} else {
-			actualCommand = list.size();
-			list.add(parser.parseCommand(line));
-			list.get(actualCommand).execute();
-
+			command = parser.parseCommand(line);
+			fullList.add(command);
+			command.execute();
+			undoList.add(command);
+			redoList.clear();
+			currentUndo = undoList.size() - 1;
 		}
 	}
 
-	public List<Command> getList() {
-		return list;
+	public List<Command> getFullList() {
+		return fullList;
+	}
+	
+	public List<Command> getRedoList() {
+		return redoList;
+	}
+	
+	public List<Command> getUndoList() {
+		return undoList;
 	}
 
-	public int getActualCommand() {
-		return actualCommand;
-	}
 	
 	
 

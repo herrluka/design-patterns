@@ -20,10 +20,12 @@ import commands.CmdAddShape;
 import commands.CmdBringToEnd;
 import commands.CmdBringToFront;
 import commands.CmdDeselect;
+import commands.CmdRedo;
 import commands.CmdRemoveShape;
 import commands.CmdSelect;
 import commands.CmdToBack;
 import commands.CmdToFront;
+import commands.CmdUndo;
 import commands.CmdUpdateCircle;
 import commands.CmdUpdateDonut;
 import commands.CmdUpdateHexagon;
@@ -63,8 +65,9 @@ public class Controller extends Observable {
 	private Model model;
 	private String mode = Constants.NORMAL; 
 	private Point startPoint = null; 
-	private List<Command> commandList;
-	private int actualCommand = -1;
+	private List<Command> undoList;
+	private List<Command> redoList;
+	private List<Command> allCommandsList;
 	private String filePath;
 	private SaveManager saveManager;
 	
@@ -72,7 +75,9 @@ public class Controller extends Observable {
 
 		this.frame = frame;
 		this.model = model;
-		commandList = new ArrayList<Command>();
+		undoList = new ArrayList<Command>();
+		redoList = new ArrayList<Command>();
+		allCommandsList = new ArrayList<Command>();
 		saveManager = new SaveManager();
 	}
 
@@ -464,28 +469,20 @@ public class Controller extends Observable {
 	}
 	
 	private void commandExecuteHelper(Command command) {
+		
 		command.execute();
-		if(actualCommand == commandList.size() - 1) {
-			commandList.add(command);
-			actualCommand++;
-		} else {
-			commandList.add(actualCommand + 1, command);
-			actualCommand++;
-			cleanCommandList();
-		}
+		allCommandsList.add(command);
+		undoList.add(command);
+		redoList.clear();
 		enableButtons();
 		this.frame.addToLoggList(command.toString());
 	}
 	
-	private void cleanCommandList() {
-		for(int i = commandList.size() - 1; i > actualCommand; i--) {
-			commandList.remove(i);
-		}
-	}
-	
 	public void undo() {
-		commandList.get(actualCommand).unexecute();
-		actualCommand--;
+
+		redoList.add(undoList.get(undoList.size() - 1));
+		undoList.get(undoList.size() - 1).unexecute();
+		undoList.remove(undoList.size() - 1);
 		enableButtons();
 		frame.getView().repaint();
 		sendChanges();
@@ -493,8 +490,10 @@ public class Controller extends Observable {
 	}
 	
 	public void redo() {
-		actualCommand++;
-		commandList.get(actualCommand).execute();
+		
+		undoList.add(redoList.get(redoList.size() - 1));
+		redoList.get(redoList.size() - 1).execute();
+		redoList.remove(redoList.size() - 1);
 		enableButtons();
 		frame.getView().repaint();
 		sendChanges();
@@ -502,8 +501,8 @@ public class Controller extends Observable {
 	}
 	
 	private void enableButtons() {
-		this.frame.setUndoButtonEnabled(actualCommand > -1);
-		this.frame.setRedoButtonEnabled(actualCommand < (commandList.size() - 1));
+		this.frame.setUndoButtonEnabled(undoList.size() > 0);
+		this.frame.setRedoButtonEnabled(redoList.size() > 0);
 	}
 	
 	private void deselectAllCommand() {
@@ -597,6 +596,7 @@ public class Controller extends Observable {
 		frame.getView().repaint();
 	}
 	
+	
 	public void openFileAsSerialized() {
 		LoadSerialized loadManager = new LoadSerialized();
 		List<Shape> shapeList = null;
@@ -608,8 +608,8 @@ public class Controller extends Observable {
 				model.set(shapeList);
 				this.frame.clearLoggList();
 				frame.getView().repaint();
-				actualCommand = -1;
-				commandList = new ArrayList<Command>();
+				allCommandsList = new ArrayList<Command>();
+				//dopuni
 				this.frame.setSaveButtonEnabled(true);
 				sendChanges();
 				enableButtons();
@@ -622,7 +622,7 @@ public class Controller extends Observable {
 			JOptionPane.showMessageDialog(null,"File not loaded.","Error!",JOptionPane.WARNING_MESSAGE);
 		}
 	}
-	
+	//sporno
 	public void openFileAsTextual() {
 		DefaultListModel<String> helperDlm = new DefaultListModel<String>();
 		for(int i = 0; i < this.frame.getLoggList().getSize(); i++) {
@@ -649,8 +649,9 @@ public class Controller extends Observable {
 					this.frame.addToLoggList(line);
 				}
 				buffer.close();
-				commandList = loadManager.getList();
-				actualCommand = commandList.size() - 1;
+				allCommandsList = loadManager.getFullList();
+				redoList = loadManager.getRedoList();
+				undoList = loadManager.getUndoList();
 				saveManager.setSaver(new SaveLogg());
 				this.frame.repaint();
 				this.frame.setSaveButtonEnabled(true);
@@ -660,13 +661,16 @@ public class Controller extends Observable {
 				this.frame.setLoggList(helperDlm);
 				this.model.set(helpShapeList);
 				JOptionPane.showMessageDialog(null,"File not found","Error",JOptionPane.WARNING_MESSAGE);
+				e.printStackTrace();
 			} catch (IOException e) {
 				this.frame.setLoggList(helperDlm);
 				this.model.set(helpShapeList);
+				e.printStackTrace();
 				JOptionPane.showMessageDialog(null,"Format problem","Error",JOptionPane.WARNING_MESSAGE);
 			} catch (Exception e) {
 				this.frame.setLoggList(helperDlm);
 				this.model.set(helpShapeList);
+				e.printStackTrace();
 				JOptionPane.showMessageDialog(null,"File not loaded.","Error",JOptionPane.WARNING_MESSAGE);
 			}
 		}	
@@ -708,11 +712,11 @@ public class Controller extends Observable {
 		Save saveObj = new SaveSerialized(this.model.getShapes());
 		saveFileAs(saveObj);
 	}
-	
+	//sporno
 	public void newFile() {
-		commandList.clear();
+		//commandList.clear();
 		this.model.removeAll();
-		actualCommand = -1;
+		//actualCommand = -1;
 		this.frame.clearLoggList();
 		sendChanges();
 		enableButtons();

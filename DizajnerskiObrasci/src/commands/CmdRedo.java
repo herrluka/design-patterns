@@ -3,7 +3,10 @@ package commands;
 public class CmdRedo implements Command{
 
 	Command command;
-	
+
+	public CmdRedo() {
+		
+	}
 	
 	public CmdRedo(Command command) {
 		this.command = command;
@@ -26,4 +29,9 @@ public class CmdRedo implements Command{
 		return "Redo";
 	}
 
+	public void setCommand(Command command) {
+		this.command = command;
+	}
+
+	
 }
