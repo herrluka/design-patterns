@@ -67,7 +67,6 @@ public class Controller extends Observable {
 	private Point startPoint = null; 
 	private List<Command> undoList;
 	private List<Command> redoList;
-	private List<Command> allCommandsList;
 	private String filePath;
 	private SaveManager saveManager;
 	
@@ -77,7 +76,6 @@ public class Controller extends Observable {
 		this.model = model;
 		undoList = new ArrayList<Command>();
 		redoList = new ArrayList<Command>();
-		allCommandsList = new ArrayList<Command>();
 		saveManager = new SaveManager();
 	}
 
@@ -90,20 +88,11 @@ public class Controller extends Observable {
 		}
 		else if(mode == Constants.POINT) {
 			Point newPoint = new Point(e.getX(),e.getY());
-			DialogPoint dialogPoint=new DialogPoint();
-			dialogPoint.setTbXEdt(false);
-			dialogPoint.setTxtYEdt(false);
-			dialogPoint.setTbX(Integer.toString(newPoint.getX()));
-			dialogPoint.setTxtY(Integer.toString(newPoint.getY()));
-			dialogPoint.setPnlColor(getOutlineColor());
-			dialogPoint.setVisible(true);
-			if(dialogPoint.isOk()) {
-				newPoint.setOutlineColor(dialogPoint.getPnlColor());
-				setOutlineColor(dialogPoint.getPnlColor());
-				CmdAddShape cmd = new CmdAddShape(newPoint, model);
-				commandExecuteHelper(cmd);
-				deselectAll();
-			}
+			newPoint.setOutlineColor(getOutlineColor());
+			CmdAddShape cmd = new CmdAddShape(newPoint, model);
+			commandExecuteHelper(cmd);
+			deselectAll();
+			
 		}
 		else if(mode == Constants.LINE)
 		{
@@ -116,25 +105,12 @@ public class Controller extends Observable {
 			}
 			else {
 				Line newLine = new Line(startPoint,new Point(e.getX(),e.getY()));
-				DialogLine dialogLine = new DialogLine();
-				dialogLine.setTxtEndCoordXEdt(false);
-				dialogLine.setTxtEndCoordYEdt(false);
-				dialogLine.setTxtStartCoordXEdt(false);
-				dialogLine.setTxtStartCoordYEdt(false);
-				dialogLine.setTxtStartCoordX(Integer.toString(newLine.getStartPoint().getX()));
-				dialogLine.setTxtStartCoordY(Integer.toString(newLine.getStartPoint().getY()));
-				dialogLine.setTxtEndCoordX(Integer.toString(newLine.getEndPoint().getX()));
-				dialogLine.setTxtEndCoordY(Integer.toString(newLine.getEndPoint().getY()));
-				dialogLine.setPnlLineColor(getOutlineColor());
-				dialogLine.setVisible(true);
-				if(dialogLine.isOk()) {
-					newLine.setOutlineColor(dialogLine.getPnlLineColor());
-					setOutlineColor(dialogLine.getPnlLineColor());
-					CmdAddShape cmd = new CmdAddShape(newLine, model);
-					commandExecuteHelper(cmd);
-					startPoint=null;
-					deselectAll();
-				}
+				newLine.setOutlineColor(getOutlineColor());
+				CmdAddShape cmd = new CmdAddShape(newLine, model);
+				commandExecuteHelper(cmd);
+				startPoint=null;
+				deselectAll();
+				
 			}
 		}
 		else if(mode == Constants.RECTANGLE) {
@@ -471,7 +447,6 @@ public class Controller extends Observable {
 	private void commandExecuteHelper(Command command) {
 		
 		command.execute();
-		allCommandsList.add(command);
 		undoList.add(command);
 		redoList.clear();
 		enableButtons();
@@ -481,7 +456,12 @@ public class Controller extends Observable {
 	public void undo() {
 
 		redoList.add(undoList.get(undoList.size() - 1));
-		undoList.get(undoList.size() - 1).unexecute();
+		Command command = undoList.get(undoList.size() - 1);
+		if(command instanceof CmdUndo) {
+			command.execute();
+		} else {
+			command.unexecute();
+		}
 		undoList.remove(undoList.size() - 1);
 		enableButtons();
 		frame.getView().repaint();
@@ -492,7 +472,12 @@ public class Controller extends Observable {
 	public void redo() {
 		
 		undoList.add(redoList.get(redoList.size() - 1));
-		redoList.get(redoList.size() - 1).execute();
+		Command command = redoList.get(redoList.size() - 1);
+		if(command instanceof CmdUndo) {
+			command.unexecute();
+		} else {
+			command.execute();	
+		}
 		redoList.remove(redoList.size() - 1);
 		enableButtons();
 		frame.getView().repaint();
@@ -608,8 +593,8 @@ public class Controller extends Observable {
 				model.set(shapeList);
 				this.frame.clearLoggList();
 				frame.getView().repaint();
-				allCommandsList = new ArrayList<Command>();
-				//dopuni
+				undoList.clear();
+				redoList.clear();
 				this.frame.setSaveButtonEnabled(true);
 				sendChanges();
 				enableButtons();
@@ -622,7 +607,7 @@ public class Controller extends Observable {
 			JOptionPane.showMessageDialog(null,"File not loaded.","Error!",JOptionPane.WARNING_MESSAGE);
 		}
 	}
-	//sporno
+	
 	public void openFileAsTextual() {
 		DefaultListModel<String> helperDlm = new DefaultListModel<String>();
 		for(int i = 0; i < this.frame.getLoggList().getSize(); i++) {
@@ -649,9 +634,8 @@ public class Controller extends Observable {
 					this.frame.addToLoggList(line);
 				}
 				buffer.close();
-				allCommandsList = loadManager.getFullList();
-				redoList = loadManager.getRedoList();
-				undoList = loadManager.getUndoList();
+				redoList = new ArrayList<Command>();
+				undoList = loadManager.getFullList();
 				saveManager.setSaver(new SaveLogg());
 				this.frame.repaint();
 				this.frame.setSaveButtonEnabled(true);
@@ -661,16 +645,13 @@ public class Controller extends Observable {
 				this.frame.setLoggList(helperDlm);
 				this.model.set(helpShapeList);
 				JOptionPane.showMessageDialog(null,"File not found","Error",JOptionPane.WARNING_MESSAGE);
-				e.printStackTrace();
 			} catch (IOException e) {
 				this.frame.setLoggList(helperDlm);
 				this.model.set(helpShapeList);
-				e.printStackTrace();
 				JOptionPane.showMessageDialog(null,"Format problem","Error",JOptionPane.WARNING_MESSAGE);
 			} catch (Exception e) {
 				this.frame.setLoggList(helperDlm);
 				this.model.set(helpShapeList);
-				e.printStackTrace();
 				JOptionPane.showMessageDialog(null,"File not loaded.","Error",JOptionPane.WARNING_MESSAGE);
 			}
 		}	
@@ -712,11 +693,11 @@ public class Controller extends Observable {
 		Save saveObj = new SaveSerialized(this.model.getShapes());
 		saveFileAs(saveObj);
 	}
-	//sporno
+	
 	public void newFile() {
-		//commandList.clear();
+		undoList.clear();
+		redoList.clear();
 		this.model.removeAll();
-		//actualCommand = -1;
 		this.frame.clearLoggList();
 		sendChanges();
 		enableButtons();

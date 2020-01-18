@@ -4,23 +4,25 @@ public class CmdUndo implements Command{
 
 	Command command;
 	
-	public CmdUndo() {
-	
-	}
-
 	public CmdUndo(Command command) {
 		this.command = command;
 	}
 
+	public CmdUndo() {
+		
+	}
+
+
+
 	@Override
 	public void execute() {
-		command.unexecute();
+		command.execute();
 		
 	}
 
 	@Override
 	public void unexecute() {
-		command.execute();
+		command.unexecute();
 		
 	}
 	
@@ -29,9 +31,4 @@ public class CmdUndo implements Command{
 		return "Undo";
 	}
 
-	public void setCommand(Command command) {
-		this.command = command;
-	}
-
-	
 }

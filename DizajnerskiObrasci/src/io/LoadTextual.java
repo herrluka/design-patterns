@@ -15,8 +15,7 @@ public class LoadTextual {
 	private List<Command> fullList;
 	private CommandParser parser;
 	private Model model;
-	private int currentUndo = -1;
-	private int currentRedo = -1;
+	private int currentUndoPostiton = -1;
 	
 	public LoadTextual(Model model) {
 		this.model = model;
@@ -27,27 +26,27 @@ public class LoadTextual {
 		
 	}
 
-	public void load(String line) {// throws Exception {
+	public void load(String line) throws Exception {
 		Command command;
 		if(line.equals("Undo")) {
-			fullList.add(new CmdUndo());
-			undoList.get(undoList.size() - 1).unexecute();
-			redoList.add(undoList.get(undoList.size() - 1));
-			undoList.remove(undoList.size() - 1);
-			
+			command = new CmdUndo(undoList.get(currentUndoPostiton));
+			command.unexecute();
+			fullList.add(command);
+			redoList.add(command);
+			currentUndoPostiton--;
 		} else if(line.equals("Redo")) {
-			fullList.add(new CmdRedo());
-			redoList.get(redoList.size() - 1).execute();
-			undoList.add(redoList.get(redoList.size() - 1));
+			command = new CmdRedo(redoList.get(redoList.size() - 1));
+			fullList.add(command);
+			command.execute();
 			redoList.remove(redoList.size() - 1);
-			
+			currentUndoPostiton++;
 		} else {
 			command = parser.parseCommand(line);
 			fullList.add(command);
 			command.execute();
 			undoList.add(command);
 			redoList.clear();
-			currentUndo = undoList.size() - 1;
+			currentUndoPostiton = undoList.size() - 1;
 		}
 	}
 

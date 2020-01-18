@@ -40,7 +40,7 @@ public class CommandParser {
 		this.model = model;
 	}
 	
-	public Command parseCommand(String line) {// throws Exception {
+	public Command parseCommand(String line) throws Exception {
 		String command = line.split("_")[0];
 		String withoutCommand = line.split("_")[1];
 		if(command.equals("Add")) {
@@ -65,7 +65,7 @@ public class CommandParser {
 		return null;
 	}
 	
-	private Command parseDeselect(String text) {// throws Exception {
+	private Command parseDeselect(String text) throws Exception {
 		String[] shapeStrings = text.split(";");
 		List<Shape> helperList = new ArrayList<Shape>();
 		for(String row : shapeStrings) {
@@ -75,7 +75,7 @@ public class CommandParser {
 		return new CmdDeselect(helperList);
 	}
 	
-	private Command parseSelect(String text) {//throws Exception {
+	private Command parseSelect(String text) throws Exception {
 		Shape shape = parseShape(text, true);
 		Command command = new CmdSelect(shape);
 		return command;
@@ -97,7 +97,7 @@ public class CommandParser {
 		return new CmdToFront(model, Integer.parseInt(oldIndex));
 	}
 	
-	private Command parseUpdate(String text) {//throws Exception{
+	private Command parseUpdate(String text) throws Exception{
 		Command command = null;
 		Shape oldShape = parseShape(text.split(";")[0],false);
 		Shape newShape = parseShape(text.split(";")[1],false);
@@ -147,7 +147,7 @@ public class CommandParser {
 		return command;
 	}
 	
-	private Command parseRemove(String text) {// throws Exception{
+	private Command parseRemove(String text)  throws Exception{
 		String[] shapeStrings = text.split(";");
 		List<Shape> helperList = new ArrayList<Shape>();
 		for(String row : shapeStrings) {
@@ -157,13 +157,13 @@ public class CommandParser {
 		return new CmdRemoveShape(helperList, model);
 	}
 	
-	private Command parseAdd(String text) {//throws Exception {
+	private Command parseAdd(String text) throws Exception {
 		Shape shape = parseShape(text,false);
 		Command command = new CmdAddShape(shape, model);
 		return command;
 	}
 	
-	private Shape parseShape(String text, boolean isLog) {// {throws Exception {
+	private Shape parseShape(String text, boolean isLog) throws Exception {
 		String shape = text.split(":")[0];
 		String[] props = text.split(",");
 		if(shape.equals("Point")) {
@@ -199,14 +199,8 @@ public class CommandParser {
 		} else if(shape.equals("Rectangle")) {
 			Rectangle rectangle = new Rectangle();
 			rectangle.setUpperLeftPoint(new Point(Integer.parseInt(props[0].split("=")[1]),Integer.parseInt(props[1].split("=")[1])));
-			try {
-				rectangle.setHeight(Integer.parseInt(props[2].split("=")[1]));
-				rectangle.setWidth(Integer.parseInt(props[3].split("=")[1]));
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
+			rectangle.setHeight(Integer.parseInt(props[2].split("=")[1]));
+			rectangle.setWidth(Integer.parseInt(props[3].split("=")[1]));
 			rectangle.setOutlineColor(new Color(Integer.parseInt(props[4].split("=")[1])));
 			rectangle.setInnerColor(new Color(Integer.parseInt(props[5].split("=")[1])));
 			rectangle.setSelected(Boolean.parseBoolean(props[6].split("=")[1]));
@@ -222,15 +216,7 @@ public class CommandParser {
 		} else if(shape.equals("Circle")) {
 			Circle circle = new Circle();
 			circle.setCenter(new Point(Integer.parseInt(props[0].split("=")[1]),Integer.parseInt(props[1].split("=")[1])));
-			try {
-				circle.setRadius(Integer.parseInt(props[2].split("=")[1]));
-			} catch (NumberFormatException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			circle.setRadius(Integer.parseInt(props[2].split("=")[1]));
 			circle.setOutlineColor(new Color(Integer.parseInt(props[3].split("=")[1])));
 			circle.setInnerColor(new Color(Integer.parseInt(props[4].split("=")[1])));
 			circle.setSelected(Boolean.parseBoolean(props[5].split("=")[1]));
@@ -246,17 +232,8 @@ public class CommandParser {
 		} else if(shape.equals("Donut")) {
 			Donut donut = new Donut();
 			donut.setCenter(new Point(Integer.parseInt(props[0].split("=")[1]),Integer.parseInt(props[1].split("=")[1])));
-			try {
-				donut.setRadius(Integer.parseInt(props[2].split("=")[1]));
-				donut.setInnerRadius(Integer.parseInt(props[3].split("=")[1]));
-			} catch (NumberFormatException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
+			donut.setRadius(Integer.parseInt(props[2].split("=")[1]));
+			donut.setInnerRadius(Integer.parseInt(props[3].split("=")[1]));
 			donut.setOutlineColor(new Color(Integer.parseInt(props[4].split("=")[1])));
 			donut.setInnerColor(new Color(Integer.parseInt(props[5].split("=")[1])));
 			donut.setSelected(Boolean.parseBoolean(props[6].split("=")[1]));
